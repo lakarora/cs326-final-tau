@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Account Information</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+            body{
+                background-image: url('./resources/accountInfoBg.jpg');
+            }
+            #bookInfo {
+               width: 60%;
+               margin: 0 auto; 
+               width: 60%;
+               background-color: gainsboro  ;
+               margin-top: 100px;
+               border-radius: 25px;
+            }
+            button{
+                display: flex; 
+                justify-content: center;
+                margin-left: 5%;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <div id="bookInfo">
+            <br>
+            <h3 align="center"> Book Information</h3>
+            <br><br>
+            <dl class="row" style="padding-left: 21%">
+                <dt class="col-sm-3">Book Title: </dt>
+                <dd class="col-sm-9" ><input type="text" id="title"></dd>
+                
+                <dt class="col-sm-3">ISBN:</dt>
+                <dd class="col-sm-9" ><input type="text" id="title"></dd>
+                
+                <dt class="col-sm-3">Author(s):</dt>
+                <dd class="col-sm-9"><input type="text" id="author"></dd>
+
+                <dt class="col-sm-3">Condition: </dt>
+                <dd class="col-sm-9">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Condition
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">New</a>
+                        <a class="dropdown-item" href="#">Unused</a>
+                        <a class="dropdown-item" href="#">Good</a>
+                        <a class="dropdown-item" href="#">Usable</a>
+                    </div>
+                  </div>
+                </dd>
+
+                <dt class="col-sm-3">Insitution: </dt>
+                <dd class="col-sm-9">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        University
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">UMass Amherst</a>
+                        <a class="dropdown-item" href="#">Amherst College</a>
+                        <a class="dropdown-item" href="#">Smith College</a>
+                        <a class="dropdown-item" href="#">Mount Holyoke College</a>
+                        <a class="dropdown-item" href="#">Hampshire College</a>
+                    </div>
+                  </div>
+                </dd>
+
+                <dt class="col-sm-3">Course Subject: </dt>
+                <dd class="col-sm-9" ><input type="text" id="courseSubject"></dd>
+
+                <dt class="col-sm-3">Course Number: </dt>
+                <dd class="col-sm-9" ><input type="text" id="courseNumber"></dd>
+
+            </dl>
+            <br>
+            <button type="button" class="btn btn-info" style="margin-left: 46%;" >Next</button>
+            <br><br>
+        </div>
+    </body>
+</html>
