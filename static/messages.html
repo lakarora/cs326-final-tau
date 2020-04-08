@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <header>
+        <nav class="navbar navbar-dark bg-dark fixed-top" style="z-index: 3;">
+            <a class="navbar-brand" href="index.html">
+                <img src="resources/book.png" width="30" height="30" alt="">
+            </a>
+            <a class="navbar-brand" href="accountInfo.html">
+                <img src="resources/userIcon.png" width="30" height="30" alt="">
+            </a>
+        </nav>
+    </header>
+    <div style="z-index: 2;">
+        <div class="bg-image" style="height:30%"></div>
+
+        <div class="title-search" >
+            <h1 style="font-size: 45pt;padding-bottom:15%;">Passage</h1>
+        </div>
+    </div>
+    <div class="col-1">
+            <h3 style=" color:rgb(53, 58, 64);">Messages</h3>
+        </div>
+    <div class="row" style="padding-left: 2%;padding-right:2%;">
+        <div class='col-10'>
+            <div class="row rounded-lg overflow-hidden shadow" style="border:2px solid rgb(53, 58, 64);">
+                    <!-- Users box-->
+                    <div class="col-3 px-0">
+                        <div class="bg-white">
+                            <div class="bg-gray px-4 py-2 bg-light">
+                                <p class="h5 mb-0 py-1">Recent</p>
+                            </div>
+                            <div class="messages-box">
+                                <div class="list-group rounded-0">
+                                    <a class="list-group-item list-group-item-action active text-white rounded-0">
+                                        <div class="media">
+                                            <div class="media-body ml-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                                    <h6 class="mb-0">Nathan</h6><small class="small font-weight-bold">Apr 8</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+            
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                        <div class="media">
+                                            <div class="media-body ml-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                                    <h6 class="mb-0">Lakshay</h6><small class="small font-weight-bold">14 Dec</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+            
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                        <div class="media">
+                                            <div class="media-body ml-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                                    <h6 class="mb-0">Nishad</h6><small class="small font-weight-bold">2 Sep</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Chat Box-->
+                    <div class="col-9 px-0">
+                        <div class="px-4 py-5 chat-box bg-white">
+                            <div class="media w-50 mb-3">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted">Hey im interested in the book.</p>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="media w-50 ml-auto mb-3">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white">Sure thing, where would you like to meet up?</p>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="media w-50 mb-3">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted">How about in the library lobby at noon tomorrow?</p>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="media w-50 ml-auto mb-3">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white">Sounds good, see you there!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Typing area -->
+                        <form action="sendMessage()" class="bg-light">
+                            <div class="input-group">
+                                <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                <div class="input-group-append">
+                                    <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <div class='col-2'>
+            <div>
+                <ul class="list-group" style='text-align: center;color:rgb(53, 58, 64);'><h3>Account:</h3>
+                    <li class="list-group-item list-group-item-action"><a href="accountInfo.html" rel="Amherst College">Account Info</a></li>
+                    <li class="list-group-item list-group-item-action"><a href="sellBook.html" rel ="Hampshire College">Sell Book</a></li>
+                    <li class="list-group-item list-group-item-action"><a href="findUserToRate.html" rel="Mount Holyoke College">Find User to Rate</a></li>
+                    <li class="list-group-item list-group-item-action"><a href="#" rel="Smith College">Transaction History</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>  
+</html>
