@@ -44,8 +44,8 @@
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star"></span>
+                    <button type="button" class="btn btn-primary btn-sm" id="giveSellerRating" data-toggle="modal" data-target="#addRatingModal">Rate</button>
                 </dd>
-                
                 <dt class="col-sm-3">Buyer Rating:</dt>
                 <dd class="col-sm-9" id="sellerRating">
                     <span class="fa fa-star checked"></span>
@@ -53,8 +53,38 @@
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
+                    <button type="button" class="btn btn-primary btn-sm" id="giveBuyerRating" data-toggle="modal" data-target="#addRatingModal">Rate</button>
                 </dd>
             </dl>
         </div>
+
+        <!-- Modal for Adding Ratings -->
+        
+        <div class="modal fade" id="addRatingModal" tabindex="-1" role="dialog" aria-labelledby="addRatingModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Rating!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="otp">Choose rating:</label>
+                        <select id="sellerRating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Add Rating</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
     </body>
 </html>
