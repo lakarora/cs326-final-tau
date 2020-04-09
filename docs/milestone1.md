@@ -41,6 +41,8 @@ The image below is a picture from our Whimsical project, which shows the differe
 * Created the front-end for all the pages in our website flow from the wireframes. Here are a few samples-
 1. Home page.
 
+![image](./resources/home.png)
+
 2. Create Account Page Email Verification Pop-up
 
 ![image](./resources/createAccPop.png)
@@ -59,4 +61,4 @@ The image below is a picture from our Whimsical project, which shows the differe
 * Nishad Ranade - [nishadranade](https://github.com/nishadranade): Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page.
 * Nathan Grant - [N8Grant](https://github.com/N8Grant): Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options.
 
-There are a total of 42 commits, out of which Nathan did 14 commits (not recorded in insights page), Lakshay Arora did 17 commits (10 recorded, rest are not), and Nishad Ranade did 11 commits. Moreover, all three of us acknowlegde that the work split was equal and the difference in number of commits is due to minor changes like fixing file structure, gitignore, etc.
+There are a total of 43 commits, out of which Nathan did 14 commits (not recorded in insights page), Lakshay Arora did 17 commits (10 recorded, rest are not), and Nishad Ranade did 12 commits. Moreover, all three of us acknowlegde that the work split was equal and the difference in number of commits is due to minor changes like fixing file structure, gitignore, etc.
