@@ -33,13 +33,30 @@
 # Wireframes
 
 The image below is a picture from our Whimsical project, which shows the different HTML pages in our app, and has arrows from buttons to the pages they redirect to.
-![image](https://github.com/lakarora/cs326-final-tau/blob/master/docs/resources/wireframes.png)
-<!-- ![image](./resources/wireframes.png) -->
 
+<!-- ![image](https://github.com/lakarora/cs326-final-tau/blob/master/docs/resources/wireframes.png) -->
+![image](./resources/wireframes.png)
 
+# HTML & CSS 
+* Created the front-end for all the pages in our website flow from the wireframes. Here are a few samples-
+1. Home page.
+
+2. Create Account Page Email Verification Pop-up
+
+![image](./resources/createAccPop.png)
+
+3. The Messages section 
+
+![image](./resources/message.png)
+
+4. Make a posting for a book you want to sell
+
+![image](./resources/sellBook.png)
+
+*\*Note that the screenshots above are just a sample of all the webpages designed*
 # Work Breakdown
 * Lakshay Arora - [lakarora](https://github.com/lakarora): Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. 
 * Nishad Ranade - [nishadranade](https://github.com/nishadranade): Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page.
 * Nathan Grant - [N8Grant](https://github.com/N8Grant): Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options.
 
-There are a total of 36 commits, out of which Nathan did 14 commits (not recorded in insights page), Lakshay Arora did 14 commits (7 recorded, rest are not), and Nishad Ranade did 8 commits. However, all three of us acknowlegde that the work split was equal and the difference in number of commits is due to minor changes like fixing file structure, gitignore, etc.
+There are a total of 42 commits, out of which Nathan did 14 commits (not recorded in insights page), Lakshay Arora did 17 commits (10 recorded, rest are not), and Nishad Ranade did 11 commits. Moreover, all three of us acknowlegde that the work split was equal and the difference in number of commits is due to minor changes like fixing file structure, gitignore, etc.
