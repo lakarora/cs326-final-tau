@@ -5,15 +5,17 @@ html {
 * {
     box-sizing: border-box;
 }
-  
-.bg-image {
-    /* The image used */
-    background-image: url("./resources/homePageHeader.jpg");
 
-    /* Add the blur effect */
-    filter: blur(8px);
-    opacity: .8;
-    -webkit-filter: blur(8px);
+hr.new1 {
+    border: 5px solid white;
+    border-radius: 5px;
+}
+  
+body {
+    background-image: url("./resources/accountInfoBg.jpg"); 
+    color: white;
+}
+.bg-image {
 
     /* Full height */
     height: 50%;
@@ -22,7 +24,7 @@ html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
+ }
 
 /* Position text in the middle of the page/image */
 .title-search {
