@@ -24,7 +24,15 @@
 * ### Price Comparison
     Both sellers and buyers will be able to see the price of the book on Amazon so that they can make a more educated trade. Based off of the books condition we will also change the valuation so that people can know what they should be getting/paying for the book.
 
+# Important Data
+
+* User information such as full name, email address, username, password, institution and ratings provided by other users.
+* Books posted by users for sale with their ISBN, course number, author, and so on.
+* The messages between different users.
+
 # Work Breakdown
-* Lakshay Arora - [lakarora](https://github.com/lakarora): Created a popup for rating other users and one for account verification. Also  created page for creating a new account, a page to rate and view other users, and a page for displaying options after a successful login. 
-* Nishad Ranade - [nishadranade](https://github.com/nishadranade): Created the account information page also created the page to post a book to the website. Added folders for website resources for better organization. Fixed positioning of elements on the search results page.
-* Nathan Grant - [N8Grant](https://github.com/N8Grant): Created the home page aka. index.html. Created the searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating to all of the different user options.
+* Lakshay Arora - [lakarora](https://github.com/lakarora): Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. 
+* Nishad Ranade - [nishadranade](https://github.com/nishadranade): Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page.
+* Nathan Grant - [N8Grant](https://github.com/N8Grant): Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options.
+
+There are a total of 36 commits, out of which Nathan did 14 commits (not recorded in insights page), Lakshay Arora did 14 commits (7 recorded, rest are not), and Nishad Ranade did 8 commits. However, all three of us acknowlegde that the work split was equal and the difference in number of commits is due to minor changes like fixing file structure, gitignore, etc.
