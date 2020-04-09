@@ -30,6 +30,13 @@
 * Books posted by users for sale with their ISBN, course number, author, and so on.
 * The messages between different users.
 
+# Wireframes
+
+The image below is a picture from our Whimsical project, which shows the different HTML pages in our app, and has arrows from buttons to the pages they redirect to.
+![image](https://github.com/lakarora/cs326-final-tau/blob/master/docs/resources/wireframes.png)
+<!-- ![image](./resources/wireframes.png) -->
+
+
 # Work Breakdown
 * Lakshay Arora - [lakarora](https://github.com/lakarora): Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. 
 * Nishad Ranade - [nishadranade](https://github.com/nishadranade): Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page.
