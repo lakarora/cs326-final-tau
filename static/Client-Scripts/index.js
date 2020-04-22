@@ -34,25 +34,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "http://localhost:8080/login/";
+var myURL = "http://localhost:8080/";
 function verifyLogin() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var email, password, resp, responseJson;
+                var username, password, newURL, resp, responseJson, newURL_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            email = document.getElementById("loginEmail").value;
+                            username = document.getElementById("loginUsername").value;
                             password = document.getElementById("loginPassword").value;
-                            return [4 /*yield*/, fetch(myURL, {
+                            newURL = myURL + "login/";
+                            return [4 /*yield*/, fetch(newURL, {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                        'email': email,
+                                        'email': username,
                                         'password': password
                                     })
                                 })];
@@ -61,11 +62,14 @@ function verifyLogin() {
                             return [4 /*yield*/, resp.json()];
                         case 2:
                             responseJson = _a.sent();
-                            if (responseJson['result'] != 'loggedIn')
+                            if (responseJson['result'] != 'success')
                                 alert("Error while logging in");
                             else {
                                 alert("Login successful");
                                 // Set cookie in browser for the user logged in and load the next page
+                                document.cookie = "username=" + username;
+                                newURL_1 = myURL + "options/";
+                                window.open(newURL_1, "_self");
                             }
                             return [2 /*return*/];
                     }
