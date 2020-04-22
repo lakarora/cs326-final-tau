@@ -1,7 +1,7 @@
 let http = require('http');
 let url = require('url');
 let express = require('express');
-
+let path = require('path');
 export class Server {
     private server = express();
     private port = 8080;
@@ -22,6 +22,10 @@ export class Server {
         this.server.use(express.json());
         this.router.post('/login/', this.loginHandler.bind(this));
         this.server.use('/', this.router);
+        this.server.get('/options/', function(req, res) {
+            res.type('.html');
+            res.sendFile('selectActionAfterLogin.html', { root: "./static" });
+        });
     }
     
     private getServer() {
@@ -32,7 +36,7 @@ export class Server {
         // Leaving dummy code for now
         response.write(JSON.stringify(
             {
-                'result': 'loggedIn'
+                'result': 'success'
             }
         ));
         response.end();

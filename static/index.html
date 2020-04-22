@@ -57,18 +57,12 @@
                 <div class="col" style="border-left: 2px solid white;border-radius: 1px;padding-top:5%;">
                     <form class="px-4 py-3" id="loginForm">
                         <div class="form-group" style="color:white;">
-                            <label for="exampleDropdownFormEmail1">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" placeholder="email@umass.edu">
+                            <label for="exampleDropdownFormEmail1">Username</label>
+                            <input type="text" class="form-control" id="loginUsername" placeholder="Your registered username">
                         </div>
                         <div class="form-group" style="color:white;">
                             <label for="exampleDropdownFormPassword1">Password</label>
                             <input type="password" class="form-control" id="loginPassword" placeholder="Password">
-                        </div>
-                        <div class="form-check" style="color:white;">
-                            <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                            <label class="form-check-label" for="dropdownCheck">
-                                Remember me
-                            </label>
                         </div>
                         <button type="submit" class="btn btn-primary" id="signInButton" onclick="verifyLogin();">Sign in</button>
                     </form>
