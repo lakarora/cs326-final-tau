@@ -26,6 +26,22 @@ export class Server {
             res.type('.html');
             res.sendFile('selectActionAfterLogin.html', { root: "./static" });
         });
+        this.server.get('/createAccount/', function(req, res) {
+            res.type('.html');
+            res.sendFile('createAccount.html', { root: "./static" });
+        });
+        this.server.get('/search/', function(req, res) {
+            res.type('.html');
+            res.sendFile('searchBook.html', { root: "./static" });
+        });
+        this.server.get('/sell/', function(req, res) {
+            res.type('.html');
+            res.sendFile('sellBook.html', { root: "./static" });
+        });
+        this.server.get('/rate/', function(req, res) {
+            res.type('.html');
+            res.sendFile('findUserToRate.html', { root: "./static" });
+        });
     }
     
     private getServer() {

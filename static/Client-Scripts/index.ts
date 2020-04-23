@@ -21,16 +21,24 @@ async function verifyLogin() : Promise<void> {
                 )
             });
         const responseJson = await resp.json();
-        if(responseJson['result'] != 'success')
-            alert("Error while logging in")
+        if(responseJson['result'] != 'success') {
+            alert("Error while logging in");
+            location.reload();
+        }
         else {
             alert("Login successful");
-            // Set cookie in browser for the user logged in and load the next page
+            // Set cookie in browser for the logged in use and load the next page
             document.cookie = "username=" + username;
 
             // Now load the next page --> Options to buy, sell, rate users, and view user profile
             const newURL = myURL + "options/";
             window.open(newURL, "_self");
         }
+    })();
+}
+async function loadCreateAccount() : Promise<void> {
+    (async () => {
+        const newURL = myURL + "createAccount/";
+        window.open(newURL, "_self");
     })();
 }

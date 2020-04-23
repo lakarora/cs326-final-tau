@@ -35,64 +35,55 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var myURL = "http://localhost:8080/";
-function verifyLogin() {
+function putUser() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var username, password, newURL, resp, responseJson, newURL_1;
+                var cookie, i, username, greeting;
                 return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            username = document.getElementById("loginUsername").value;
-                            password = document.getElementById("loginPassword").value;
-                            newURL = myURL + "login/";
-                            return [4 /*yield*/, fetch(newURL, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        'email': username,
-                                        'password': password
-                                    })
-                                })];
-                        case 1:
-                            resp = _a.sent();
-                            return [4 /*yield*/, resp.json()];
-                        case 2:
-                            responseJson = _a.sent();
-                            if (responseJson['result'] != 'success') {
-                                alert("Error while logging in");
-                                location.reload();
-                            }
-                            else {
-                                alert("Login successful");
-                                // Set cookie in browser for the logged in use and load the next page
-                                document.cookie = "username=" + username;
-                                newURL_1 = myURL + "options/";
-                                window.open(newURL_1, "_self");
-                            }
-                            return [2 /*return*/];
+                    cookie = document.cookie;
+                    i = cookie.indexOf("=");
+                    if (i === -1) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
                     }
+                    username = cookie.substring(i + 1);
+                    greeting = document.getElementById("greetUser");
+                    greeting.innerHTML = "Greetings " + username + "!";
+                    return [2 /*return*/];
                 });
             }); })();
             return [2 /*return*/];
         });
     });
 }
-function loadCreateAccount() {
+function searchPage() {
     return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
+        var newURL;
         return __generator(this, function (_a) {
-            (function () { return __awaiter(_this, void 0, void 0, function () {
-                var newURL;
-                return __generator(this, function (_a) {
-                    newURL = myURL + "createAccount/";
-                    window.open(newURL, "_self");
-                    return [2 /*return*/];
-                });
-            }); })();
+            newURL = myURL + "search/";
+            window.open(newURL, "_self");
+            return [2 /*return*/];
+        });
+    });
+}
+function sellPage() {
+    return __awaiter(this, void 0, void 0, function () {
+        var newURL;
+        return __generator(this, function (_a) {
+            newURL = myURL + "sell/";
+            window.open(newURL, "_self");
+            return [2 /*return*/];
+        });
+    });
+}
+function ratePage() {
+    return __awaiter(this, void 0, void 0, function () {
+        var newURL;
+        return __generator(this, function (_a) {
+            newURL = myURL + "rate/";
+            window.open(newURL, "_self");
             return [2 /*return*/];
         });
     });
