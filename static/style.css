@@ -53,3 +53,8 @@ body {
     padding-bottom :2%;
     font-size: 16pt;
 }
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+  }

@@ -1,9 +1,11 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="Client-Scripts/searchResults.js"></script>
     </head>
     <header>
         <nav class="navbar navbar-dark bg-dark" style="z-index: 3;">
@@ -15,14 +17,14 @@
             </a>
         </nav>
     </header>
-    <div style="padding: 5% 5% 5% 25%;border-bottom: 5px solid rgb(53, 58, 64);">
-        <h1 style="font-size: 30pt;padding-left:28%;">Passage</h1>
-        <input type="text" id="search-bar-main" name="search-bar" placeholder="Search for a book..." >
-        <input type="image"  id="saveform" src="resources/searchIcon.png " onclick="search()" style="height:35px;width:35px;">
+    <div style="padding: 5% 5% 5% 25%;border-bottom: 5px solid rgb(53, 58, 64); background-image: url('./resources/accountInfoBg.jpg');">
+        <h1 style="font-size: 30pt;padding-left:28%;color:rgb(231, 231, 231);">Passage</h1>
+        <input type="text" id="search-bar-main" name="search-bar" placeholder="Search for a book...">
+        <input type="image"  id="searchButton" src="resources/searchIcon.png "  style="height:35px;width:35px;">
     </div>
 
 
-    <body style="z-index: 1; background-color: rgb(231, 231, 231);">
+    <body style="z-index: 1; background-color: rgb(231, 231, 231);background-image: url('');">
         <div class="container-fluid" style="z-index:3;">
             <div class="row">
                 <div class="col" style="border-right: 2px solid rgb(53, 58, 64);">
@@ -45,12 +47,12 @@
                     </div>
                     <br>
                     <br>
-                    <h3>Max Price:</h3>
-                    <input type="range" class="custom-range" min="0" max="600" step="0.5" id="customRange3">
+                    <h3 id="max-price-title">Max Price:</h3>
+                    <input type="range" class="custom-range" min="0" max="600" step="1" id="max-price-filter">
                     <br>
                     <br>
-                    <h3>Seller Rating:</h3>
-                    <input type="range" class="custom-range" min="0" max="5" step="1" id="customRange3">
+                    <h3 id='seller-rating-title'>Seller Rating:</h3>
+                    <input type="range" class="custom-range" min="0" max="5" step="1" id="seller-rating-filter">
                     <br>
                     <br>
                     <h3>Condition:</h3>
@@ -74,8 +76,11 @@
                         <input type="checkbox" class="custom-control-input" id="customCheck5">
                         <label class="custom-control-label" for="customCheck5">New</label>
                     </div>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" id="filter-apply">Filter</button>
                 </div>
-                <div class="col-10">
+                <div id="result-view" class="col-10">
                     <div class="card flex-row flex-wrap">
                         <div class="col">
                             <div class="card-header border-0">
