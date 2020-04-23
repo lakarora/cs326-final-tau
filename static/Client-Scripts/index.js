@@ -62,11 +62,13 @@ function verifyLogin() {
                             return [4 /*yield*/, resp.json()];
                         case 2:
                             responseJson = _a.sent();
-                            if (responseJson['result'] != 'success')
+                            if (responseJson['result'] != 'success') {
                                 alert("Error while logging in");
+                                location.reload();
+                            }
                             else {
                                 alert("Login successful");
-                                // Set cookie in browser for the user logged in and load the next page
+                                // Set cookie in browser for the logged in use and load the next page
                                 document.cookie = "username=" + username;
                                 newURL_1 = myURL + "options/";
                                 window.open(newURL_1, "_self");
