@@ -36,3 +36,9 @@ async function verifyLogin() : Promise<void> {
         }
     })();
 }
+async function loadCreateAccount() : Promise<void> {
+    (async () => {
+        const newURL = myURL + "createAccount/";
+        window.open(newURL, "_self");
+    })();
+}

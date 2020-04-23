@@ -81,3 +81,19 @@ function verifyLogin() {
         });
     });
 }
+function loadCreateAccount() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var newURL;
+                return __generator(this, function (_a) {
+                    newURL = myURL + "createAccount/";
+                    window.open(newURL, "_self");
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
