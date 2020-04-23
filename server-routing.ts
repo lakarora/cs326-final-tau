@@ -26,6 +26,10 @@ export class Server {
             res.type('.html');
             res.sendFile('selectActionAfterLogin.html', { root: "./static" });
         });
+        this.server.get('/createAccount/', function(req, res) {
+            res.type('.html');
+            res.sendFile('createAccount.html', { root: "./static" });
+        });
     }
     
     private getServer() {
