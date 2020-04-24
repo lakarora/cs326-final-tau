@@ -46,8 +46,13 @@ export class Server {
         this.server.get('/accountInfo/', function(req, res){
             res.type('.html');
             res.sendFile('accountInfo.html', { root: "./static"});
-        })
-    }
+        });
+        this.router.post('/checkNewAccount/', this.checkNewAccount.bind(this));
+        this.router.get('/verifyAccount/', function(req, res) {
+            res.type('html');
+            res.sendFile('verifyOTP.html', {root: "./static"});
+        });
+    }   
     
     private getServer() {
         return this.server;
@@ -75,7 +80,17 @@ export class Server {
             "bRating": 3.5 }));
         response.end();
     }
-
+    private async checkNewAccount(request, response) : Promise<void> {
+        var email = request.body.email;
+        // Check if email exists in db. If it does, return failure. 
+        //If it does not, send a 6-digit OTP to this email and return the OTP and success to the client
+        var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+        response.write(JSON.stringify({
+            'result': 'success',
+            'OTP': OTP
+        }));
+        response.end();
+    }
     public listen(port) : void {
         return this.server.listen(port);
     }

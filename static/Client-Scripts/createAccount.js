@@ -34,33 +34,81 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var myURL = "http://localhost:8080/";
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);
 };
+function postData(url, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(url, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        body: JSON.stringify(data)
+                    })];
+                case 1:
+                    resp = _a.sent();
+                    return [2 /*return*/, resp];
+            }
+        });
+    });
+}
 function createAccount(event) {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var uni_to_email, inputs, fullName, email, pwd, institution, error, valid;
+                var uni_to_email, inputs, fullName, email, pwd, institution, domain_name, newURL, resp, responseJSON, OTP, newURL_1;
                 return __generator(this, function (_a) {
-                    console.log("INSIDE ACCOUNT");
-                    event.preventDefault();
-                    uni_to_email = {
-                        'umass': 'umass.edu',
-                        'smith': 'smith.edu',
-                        'mtholyoke': 'mtholyoke.edu',
-                        'amherstcol': 'amherst.edu',
-                        'hampshire': 'hampshire.edu'
-                    };
-                    inputs = document.getElementById("createAccountForm").elements;
-                    fullName = inputs["fullName"].value;
-                    email = inputs["inputEmail"].value;
-                    pwd = inputs["userPassword"].value;
-                    institution = inputs["Institution"].value;
-                    error = "";
-                    valid = true;
-                    return [2 /*return*/];
+                    switch (_a.label) {
+                        case 0:
+                            event.preventDefault();
+                            uni_to_email = {
+                                'umass': 'umass.edu',
+                                'smith': 'smith.edu',
+                                'mtholyoke': 'mtholyoke.edu',
+                                'amherstcol': 'amherst.edu',
+                                'hampshire': 'hampshire.edu'
+                            };
+                            inputs = document.getElementById("createAccountForm").elements;
+                            fullName = inputs["fullName"].value;
+                            email = inputs["inputEmail"].value;
+                            pwd = inputs["userPassword"].value;
+                            institution = inputs["Institution"].value;
+                            domain_name = email.substring(email.lastIndexOf('@') + 1);
+                            if (!(uni_to_email[institution] != domain_name)) return [3 /*break*/, 1];
+                            alert("Email address does not match institution");
+                            return [2 /*return*/];
+                        case 1:
+                            newURL = myURL + "checkNewAccount/";
+                            return [4 /*yield*/, postData(newURL, {
+                                    'email': email
+                                })];
+                        case 2:
+                            resp = _a.sent();
+                            return [4 /*yield*/, resp.json()];
+                        case 3:
+                            responseJSON = _a.sent();
+                            if (responseJSON['result'] != 'success') {
+                                alert("There is already an account associated with this username");
+                                return [2 /*return*/];
+                            }
+                            else {
+                                OTP = responseJSON['OTP'];
+                                newURL_1 = myURL + "verifyAccount/";
+                                window.open(newURL_1, "_self");
+                            }
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
+                    }
                 });
             }); })();
             return [2 /*return*/];
