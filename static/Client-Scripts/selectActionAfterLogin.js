@@ -52,6 +52,10 @@ function putUser() {
                 var cookie, cookieObj, username, greeting;
                 return __generator(this, function (_a) {
                     cookie = document.cookie;
+                    if (cookie == "") {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
                     cookieObj = parseCookie(cookie);
                     if (cookieObj.username == null) {
                         alert("Please Log In!");

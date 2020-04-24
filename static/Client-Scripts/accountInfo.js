@@ -54,6 +54,10 @@ function getInfo() {
                     switch (_a.label) {
                         case 0:
                             cookie = document.cookie;
+                            if (cookie == "") {
+                                alert("Please Log In!");
+                                location.replace(myURL);
+                            }
                             cookieObj = parseCookie(cookie);
                             if (!(cookieObj.username == null)) return [3 /*break*/, 1];
                             alert("Please Log In!");

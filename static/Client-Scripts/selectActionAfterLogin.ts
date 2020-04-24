@@ -12,6 +12,10 @@ let parseCookie = str =>
 async function putUser(): Promise<void> {
    (async () => {
        var cookie = document.cookie;
+       if(cookie == ""){
+           alert("Please Log In!");
+           location.replace(myURL);
+        }
        var cookieObj = parseCookie(cookie);
        if(cookieObj.username == null ){
            alert("Please Log In!");
