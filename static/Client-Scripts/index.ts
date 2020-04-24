@@ -1,11 +1,26 @@
 const myURL = "http://localhost:8080/";
 
+window.onload = function () {
+    document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
+    document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);
+}
 async function verifyLogin() : Promise<void> {
     (async () => {
 
         // Cast because TypeScript takes it as HTMLElement which does not have value field
-        var username = (<HTMLInputElement>document.getElementById("loginUsername")).value;
+
+        // Match entire word. Usernames can only be alphanumeric
+        let rexp = new RegExp('^[A-Za-z0-9]+$');
+        var username = (<HTMLInputElement>document.getElementById("loginUsername")).value
+        if(username.match(rexp) == null) {
+            alert("Invalid username");
+            return;
+        }
         var password = (<HTMLInputElement>document.getElementById("loginPassword")).value;
+        if(password.length < 6) {
+            alert("Invalid password");
+            return ;
+        }
         const newURL = myURL + "login/";
         const resp = await fetch(newURL, 
             {
@@ -42,5 +57,4 @@ async function loadCreateAccount() : Promise<void> {
         window.open(newURL, "_self");
     })();
 }
-
 

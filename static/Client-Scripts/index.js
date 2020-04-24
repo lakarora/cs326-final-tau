@@ -35,17 +35,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var myURL = "http://localhost:8080/";
+window.onload = function () {
+    document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
+    document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);
+};
 function verifyLogin() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var username, password, newURL, resp, responseJson, newURL_1;
+                var rexp, username, password, newURL, resp, responseJson, newURL_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
+                            rexp = new RegExp('^[A-Za-z0-9]+$');
                             username = document.getElementById("loginUsername").value;
+                            if (username.match(rexp) == null) {
+                                alert("Invalid username");
+                                return [2 /*return*/];
+                            }
                             password = document.getElementById("loginPassword").value;
+                            if (password.length < 6) {
+                                alert("Invalid password");
+                                return [2 /*return*/];
+                            }
                             newURL = myURL + "login/";
                             return [4 /*yield*/, fetch(newURL, {
                                     method: 'POST',
