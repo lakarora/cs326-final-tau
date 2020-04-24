@@ -44,67 +44,56 @@ var parseCookie = function (str) {
         return acc;
     }, {});
 };
-function putUser() {
+function getInfo() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var cookie, cookieObj, username, greeting;
+                var cookie, cookieObj, newURL, uname, resp, respJson, username, fullName, institution, bRating, sRating;
                 return __generator(this, function (_a) {
-                    cookie = document.cookie;
-                    cookieObj = parseCookie(cookie);
-                    if (cookieObj.username == null) {
-                        alert("Please Log In!");
-                        location.replace(myURL);
+                    switch (_a.label) {
+                        case 0:
+                            cookie = document.cookie;
+                            cookieObj = parseCookie(cookie);
+                            if (!(cookieObj.username == null)) return [3 /*break*/, 1];
+                            alert("Please Log In!");
+                            location.replace(myURL);
+                            return [3 /*break*/, 4];
+                        case 1:
+                            newURL = myURL + "accountInfo/";
+                            uname = cookieObj.username;
+                            return [4 /*yield*/, fetch(newURL, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ 'username': uname })
+                                })];
+                        case 2:
+                            resp = _a.sent();
+                            return [4 /*yield*/, resp.json()];
+                        case 3:
+                            respJson = _a.sent();
+                            if (respJson.result != "success") {
+                                alert("Error finding user");
+                                location.replace(myURL);
+                                return [2 /*return*/];
+                            }
+                            username = document.getElementById("username");
+                            fullName = document.getElementById("fullName");
+                            institution = document.getElementById("userInstitute");
+                            bRating = document.getElementById("bRating");
+                            sRating = document.getElementById("sRating");
+                            username.innerHTML = respJson.username;
+                            fullName.innerHTML = respJson.fullName;
+                            institution.innerHTML = respJson.institution;
+                            bRating.innerHTML = "<b>" + respJson.bRating + "\/5</b>";
+                            sRating.innerHTML = "<b>" + respJson.sRating + "\/5</b>";
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
-                    else {
-                        username = cookieObj.username;
-                        greeting = document.getElementById("greetUser");
-                        greeting.innerHTML = "Greetings " + username + "!";
-                    }
-                    return [2 /*return*/];
                 });
             }); })();
-            return [2 /*return*/];
-        });
-    });
-}
-function searchPage() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newURL;
-        return __generator(this, function (_a) {
-            newURL = myURL + "search/";
-            window.open(newURL, "_self");
-            return [2 /*return*/];
-        });
-    });
-}
-function sellPage() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newURL;
-        return __generator(this, function (_a) {
-            newURL = myURL + "sell/";
-            window.open(newURL, "_self");
-            return [2 /*return*/];
-        });
-    });
-}
-function ratePage() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newURL;
-        return __generator(this, function (_a) {
-            newURL = myURL + "rate/";
-            window.open(newURL, "_self");
-            return [2 /*return*/];
-        });
-    });
-}
-function myProfile() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newURL;
-        return __generator(this, function (_a) {
-            newURL = myURL + "accountInfo/";
-            window.open(newURL, "_self");
             return [2 /*return*/];
         });
     });

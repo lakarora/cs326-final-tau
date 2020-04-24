@@ -42,6 +42,11 @@ export class Server {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
         });
+        this.router.post('/accountInfo/', this.accountInfoHandler.bind(this));
+        this.server.get('/accountInfo/', function(req, res){
+            res.type('.html');
+            res.sendFile('accountInfo.html', { root: "./static"});
+        })
     }
     
     private getServer() {
@@ -55,6 +60,19 @@ export class Server {
                 'result': 'success'
             }
         ));
+        response.end();
+    }
+
+    // dummy handler for the Account Info page
+    private async accountInfoHandler(request, response) : Promise<void> {
+        var username = request.body.username;
+        response.write(JSON.stringify({
+            "result": "success",
+            "username": username,
+            "fullName": "user 1",
+            "institution": "UMass Amherst",
+            "sRating": 4.5,
+            "bRating": 3.5 }));
         response.end();
     }
 

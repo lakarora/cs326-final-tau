@@ -1,16 +1,27 @@
 const myURL = "http://localhost:8080/";
 
+let parseCookie = str =>
+  str
+    .split(';')
+    .map(v => v.split('='))
+    .reduce((acc, v) => {
+      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+      return acc;
+    }, {});
+
 async function putUser(): Promise<void> {
    (async () => {
        var cookie = document.cookie;
-       let i = cookie.indexOf("=");
-       if( i === -1){
+       var cookieObj = parseCookie(cookie);
+       if(cookieObj.username == null ){
            alert("Please Log In!");
            location.replace(myURL);
        }
-       var username = cookie.substring(i+1);
-       var greeting = (<HTMLElement>document.getElementById("greetUser"));
-       greeting.innerHTML = "Greetings " + username + "!";
+       else{
+        var username = cookieObj.username;
+        var greeting = (<HTMLElement>document.getElementById("greetUser"));
+        greeting.innerHTML = "Greetings " + username + "!";
+       }
    })(); 
 }
 
@@ -26,5 +37,10 @@ async function sellPage(): Promise<void> {
 
 async function ratePage(): Promise<void> {
     const newURL = myURL + "rate/";
+    window.open(newURL, "_self");
+}
+
+async function myProfile(): Promise<void> {
+    const newURL = myURL + "accountInfo/";
     window.open(newURL, "_self");
 }
