@@ -37,7 +37,8 @@
                 <form id="createAccountForm">
                         <div class="form-group">
                                 <label for="fullName">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                <input type="text" class="form-control" id="fullName" name="fullName" title="Names can only contain letters, apostrophe, dot, and hyhen"
+                                pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" required>
                         </div>
                         <div class="form-group">
                           <label for="inputEmail">Email address</label>
@@ -46,11 +47,12 @@
                         </div>
                         <div class="form-group">
                             <label for="userName">Username</label>
-                            <input type="userName" class="form-control" id="inputUsername" name="inputUsername" required>
+                            <input type="userName" class="form-control" id="inputUsername" name="inputUsername" pattern="[A-Za-z0-9]+" 
+                            title="Username can have letters and numbers only, no punctuation or special characters" required>
                         </div>
                         <div class="form-group">
                           <label for="userPassword">Password</label>
-                          <input type="password" class="form-control" id="userPassword" name="userPassword" required>
+                          <input type="password" class="form-control" id="userPassword" name="userPassword" required minlength="6">
                         </div>
                         <div class="form-group">
                             <label for="inputInstitution">University:</label>
@@ -62,7 +64,7 @@
                                     <option value="hampshire">Hampshire College</option>
                             </select>
                         </div>
-                    <button type="button" class="btn btn-primary" id="createAccountButton">Create Account!</button>
+                    <button type="submit" class="btn btn-primary" id="createAccountButton">Create Account!</button>
                 </form>
             <br><br>
         </div>

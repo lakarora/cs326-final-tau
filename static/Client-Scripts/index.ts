@@ -42,3 +42,5 @@ async function loadCreateAccount() : Promise<void> {
         window.open(newURL, "_self");
     })();
 }
+
+
