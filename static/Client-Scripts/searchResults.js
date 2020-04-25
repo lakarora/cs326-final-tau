@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var myURL = "http://localhost:8080/";
-var r = [];
+var searchQuery = "";
 window.onload = function () {
     var sb = document.getElementById("searchButton");
     sb.addEventListener("click", searchBook);
@@ -57,24 +57,88 @@ function adjustMaxPrice() {
     document.getElementById("max-price-title").innerHTML = "Max Price: $" + maxPrice;
 }
 function filterResults() {
-    var order = "";
-    var maxPrice = document.getElementById("max-price-filter").value;
-    if (document.getElementById("customRadio1").checked) {
-        order = 'price desc';
-    }
-    else if (document.getElementById("customRadio2").checked) {
-        order = "price asc";
-    }
-    else if (document.getElementById("customRadio3").checked) {
-        order = "condition desc";
-    }
-    else if (document.getElementById("customRadio4").checked) {
-        order = "rating desc";
-    }
-    else {
-        order = "None";
-    }
-    console.log(order);
+    return __awaiter(this, void 0, void 0, function () {
+        var order, maxPrice, sellerRating, cond, searchQuery, newURL, resp, responseJson, r;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    order = "";
+                    maxPrice = document.getElementById("max-price-filter").value;
+                    sellerRating = document.getElementById("seller-rating-filter").value;
+                    cond = [];
+                    searchQuery = document.getElementById("search-bar-main").value;
+                    if (document.getElementById("customRadio1").checked) {
+                        order = 'price desc';
+                    }
+                    else if (document.getElementById("customRadio2").checked) {
+                        order = "price asc";
+                    }
+                    else if (document.getElementById("customRadio3").checked) {
+                        order = "condition desc";
+                    }
+                    else if (document.getElementById("customRadio4").checked) {
+                        order = "rating desc";
+                    }
+                    else {
+                        order = "None";
+                    }
+                    if (document.getElementById("customCheck1").checked) {
+                        cond.push('poor');
+                    }
+                    if (document.getElementById("customCheck2").checked) {
+                        cond.push("worn");
+                    }
+                    if (document.getElementById("customCheck3").checked) {
+                        cond.push("good");
+                    }
+                    if (document.getElementById("customCheck4").checked) {
+                        cond.push("great");
+                    }
+                    if (document.getElementById("customCheck5").checked) {
+                        cond.push("new");
+                    }
+                    newURL = myURL + "search/";
+                    return [4 /*yield*/, fetch(newURL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                'query': searchQuery,
+                                'order': order,
+                                'maxPrice': maxPrice,
+                                'sellerRating': sellerRating,
+                                'condition': cond
+                            })
+                        })];
+                case 1:
+                    resp = _a.sent();
+                    return [4 /*yield*/, resp.json()];
+                case 2:
+                    responseJson = _a.sent();
+                    if (responseJson['result'] != 'success')
+                        alert("Error while sorting");
+                    else {
+                        alert("Sort stuff");
+                        r = responseJson['searchResults'];
+                        /*
+                            Each search result will have a json object with:
+                                Title
+                                Picture url
+                                Description
+                                Price
+                                Condition
+                                Seller Name
+                                Link to their page
+                                Seller Rating
+                
+                        */
+                        displayBooks(r);
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
 }
 function displayBooks(r) {
     var view = document.getElementById('result-view');
@@ -108,68 +172,47 @@ function displayBooks(r) {
 function searchBook() {
     var _this = this;
     (function () { return __awaiter(_this, void 0, void 0, function () {
-        var searchQuery, responseJson;
+        var searchQuery, newURL, resp, responseJson, r;
         return __generator(this, function (_a) {
-            searchQuery = document.getElementById("search-bar-main").value;
-            responseJson = {
-                'result': "success",
-                'searchResults': [{
-                        'picture': 'resources/no-image-listing.png',
-                        'title': searchQuery,
-                        'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                        'condition': 'New',
-                        'account-link': '#',
-                        'account-name': 'Minutemen2021',
-                        'seller-rating': '4.6',
-                        'price': '100'
-                    }, {
-                        'picture': 'resources/no-image-listing.png',
-                        'title': searchQuery,
-                        'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                        'condition': 'New',
-                        'account-link': '#',
-                        'account-name': 'Minutemen2021',
-                        'seller-rating': '4.6',
-                        'price': '100'
-                    }, {
-                        'picture': 'resources/no-image-listing.png',
-                        'title': searchQuery,
-                        'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                        'condition': 'New',
-                        'account-link': '#',
-                        'account-name': 'Minutemen2021',
-                        'seller-rating': '4.6',
-                        'price': '100'
-                    }, {
-                        'picture': 'resources/no-image-listing.png',
-                        'title': searchQuery,
-                        'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                        'condition': 'New',
-                        'account-link': '#',
-                        'account-name': 'Minutemen2021',
-                        'seller-rating': '4.6',
-                        'price': '100'
-                    }]
-            };
-            if (responseJson['result'] != 'success')
-                alert("Error while searching for book");
-            else {
-                r = responseJson['searchResults'];
-                /*
-                    Each search result will have a json object with:
-                        Title
-                        Picture url
-                        Description
-                        Price
-                        Condition
-                        Seller Name
-                        Link to their page
-                        Seller Rating
-    
-                */
-                displayBooks(r);
+            switch (_a.label) {
+                case 0:
+                    searchQuery = document.getElementById("search-bar-main").value;
+                    newURL = myURL + "search/";
+                    return [4 /*yield*/, fetch(newURL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                'search': searchQuery
+                            })
+                        })];
+                case 1:
+                    resp = _a.sent();
+                    return [4 /*yield*/, resp.json()];
+                case 2:
+                    responseJson = _a.sent();
+                    // Dummy code
+                    if (responseJson['result'] != 'success')
+                        alert("Error while searching for book");
+                    else {
+                        r = responseJson['searchResults'];
+                        /*
+                            Each search result will have a json object with:
+                                Title
+                                Picture url
+                                Description
+                                Price
+                                Condition
+                                Seller Name
+                                Link to their page
+                                Seller Rating
+            
+                        */
+                        displayBooks(r);
+                    }
+                    return [2 /*return*/];
             }
-            return [2 /*return*/];
         });
     }); })();
 }

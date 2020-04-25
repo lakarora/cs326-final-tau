@@ -48,21 +48,38 @@ function sellerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, responseJson, newURL;
+                    var rating, username, newURL, resp, responseJson, newURL_1;
                     return __generator(this, function (_a) {
-                        rating = document.getElementById("sellerRating").value;
-                        username = document.getElementById("username").value;
-                        responseJson = {
-                            'result': 'success'
-                        };
-                        if (responseJson['result'] != 'success')
-                            alert("Error while logging in");
-                        else {
-                            alert("User Has Been Rated");
-                            newURL = "./selectActionAfterLogin.html";
-                            window.open(newURL, "_self");
+                        switch (_a.label) {
+                            case 0:
+                                rating = document.getElementById("sellerRating").value;
+                                username = document.getElementById("username").value;
+                                newURL = myURL + "rate/";
+                                return [4 /*yield*/, fetch(newURL, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            'rating': rating,
+                                            'type': 'seller',
+                                            'email': username
+                                        })
+                                    })];
+                            case 1:
+                                resp = _a.sent();
+                                return [4 /*yield*/, resp.json()];
+                            case 2:
+                                responseJson = _a.sent();
+                                if (responseJson['result'] != 'success')
+                                    alert("Error while logging in");
+                                else {
+                                    alert("User Has Been Rated");
+                                    newURL_1 = "./selectActionAfterLogin.html";
+                                    window.open(newURL_1, "_self");
+                                }
+                                return [2 /*return*/];
                         }
-                        return [2 /*return*/];
                     });
                 });
             });
@@ -77,21 +94,38 @@ function buyerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, responseJson, newURL;
+                    var rating, username, newURL, resp, responseJson, newURL_2;
                     return __generator(this, function (_a) {
-                        rating = document.getElementById("sellerRating").value;
-                        username = document.getElementById("username").value;
-                        responseJson = {
-                            'result': 'success'
-                        };
-                        if (responseJson['result'] != 'success')
-                            alert("Error while logging in");
-                        else {
-                            alert("User Has Been Rated");
-                            newURL = "./selectActionAfterLogin.html";
-                            window.open(newURL, "_self");
+                        switch (_a.label) {
+                            case 0:
+                                rating = document.getElementById("sellerRating").value;
+                                username = document.getElementById("username").value;
+                                newURL = myURL + "userRating/";
+                                return [4 /*yield*/, fetch(newURL, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            'rating': rating,
+                                            'type': 'buyer',
+                                            'email': username
+                                        })
+                                    })];
+                            case 1:
+                                resp = _a.sent();
+                                responseJson = {
+                                    'result': 'success'
+                                };
+                                if (responseJson['result'] != 'success')
+                                    alert("Error while logging in");
+                                else {
+                                    alert("User Has Been Rated");
+                                    newURL_2 = "./selectActionAfterLogin.html";
+                                    window.open(newURL_2, "_self");
+                                }
+                                return [2 /*return*/];
                         }
-                        return [2 /*return*/];
                     });
                 });
             });

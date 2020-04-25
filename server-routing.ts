@@ -30,6 +30,7 @@ export class Server {
             res.type('.html');
             res.sendFile('createAccount.html', { root: "./static" });
         });
+        this.server.post('/search/', this.searchBookHandler.bind(this));
         this.server.get('/search/', function(req, res) {
             res.type('.html');
             res.sendFile('searchBook.html', { root: "./static" });
@@ -38,6 +39,7 @@ export class Server {
             res.type('.html');
             res.sendFile('sellBook.html', { root: "./static" });
         });
+        this.router.post('/userRating/', this.userRatingHandler.bind(this));
         this.server.get('/rate/', function(req, res) {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
@@ -57,6 +59,63 @@ export class Server {
     private getServer() {
         return this.server;
     }
+
+    private async userRatingHandler(request, response) : Promise<void> {
+        let userRating = request.body.rating;
+        let type = request.body.rating;
+        let user = request.body.username;
+
+        response.write(JSON.stringify({
+            'result': 'success'
+        }));
+        response.end();
+    }
+
+    private async searchBookHandler(request,response) : Promise<void> {
+        let searchQuery = request.body.searchQuery;
+        response.write(JSON.stringify({
+            'result': "success",
+            'searchResults': [{
+                'picture':'resources/no-image-listing.png',
+                'title': searchQuery,
+                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                'condition': 'New',
+                'account-link': '#',
+                'account-name': 'Minutemen2021',
+                'seller-rating': '4.6',
+                'price': '100'
+            }, {
+                'picture':'resources/no-image-listing.png',
+                'title': searchQuery,
+                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                'condition': 'New',
+                'account-link': '#',
+                'account-name': 'Minutemen2021',
+                'seller-rating': '4.6',
+                'price': '100'
+            },{
+                'picture':'resources/no-image-listing.png',
+                'title': searchQuery,
+                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                'condition': 'New',
+                'account-link': '#',
+                'account-name': 'Minutemen2021',
+                'seller-rating': '4.6',
+                'price': '100'
+            },{
+                'picture':'resources/no-image-listing.png',
+                'title': searchQuery,
+                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                'condition': 'New',
+                'account-link': '#',
+                'account-name': 'Minutemen2021',
+                'seller-rating': '4.6',
+                'price': '100'
+            }]
+        }));
+        response.end();
+    }
+
     private async loginHandler(request, response) : Promise<void> {
 
         // Leaving dummy code for now

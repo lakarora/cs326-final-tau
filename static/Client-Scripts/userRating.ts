@@ -12,7 +12,7 @@ async function sellerRate() {
     rate.addEventListener("click", async function () {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
-        /*const newURL = myURL + "rate/";
+        const newURL = myURL + "rate/";
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -26,11 +26,8 @@ async function sellerRate() {
                     'email': username,
                 }
             )
-        }); */
-        //const responseJson = await resp.json();
-        const responseJson = {
-            'result': 'success'
-        }
+        }); 
+        const responseJson = await resp.json();
         if(responseJson['result'] != 'success')
             alert("Error while logging in")
         else {
@@ -49,7 +46,7 @@ async function buyerRate() {
     rate.addEventListener("click", async function () {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
-        /*const newURL = myURL + "rate/";
+        const newURL = myURL + "userRating/";
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -63,7 +60,7 @@ async function buyerRate() {
                     'email': username,
                 }
             )
-        }); */
+        }); 
         //const responseJson = await resp.json();
 
         // GET RID OF AFTER

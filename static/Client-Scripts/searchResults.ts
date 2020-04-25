@@ -136,7 +136,7 @@ function searchBook() {
         // Cast because TypeScript takes it as HTMLElement which does not have value field
         let searchQuery = (<HTMLInputElement>document.getElementById("search-bar-main")).value;
         
-        /*const newURL = myURL + "search/";
+        const newURL = myURL + "search/";
         const resp = await fetch(newURL, 
             {
                 method: 'POST',
@@ -149,48 +149,9 @@ function searchBook() {
                     }
                 )
             });
-        const responseJson = await resp.json(); */
+        const responseJson = await resp.json(); 
         // Dummy code
-        const responseJson = {
-            'result': "success",
-            'searchResults': [{
-                'picture':'resources/no-image-listing.png',
-                'title': searchQuery,
-                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                'condition': 'New',
-                'account-link': '#',
-                'account-name': 'Minutemen2021',
-                'seller-rating': '4.6',
-                'price': '100'
-            }, {
-                'picture':'resources/no-image-listing.png',
-                'title': searchQuery,
-                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                'condition': 'New',
-                'account-link': '#',
-                'account-name': 'Minutemen2021',
-                'seller-rating': '4.6',
-                'price': '100'
-            },{
-                'picture':'resources/no-image-listing.png',
-                'title': searchQuery,
-                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                'condition': 'New',
-                'account-link': '#',
-                'account-name': 'Minutemen2021',
-                'seller-rating': '4.6',
-                'price': '100'
-            },{
-                'picture':'resources/no-image-listing.png',
-                'title': searchQuery,
-                'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                'condition': 'New',
-                'account-link': '#',
-                'account-name': 'Minutemen2021',
-                'seller-rating': '4.6',
-                'price': '100'
-            }]
-        };
+        
         if(responseJson['result'] != 'success')
             alert("Error while searching for book");
         else {
