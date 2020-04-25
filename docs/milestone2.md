@@ -9,7 +9,7 @@
 ![image](./resources/milestone2/searchBook.png)  
 This page demonstrates the workings of the search book functionality. After a user searches for a book they will be sent to this page where they can look through all of the books relevant to the query in the database. They can also filter through the results with the options on the side.  
   
-![image](/resources/milestone2/indexLogin.png)  
+![image](./resources/milestone2/indexLogin.png)  
 This page now has the skeleton for logging into the webpage. The website also uses cookies to track who is the user logged into passage. After a successful login, the account username is stored to other pages so that the database knows which user is accessing the data after the login screen.  
   
 
@@ -42,3 +42,4 @@ For this milestone the work had been divided as such:
 **Nishad** started with the Options page, and then implemented the My Profile with a dummy request-response handler, which grabs your own information from the database. Also did the Sell Book page, where a user can input book details, make a request to the server to get the Amazon Used Price for the book through a scraper, decide the price of the posted book based on that, and then post the book for sale.
 
 **Nathan** did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page.
+Lakshay started by creating the server files and making a skeleton for the login and sign up functionalities. He then set up the routing for the account options page and set up browser cookies for the username. Nishade implemented the profile page with a dummy request-response handler. He also implemented the javascript for the select action page, used after you log in. Nathan did the search book page and set it up so that the server just returns a dummy response variable. He also did the rate user page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the options page.
