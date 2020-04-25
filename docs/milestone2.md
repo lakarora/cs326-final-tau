@@ -8,7 +8,7 @@
 ![image](./resources/milestone2/searchBook.png)  
 This page demonstrates the workings of the search book functionality. After a user searches for a book they will be sent to this page where they can look through all of the books relevant to the query in the database. They can also filter through the results with the options on the side.  
   
-![image](/resources/milestone2/indexLogin.png)  
+![image](./resources/milestone2/indexLogin.png)  
 This page now has the skeleton for logging into the webpage. The website also uses cookies to track who is the user logged into passage. After a successful login, the account username is stored to other pages so that the database knows which user is accessing the data after the login screen.  
   
 
