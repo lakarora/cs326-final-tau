@@ -1,7 +1,7 @@
 # Project Setup
 You can access Passage in one of two ways
 
- 1. Go through [Heroku](URL)
+ 1. Go through [Heroku]( https://fathomless-sea-16239.herokuapp.com/)
  2. Build it from source
 
 ### Building From Source
@@ -24,6 +24,6 @@ Then afterwards you must install all of the project dependencies
 ```
 Once this is done you can then start up the server and access it through the browser
 ```
-% ts-node --prefer-ts-exts server-main.ts
+% PORT=8080 ts-node --prefer-ts-exts server-main.ts
 ```
 Access Passage at http://localhost:8080/
