@@ -1,3 +1,5 @@
+import { userInfo } from "os";
+
 const myURL = "http://localhost:8080/";
 
 window.onload = function () {
@@ -37,6 +39,7 @@ async function createAccount(event) : Promise<void> {
         var email = inputs["inputEmail"].value;
         var pwd = inputs["userPassword"].value;
         var institution = inputs["Institution"].value;
+        var username = inputs['inputUsername'].value;
 
         // Check if institution matches email
         var domain_name = email.substring(email.lastIndexOf('@') + 1);
@@ -58,6 +61,13 @@ async function createAccount(event) : Promise<void> {
                 // There is no account associated with this email. Server sends success and a 6-digit OTP for verification
                 var OTP = responseJSON['OTP'];
 
+                // Save the form fields in sessionStorage for using in the next page
+                sessionStorage.setItem("fullname", fullName);
+                sessionStorage.setItem("email", email);
+                sessionStorage.setItem("password", pwd);
+                sessionStorage.setItem("institution", institution);
+                sessionStorage.setItem("OTP", OTP);
+                sessionStorage.setItem("username", username);
                 // Now we load the new page for OTP verification
                 const newURL = myURL + "verifyAccount/";
                 window.open(newURL, "_self");

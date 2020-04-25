@@ -23,6 +23,7 @@ export class Server {
         // Handle POST data as JSON
         this.server.use(express.json());
         this.router.post('/login/', this.loginHandler.bind(this));
+        this.router.post('/registerUser/', this.registerUser.bind(this));
         this.server.use('/', this.router);
         this.server.get('/options/', function(req, res) {
             res.type('.html');
@@ -56,6 +57,7 @@ export class Server {
             res.type('html');
             res.sendFile('verifyOTP.html', {root: "./static"});
         });
+
         this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
         this.router.get('/setPrice/', function(req, res){
             res.type('html');
@@ -67,7 +69,13 @@ export class Server {
     private getServer() {
         return this.server;
     }
-
+    private async registerUser(request, response) : Promise<void> {
+        // Return dummy value for now
+        response.write(JSON.stringify({
+            'result': 'success'
+        }));
+        response.end();
+    }
     private async userRatingHandler(request, response) : Promise<void> {
         let userRating = request.body.rating;
         let type = request.body.rating;
@@ -157,9 +165,37 @@ export class Server {
         // Check if email exists in db. If it does, return failure. 
         //If it does not, send a 6-digit OTP to this email and return the OTP and success to the client
         var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+        // Send this OTP to the user for verification via email. 
+        //For now, this is excluded beacuse it requires an email password/hash of password for safety.
+        //Also OAuth2 needs to be set up 
+
+        // var transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user:'lakshayarora3107@gmail.com',
+        //         password:'fjo3rnfr'
+        //     }
+        // });
+
+        // var mailOptions = {
+        //     from: 'lakshayarora3107@gmail.com',
+        //     to: email,
+        //     subject: 'Passage OTP Verification',
+        //     text: 'Welcome to Passage! Enter this OTP for account verification: ' + OTP
+        // };
+        // transporter.sendMail(mailOptions, function(error, info) {
+        //     if(error) {
+        //         console.log(error);
+        //     } else {
+        //         console.log('Email sent: ' + info.response);
+        //     }
+        // });
+
+        // Hard coded value returned for now
         response.write(JSON.stringify({
             'result': 'success',
-            'OTP': OTP
+            'OTP': 123456
         }));
         response.end();
     }
