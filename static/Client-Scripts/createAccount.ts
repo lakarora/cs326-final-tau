@@ -1,4 +1,3 @@
-export {}
 import { userInfo } from "os";
 const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 
