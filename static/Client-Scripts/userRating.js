@@ -54,7 +54,7 @@ function sellerRate() {
                             case 0:
                                 rating = document.getElementById("sellerRating").value;
                                 username = document.getElementById("username").value;
-                                newURL = myURL + "rate/";
+                                newURL = myURL + "userRating";
                                 return [4 /*yield*/, fetch(newURL, {
                                         method: 'POST',
                                         headers: {
@@ -114,9 +114,9 @@ function buyerRate() {
                                     })];
                             case 1:
                                 resp = _a.sent();
-                                responseJson = {
-                                    'result': 'success'
-                                };
+                                return [4 /*yield*/, resp.json()];
+                            case 2:
+                                responseJson = _a.sent();
                                 if (responseJson['result'] != 'success')
                                     alert("Error while logging in");
                                 else {
