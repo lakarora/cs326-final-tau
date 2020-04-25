@@ -1,4 +1,4 @@
-const myURL = "http://localhost:8080/";
+const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
 
 let parseCookie = str =>
   str

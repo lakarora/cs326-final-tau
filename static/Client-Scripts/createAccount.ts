@@ -1,6 +1,6 @@
+export {}
 import { userInfo } from "os";
-
-const myURL = "http://localhost:8080/";
+const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
 
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);

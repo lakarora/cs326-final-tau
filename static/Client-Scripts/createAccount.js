@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var myURL = "http://localhost:8080/";
+var myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);
 };

@@ -1,4 +1,5 @@
-let myURL = "http://localhost:8080/";
+export {}
+let myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
 
 async function postData(url : string, data: any) {
     const resp = await fetch(url,

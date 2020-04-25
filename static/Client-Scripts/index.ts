@@ -1,4 +1,5 @@
-const myURL = "http://localhost:8080/";
+export {}
+const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
 
 window.onload = function () {
     document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
