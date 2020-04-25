@@ -2,4 +2,4 @@
 
 import { Server } from './server-routing';
 const theServer = new Server();
-theServer.listen(8080);
+theServer.listen(process.env.PORT);

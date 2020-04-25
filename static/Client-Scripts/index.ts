@@ -1,5 +1,5 @@
 export {}
-const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 
 window.onload = function () {
     document.getElementById("signInButton").addEventListener("click", verifyLogin, false);

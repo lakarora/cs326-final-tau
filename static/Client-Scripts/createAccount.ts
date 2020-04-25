@@ -1,6 +1,6 @@
 export {}
 import { userInfo } from "os";
-const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);

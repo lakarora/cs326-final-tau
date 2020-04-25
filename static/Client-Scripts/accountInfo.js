@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+var myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var parseCookie = function (str) {
     return str
         .split(';')

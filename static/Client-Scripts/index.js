@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+var myURL = "https://fathomless-sea-16239.herokuapp.com/";
 window.onload = function () {
     document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
     document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);

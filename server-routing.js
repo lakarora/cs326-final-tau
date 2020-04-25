@@ -44,7 +44,7 @@ var Server = /** @class */ (function () {
     // Leave out database part for now
     function Server() {
         this.server = express();
-        this.port = 8080;
+        this.port = process.env.PORT;
         this.router = express.Router();
         this.router.use(function (request, response, next) {
             response.header('Content-Type', 'application/json');
@@ -57,6 +57,7 @@ var Server = /** @class */ (function () {
         // Handle POST data as JSON
         this.server.use(express.json());
         this.router.post('/login/', this.loginHandler.bind(this));
+        this.router.post('/registerUser/', this.registerUser.bind(this));
         this.server.use('/', this.router);
         this.server.get('/options/', function (req, res) {
             res.type('.html');
@@ -99,6 +100,18 @@ var Server = /** @class */ (function () {
     }
     Server.prototype.getServer = function () {
         return this.server;
+    };
+    Server.prototype.registerUser = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                // Return dummy value for now
+                response.write(JSON.stringify({
+                    'result': 'success'
+                }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
     };
     Server.prototype.userRatingHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
@@ -206,9 +219,33 @@ var Server = /** @class */ (function () {
             return __generator(this, function (_a) {
                 email = request.body.email;
                 OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+                // Send this OTP to the user for verification via email. 
+                //For now, this is excluded beacuse it requires an email password/hash of password for safety.
+                //Also OAuth2 needs to be set up 
+                // var transporter = nodemailer.createTransport({
+                //     service: 'gmail',
+                //     auth: {
+                //         user:'lakshayarora3107@gmail.com',
+                //         password:'fjo3rnfr'
+                //     }
+                // });
+                // var mailOptions = {
+                //     from: 'lakshayarora3107@gmail.com',
+                //     to: email,
+                //     subject: 'Passage OTP Verification',
+                //     text: 'Welcome to Passage! Enter this OTP for account verification: ' + OTP
+                // };
+                // transporter.sendMail(mailOptions, function(error, info) {
+                //     if(error) {
+                //         console.log(error);
+                //     } else {
+                //         console.log('Email sent: ' + info.response);
+                //     }
+                // });
+                // Hard coded value returned for now
                 response.write(JSON.stringify({
                     'result': 'success',
-                    'OTP': OTP
+                    'OTP': 123456
                 }));
                 response.end();
                 return [2 /*return*/];

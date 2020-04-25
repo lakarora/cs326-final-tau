@@ -6,7 +6,7 @@ let express = require('express');
 let path = require('path');
 export class Server {
     private server = express();
-    private port = 8080;
+    private port = process.env.PORT;
     private router = express.Router();
 
     // Leave out database part for now

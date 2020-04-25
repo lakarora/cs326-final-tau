@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+var myURL = "https://fathomless-sea-16239.herokuapp.com/";
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;

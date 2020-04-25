@@ -1,5 +1,6 @@
 export {}
-const myURL = "https://enigmatic-bastion-90313.herokuapp.com/";
+const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+
 
 let parseCookie = str =>
   str
