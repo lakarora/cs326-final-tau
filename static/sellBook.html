@@ -9,7 +9,6 @@
                 background-image: url('../resources/accountInfoBg.jpg');
             }
             #bookInfo {
-               width: 60%;
                margin: 0 auto; 
                width: 60%;
                background-color: gainsboro  ;
@@ -22,85 +21,65 @@
                 margin-left: 5%;
             }
         </style>
+        <script type="text/javascript" src="../Client-Scripts/sellBook.js"></script>
     </head>
     <body>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <div id="bookInfo">
             <br>
             <h3 align="center"> Book Information</h3>
             <br><br>
-            <dl class="row" style="padding-left: 21%">
-                <dt class="col-sm-3">Book Title: </dt>
-                <dd class="col-sm-9" ><input type="text" id="title"></dd>
-                
-                <dt class="col-sm-3">ISBN:</dt>
-                <dd class="col-sm-9" ><input type="text" id="title"></dd>
-                
-                <dt class="col-sm-3">Author(s):</dt>
-                <dd class="col-sm-9"><input type="text" id="author"></dd>
+            <form id="sellBookForm">
+                <dl class="row" style="padding-left: 21%">
+                    <dt class="col-sm-3">Book Title: </dt>
+                    <dd class="col-sm-9" ><input type="text" id="title" required></dd>
+                    
+                    <dt class="col-sm-3">ISBN:</dt>                    
+                    <dd class="col-sm-9" ><input type="text" id="isbn" required></dd>
+                    
+                    <dt class="col-sm-3">Author(s):</dt>
+                    <dd class="col-sm-9"><input type="text" id="author" required></dd>
 
-                <dt class="col-sm-3">Condition: </dt>
-                <dd class="col-sm-9">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Condition
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">New</a>
-                        <a class="dropdown-item" href="#">Great</a>
-                        <a class="dropdown-item" href="#">Good</a>
-                        <a class="dropdown-item" href="#">Worn</a>
-                        <a class="dropdown-item" href="#">Bad</a>
-                    </div>
-                  </div>
-                </dd>
+                    <dt class="col-sm-3">Condition: </dt>
+                    <dd class="col-sm-9">
+                        <div class="dropdown">
+                            <select id="condition" name="condition">
+                                <option value="New">New</option>
+                                <option value="Great">Great</option>
+                                <option value="Good">Good</option>
+                                <option value="Worn">Worn</option>
+                                <option value="Bad">Bad</option>
+                            </select>
+                        </div>
+                    </dd>
 
-                <dt class="col-sm-3">Insitution: </dt>
-                <dd class="col-sm-9">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        University
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">UMass Amherst</a>
-                        <a class="dropdown-item" href="#">Amherst College</a>
-                        <a class="dropdown-item" href="#">Smith College</a>
-                        <a class="dropdown-item" href="#">Mount Holyoke College</a>
-                        <a class="dropdown-item" href="#">Hampshire College</a>
-                    </div>
-                  </div>
-                </dd>
+                    <dt class="col-sm-3">Insitution: </dt>
+                    <dd class="col-sm-9">
+                        <div class="dropdown">
+                            <select id="institution" name="institution">
+                                <option value="N/A">N/A</option>
+                                <option value="UMass">UMass Amherst</option>
+                                <option value="Amherst">Amherst College</option>
+                                <option value="Smith">Smith College</option>
+                                <option value="MountHolyoke">Mount Holyoke College</option>
+                                <option value="Hampshire">Hampshire College</option>
+                            </select>
+                        </div>
+                    </dd>
 
-                <dt class="col-sm-3">Course Subject: </dt>
-                <dd class="col-sm-9" ><input type="text" id="courseSubject"></dd>
+                    <dt class="col-sm-3">Course Subject: </dt>
+                    <dd class="col-sm-9" ><input type="text" id="courseSubject"></dd>
 
-                <dt class="col-sm-3">Course Number: </dt>
-                <dd class="col-sm-9" ><input type="text" id="courseNumber"></dd>
+                    <dt class="col-sm-3">Course Number: </dt>
+                    <dd class="col-sm-9" ><input type="text" id="courseNumber"></dd>
 
-            </dl>
-            <br>
-            <button type="button" class="btn btn-primary btn-sm" id="getPriceEst" data-toggle="modal" data-target="#getPrice">Next</button>
+                </dl>
+                <br>
+                <button type="submit" class="btn btn-primary btn-sm" id="getPriceEst">Next</button>
+            </form>
             <br><br>
         </div>
-        <div class="modal fade" id="getPrice" tabindex="-1" role="dialog" aria-labelledby="getPriceModal" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-body">
-                    <p id="amznPrice">Amazon Used Price: $<b>27</b></p><br>
-                    <label> Your Price: $</label>
-                    <input type="text" id="price"><br>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Post Book</button>
-                </div>
-                </div>
-            </div>
-        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -1,3 +1,5 @@
+import { throws } from "assert";
+
 let http = require('http');
 let url = require('url');
 let express = require('express');
@@ -52,6 +54,12 @@ export class Server {
             res.type('html');
             res.sendFile('verifyOTP.html', {root: "./static"});
         });
+        this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
+        this.router.get('/setPrice/', function(req, res){
+            res.type('html');
+            res.sendFile('setPrice.html', {root: "./static"});
+        });
+        this.router.post('/postBook/', this.addBookHandler.bind(this));
     }   
     
     private getServer() {
@@ -80,6 +88,8 @@ export class Server {
             "bRating": 3.5 }));
         response.end();
     }
+
+    // dummy handler for checking if account exists
     private async checkNewAccount(request, response) : Promise<void> {
         var email = request.body.email;
         // Check if email exists in db. If it does, return failure. 
@@ -91,7 +101,26 @@ export class Server {
         }));
         response.end();
     }
+
+    // dummy handler that gets Amazon price using the scraper
+    private async amazonPriceHandler(request, response) : Promise<void> {
+        var isbn = request.body.isbn;
+        // send isbn and/or other data to the amazon scraper, get price
+        var bookPrice = {'price': 27};
+        response.write(JSON.stringify(bookPrice));
+        response.end();
+    }
+
+    // dummy handler that posts book and sends response
+    private async addBookHandler(request, response) : Promise<void> {
+        var bookData = request.body;
+        // send bookDat to the set of books, update user blah blah
+        response.write(JSON.stringify({status: "success"}));
+        response.end();
+    }
+
     public listen(port) : void {
         return this.server.listen(port);
     }
+
 }
