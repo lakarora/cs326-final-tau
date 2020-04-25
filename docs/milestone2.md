@@ -1,7 +1,8 @@
 
-# API Description  
-  
-  
+# API Flow Diagram
+
+![image](./resources/milestone2/apiFlow.jpg)
+
 
 # Client Interface  
 
@@ -30,10 +31,14 @@ This page allows you to rate a user which you have traded a book with. It allows
 
 For this milestone the work had been divided as such:  
 
-- Lakshay Arora - Login and Sign Up and OTP  
-- Nishade Ranade - Sell Book, My Profile  
+- Lakshay Arora - Login, Sign Up and OTP  
+- Nishad Ranade - Sell Book, My Profile
 - Nathan Grant - Search book, User Ratings  
   
-  
 
-Lakshay started by creating the server files and making a skeleton for the login and sign up functionalities. He then set up the routing for the account options page and set up browser cookies for the username. Nishade implemented the profile page with a dummy request-response handler. He also implemented the javascript for the select action page, used after you log in. Nathan did the search book page and set it up so that the server just returns a dummy response variable. He also did the rate user page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the options page.
+**Lakshay** set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs.
+
+ 
+**Nishad** started with the Options page, and then implemented the My Profile with a dummy request-response handler, which grabs your own information from the database. Also did the Sell Book page, where a user can input book details, make a request to the server to get the Amazon Used Price for the book through a scraper, decide the price of the posted book based on that, and then post the book for sale.
+
+**Nathan** did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page.
