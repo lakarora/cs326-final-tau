@@ -1,0 +1,29 @@
+{
+  "name": "cs326-final-tau",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lakarora/cs326-final-tau.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lakarora/cs326-final-tau/issues"
+  },
+  "homepage": "https://github.com/lakarora/cs326-final-tau#readme",
+  "devDependencies": {
+    "@types/node": "^13.13.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

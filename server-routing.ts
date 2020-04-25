@@ -80,7 +80,10 @@ export class Server {
     }
 
     private async searchBookHandler(request,response) : Promise<void> {
-        let searchQuery = request.body.searchQuery;
+        let searchQuery = request.body.query;
+        /* 
+            variables for picture title description condition... ect. will be used to get info from database
+        */
         response.write(JSON.stringify({
             'result': "success",
             'searchResults': [{
