@@ -86,6 +86,7 @@ async function postBook(): Promise<void> {
         if(sessionStorage.getItem("sellBookData") == null){
            alert("Please Enter Book Information");
            location.replace(myURL + 'sell/');
+           return;
         } 
         var username = parseCookie(document.cookie).username;
         var bookData = JSON.parse(sessionStorage.getItem("sellBookData"));
