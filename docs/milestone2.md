@@ -24,7 +24,7 @@ This page allows you to rate a user which you have traded a book with. It allows
 
 # Application URL  
 
-[Passage on Heroku](URL)  
+[Passage on Heroku](https://enigmatic-bastion-90313.herokuapp.com/)  
   
 
 # Work Breakdown  
@@ -36,7 +36,7 @@ For this milestone the work had been divided as such:
 - Nathan Grant - Search book, User Ratings  
   
 
-**Lakshay** set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs.
+**Lakshay** set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs. Deployed the project on Heroku.
  
 **Nishad** started with the Options page, and then implemented the My Profile with a dummy request-response handler, which grabs your own information from the database. Also did the Sell Book page, where a user can input book details, make a request to the server to get the Amazon Used Price for the book through a scraper, decide the price of the posted book based on that, and then post the book for sale.
  
