@@ -35,25 +35,25 @@
 The image below is a picture from our Whimsical project, which shows the different HTML pages in our app, and has arrows from buttons to the pages they redirect to.
 
 <!-- ![image](https://github.com/lakarora/cs326-final-tau/blob/master/docs/resources/wireframes.png) -->
-![image](./resources/wireframes.png)
+![image](./resources/milestone1/wireframes.png)
 
 # HTML & CSS 
 * Created the front-end for all the pages in our website flow from the wireframes. Here are a few samples-
 1. Home page.
 
-![image](./resources/home.png)
+![image](./resources/milestone1/home.png)
 
 2. Create Account Page Email Verification Pop-up
 
-![image](./resources/createAccPop.png)
+![image](./resources/milestone1/createAccPop.png)
 
 3. The Messages section 
 
-![image](./resources/message.png)
+![image](./resources/milestone1/message.png)
 
 4. Make a posting for a book you want to sell
 
-![image](./resources/sellBook.png)
+![image](./resources/milestone1/sellBook.png)
 
 *\*Note that the screenshots above are just a sample of all the webpages designed*
 # Work Breakdown
