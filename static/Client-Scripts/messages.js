@@ -37,26 +37,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var myURL = "http://localhost:8080/";
 var conversations = [];
 var selected = 0;
-/*
-messageData = {
-    'result': 'success',
-    'conversations': [
-        {
-            'username':____
-            'date': ___
-            'messages': [
-                {
-                    'type': 'received',
-                    'content': 'Hello can i buy the bio book?'
-                }
-            ]
-        }
-    ]
-}
-*/
+conversations = [
+    {
+        'username': 'Nathan',
+        'date': 'April 26',
+        'messages': [
+            {
+                'type': 'received',
+                'content': 'Hello can i buy the bio book?'
+            }
+        ]
+    },
+    {
+        'username': 'Nishad',
+        'date': 'April 24',
+        'messages': [
+            {
+                'type': 'sent',
+                'content': 'I saw the posting for the cs book would you be willing to negotiate?'
+            }
+        ]
+    }
+];
 window.onload = function () {
     var sm = document.getElementById('send-message-button');
     sm.addEventListener('click', sendMessage);
+    var cb = document.getElementById('conversation');
+    cb.addEventListener('click', selectConversation);
     loadConversations();
 };
 var parseCookie = function (str) {
@@ -70,46 +77,20 @@ var parseCookie = function (str) {
 };
 function loadConversations() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, cookie, cookieObj, newURL_1, uname, resp, responseJson, i, toInsert, view, toInsert, view;
+        var newURL, responseJson, view, i, toInsert, toInsert, view_1;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    newURL = myURL + "messages/";
-                    cookie = document.cookie;
-                    if (cookie == "") {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    cookieObj = parseCookie(cookie);
-                    if (!(cookieObj.username == null)) return [3 /*break*/, 1];
-                    alert("Please Log In!");
-                    location.replace(myURL);
-                    return [3 /*break*/, 4];
-                case 1:
-                    newURL_1 = myURL + "messages/";
-                    uname = cookieObj.username;
-                    return [4 /*yield*/, fetch(newURL_1, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                'username': uname
-                            })
-                        })];
-                case 2:
-                    resp = _a.sent();
-                    return [4 /*yield*/, resp.json()];
-                case 3:
-                    responseJson = _a.sent();
-                    if (responseJson['result'] != 'success')
-                        alert("Error while sorting");
-                    else {
-                        alert("Sort stuff");
-                        conversations = responseJson['conversations'];
-                        if (conversations.length > 0) {
-                            for (i = 0; i < conversations.length; i++) {
-                                toInsert = "<a onclick='selectConversation(" + i + ")' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+            newURL = myURL + "messages/";
+            responseJson = {
+                'result': 'success'
+            };
+            if (responseJson['result'] != 'success')
+                alert("Error while sorting");
+            else {
+                view = document.getElementById('users-box');
+                view.innerHTML = "";
+                if (conversations.length > 0) {
+                    for (i = 0; i < conversations.length; i++) {
+                        toInsert = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
                                         <div class='media'> \
                                             <div class='media-body ml-4'> \
                                                 <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -118,28 +99,26 @@ function loadConversations() {
                                             </div> \
                                         </div> \
                                     </a>";
-                                view = document.getElementById('messages-box');
-                                view.insertAdjacentHTML('beforeend', toInsert);
-                            }
-                        }
-                        else {
-                            toInsert = "<p>No Messages</p>";
-                            view = document.getElementById('messages-box');
-                            view.insertAdjacentHTML('beforeend', toInsert);
-                        }
+                        view.insertAdjacentHTML('beforeend', toInsert);
                     }
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                }
+                else {
+                    toInsert = "<p>No Messages</p>";
+                    view_1 = document.getElementById('messages-box');
+                    view_1.insertAdjacentHTML('beforeend', toInsert);
+                }
             }
+            return [2 /*return*/];
         });
     });
 }
 function selectConversation(num) {
     selected = num;
+    console.log(num);
     for (var i = 0; i < conversations.length; i++) {
         var toInsert = "";
         if (i == num) {
-            var toInsert_1 = "<a onclick='selectConversation(" + i + ")' class='list-group-item list-group-item-action active text-white rounded-0'> \
+            var toInsert_1 = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action active text-white rounded-0'> \
                                 <div class='media'> \
                                     <div class='media-body ml-4'> \
                                         <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -150,7 +129,7 @@ function selectConversation(num) {
                             </a> ";
         }
         else {
-            var toInsert_2 = "<a onclick='selectConversation(" + i + ")' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+            var toInsert_2 = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
                                 <div class='media'> \
                                     <div class='media-body ml-4'> \
                                         <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -161,13 +140,15 @@ function selectConversation(num) {
                             </a> ";
         }
         var view = document.getElementById('messages-box');
+        view.innerHTML = "";
         view.insertAdjacentHTML('beforeend', toInsert);
-        for (var i_1 = 0; i_1 < conversations['messges'].length; i_1++) {
-            if (conversations['messages'][i_1] == 'received') {
-                displayWhiteMessage(conversations['messages'][i_1]['content']);
+        for (var i_1 = 0; i_1 < conversations[num]['messages'].length; i_1++) {
+            console.log(conversations[num]['messages'][i_1]['type']);
+            if (conversations[num]['messages'][i_1]['type'] == 'received') {
+                displayWhiteMessage(conversations[num]['messages'][i_1]['content']);
             }
             else {
-                displayBlueMessage(conversations['messages'][i_1]['content']);
+                displayBlueMessage(conversations[num]['messages'][i_1]['content']);
             }
         }
     }
@@ -175,23 +156,23 @@ function selectConversation(num) {
 function displayBlueMessage(message) {
     var toInsert = "<div class='media w-50 mb-3'> \
     <div class='media-body'> \
-        d<div class='bg-primary rounded py-2 px-3 mb-2'> \
+        <div class='bg-primary rounded py-2 px-3 mb-2'> \
             <p class='text-small mb-0 text-white'>" + message + "</p> \
             </div> \
         </div> \
     </div>";
-    var view = document.getElementById('message-box');
+    var view = document.getElementById('messages-box');
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 function displayWhiteMessage(message) {
     var toInsert = "<div class='media w-50 mb-3'> \
         <div class='media-body ml-3'> \
-            d<div class='bg-light rounded py-2 px-3 mb-2'> \
+            <div class='bg-light rounded py-2 px-3 mb-2'> \
                 <p class='text-small mb-0 text-muted'>" + message + "</p> \
             </div> \
         </div> \
     </div>";
-    var view = document.getElementById('message-box');
+    var view = document.getElementById('messages-box');
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 function sendMessage() {

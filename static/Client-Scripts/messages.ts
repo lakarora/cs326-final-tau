@@ -2,27 +2,36 @@ let myURL = "http://localhost:8080/";
 
 let conversations = [];
 let selected = 0;
-/*
-messageData = {
-    'result': 'success',
-    'conversations': [
+
+conversations = [
         {
-            'username':____
-            'date': ___
+            'username': 'Nathan',
+            'date': 'April 26',
             'messages': [
                 {
                     'type': 'received',
                     'content': 'Hello can i buy the bio book?'
                 }
             ]
+        }, 
+        {
+            'username': 'Nishad',
+            'date': 'April 24',
+            'messages': [
+                {
+                    'type': 'sent',
+                    'content': 'I saw the posting for the cs book would you be willing to negotiate?'
+                }
+            ]
         }
-    ]
-}
-*/
+    ];
+
 
 window.onload = function(){
     let sm = document.getElementById('send-message-button');
     sm.addEventListener('click', sendMessage);
+    let cb = document.getElementById('conversation');
+    cb.addEventListener('click',selectConversation);
     loadConversations();
 }
 
@@ -37,6 +46,7 @@ let parseCookie = str =>
 
 async function loadConversations() {
     const newURL = myURL + "messages/";
+    /*
     var cookie = document.cookie;
     if(cookie == ""){
         alert("Please Log In!");
@@ -49,7 +59,7 @@ async function loadConversations() {
     } else {
         const newURL = myURL + "messages/";
         let uname = cookieObj.username;
-    
+        
         const resp = await fetch(newURL, 
             {
                 method: 'POST',
@@ -63,15 +73,19 @@ async function loadConversations() {
                 )
             });
         const responseJson = await resp.json(); 
-
+        */
+        const responseJson ={
+            'result': 'success'
+        }
         if(responseJson['result'] != 'success')
             alert("Error while sorting");
         else {
-            alert("Sort stuff");
-            conversations = responseJson['conversations'];
+            //conversations = responseJson['conversations'];
+            let view = document.getElementById('users-box');
+            view.innerHTML ="";
             if (conversations.length > 0) {
                 for (let i = 0;i < conversations.length; i++) {
-                    let toInsert = "<a onclick='selectConversation("+i+")' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+                    let toInsert = "<a onclick='selectConversation("+i+")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
                                         <div class='media'> \
                                             <div class='media-body ml-4'> \
                                                 <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -81,7 +95,7 @@ async function loadConversations() {
                                         </div> \
                                     </a>";
                     
-                    let view = document.getElementById('messages-box');
+                    
                     view.insertAdjacentHTML('beforeend', toInsert);
                 }
             } else {
@@ -90,15 +104,16 @@ async function loadConversations() {
                 view.insertAdjacentHTML('beforeend', toInsert);
             }   
         }
-    }
+    //}
 }
 
 function selectConversation(num) {
     selected = num;
+    console.log(num);
     for (let i = 0;i < conversations.length; i++) {
         let toInsert = "";
         if (i == num) {
-            let toInsert = "<a onclick='selectConversation("+i+")' class='list-group-item list-group-item-action active text-white rounded-0'> \
+            let toInsert = "<a onclick='selectConversation("+i+")' id='conversation' class='list-group-item list-group-item-action active text-white rounded-0'> \
                                 <div class='media'> \
                                     <div class='media-body ml-4'> \
                                         <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -108,7 +123,7 @@ function selectConversation(num) {
                                 </div> \
                             </a> ";
         } else {
-            let toInsert = "<a onclick='selectConversation("+i+")' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+            let toInsert = "<a onclick='selectConversation("+i+")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
                                 <div class='media'> \
                                     <div class='media-body ml-4'> \
                                         <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -119,41 +134,44 @@ function selectConversation(num) {
                             </a> ";
         }
         let view = document.getElementById('messages-box');
+        view.innerHTML ="";
         view.insertAdjacentHTML('beforeend', toInsert);
 
-        for (let i = 0; i < conversations['messges'].length; i++) {
-            if (conversations['messages'][i] == 'received') {
-                displayWhiteMessage(conversations['messages'][i]['content']);
+        for (let i = 0; i < conversations[num]['messages'].length; i++) {
+            console.log(conversations[num]['messages'][i]['type']);
+            if (conversations[num]['messages'][i]['type'] == 'received') {
+                displayWhiteMessage(conversations[num]['messages'][i]['content']);
             } else {
-                displayBlueMessage(conversations['messages'][i]['content']);
+                displayBlueMessage(conversations[num]['messages'][i]['content']);
             }
         }
+
     }
 }
 
 function displayBlueMessage(message) {
     let toInsert = "<div class='media w-50 mb-3'> \
     <div class='media-body'> \
-        d<div class='bg-primary rounded py-2 px-3 mb-2'> \
+        <div class='bg-primary rounded py-2 px-3 mb-2'> \
             <p class='text-small mb-0 text-white'>" + message + "</p> \
             </div> \
         </div> \
     </div>";
 
-    let view = document.getElementById('message-box');
+    let view = document.getElementById('messages-box');
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 
 function displayWhiteMessage(message) {
     let toInsert = "<div class='media w-50 mb-3'> \
         <div class='media-body ml-3'> \
-            d<div class='bg-light rounded py-2 px-3 mb-2'> \
+            <div class='bg-light rounded py-2 px-3 mb-2'> \
                 <p class='text-small mb-0 text-muted'>" + message + "</p> \
             </div> \
         </div> \
     </div>";
 
-    let view = document.getElementById('message-box');
+    let view = document.getElementById('messages-box');
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 
@@ -177,6 +195,6 @@ function sendMessage() {
                 )
             }
         );
-        
+
     })
 }
