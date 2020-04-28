@@ -1,9 +1,9 @@
 let myURL = "http://localhost:8080/";
 
-let conversations = [];
+//let conversations = [];
 let selected = 0;
 
-conversations = [
+let conversations = [
         {
             'username': 'Nathan',
             'date': 'April 26',
@@ -11,6 +11,10 @@ conversations = [
                 {
                     'type': 'received',
                     'content': 'Hello can i buy the bio book?'
+                },
+                {
+                    'type': 'sent',
+                    'content': 'Ya totally are you good with the price?'
                 }
             ]
         }, 
@@ -109,7 +113,6 @@ async function loadConversations() {
 
 function selectConversation(num) {
     selected = num;
-    console.log(num);
     for (let i = 0;i < conversations.length; i++) {
         let toInsert = "";
         if (i == num) {
@@ -138,7 +141,6 @@ function selectConversation(num) {
         view.insertAdjacentHTML('beforeend', toInsert);
 
         for (let i = 0; i < conversations[num]['messages'].length; i++) {
-            console.log(conversations[num]['messages'][i]['type']);
             if (conversations[num]['messages'][i]['type'] == 'received') {
                 displayWhiteMessage(conversations[num]['messages'][i]['content']);
             } else {
@@ -150,7 +152,7 @@ function selectConversation(num) {
 }
 
 function displayBlueMessage(message) {
-    let toInsert = "<div class='media w-50 mb-3'> \
+    let toInsert = "<div class='media w-50 ml-auto mb-3'> \
     <div class='media-body'> \
         <div class='bg-primary rounded py-2 px-3 mb-2'> \
             <p class='text-small mb-0 text-white'>" + message + "</p> \
@@ -175,11 +177,12 @@ function displayWhiteMessage(message) {
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 
-function sendMessage() {
-    (async () => {
+async function sendMessage() {
+    //(async () => {
         let message = (<HTMLInputElement>document.getElementById("send-message-bar")).value;
-        displayBlueMessage(message);
-
+        (<HTMLInputElement>document.getElementById("send-message-bar")).value = "";
+        console.log(message);
+        /*
         const newURL = myURL + "messages/";
         const resp = await fetch(newURL, 
             {
@@ -189,12 +192,17 @@ function sendMessage() {
                 },
                 body: JSON.stringify(
                     {
-                        'user': conversations['messages'][selected]['content'],
+                        'user': conversations[selected]['messages']['content'],
                         'message': message
                     }
                 )
             }
         );
-
-    })
+        */
+        conversations[selected]['messages'].push({
+            'type': 'sent',
+            'content': message
+        });
+        displayBlueMessage(message);
+    //})
 }

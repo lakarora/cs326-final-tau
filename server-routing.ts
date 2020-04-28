@@ -33,6 +33,11 @@ export class Server {
             res.type('.html');
             res.sendFile('createAccount.html', { root: "./static" });
         });
+        this.server.post('/messages/', this.messagesHandler.bind(this));
+        this.server.get('/messages', function(req, res) {
+            res.type('.html');
+            res.sendFile('messages.html', { root: "./static" });
+        });
         this.server.post('/search/', this.searchBookHandler.bind(this));
         this.server.get('/search/', function(req, res) {
             res.type('.html');
@@ -69,6 +74,41 @@ export class Server {
     private getServer() {
         return this.server;
     }
+
+    private async messagesHandler(request, response) : Promise<void> {
+        let user = request.body.user;
+
+        response.write(JSON.stringify({
+            'result': 'success',
+            'conversations': [
+                    {
+                        'username': 'Nathan',
+                        'date': 'April 26',
+                        'messages': [
+                            {
+                                'type': 'received',
+                                'content': 'Hello can i buy the bio book?'
+                            },
+                            {
+                                'type': 'sent',
+                                'content': 'Ya totally are you good with the price?'
+                            }
+                        ]
+                    }, 
+                    {
+                        'username': 'Nishad',
+                        'date': 'April 24',
+                        'messages': [
+                            {
+                                'type': 'sent',
+                                'content': 'I saw the posting for the cs book would you be willing to negotiate?'
+                            }
+                        ]
+                    }
+                ]
+        }));
+    }
+
     private async registerUser(request, response) : Promise<void> {
         // Return dummy value for now
         response.write(JSON.stringify({

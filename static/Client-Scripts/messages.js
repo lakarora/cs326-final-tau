@@ -35,9 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var myURL = "http://localhost:8080/";
-var conversations = [];
+//let conversations = [];
 var selected = 0;
-conversations = [
+var conversations = [
     {
         'username': 'Nathan',
         'date': 'April 26',
@@ -45,6 +45,10 @@ conversations = [
             {
                 'type': 'received',
                 'content': 'Hello can i buy the bio book?'
+            },
+            {
+                'type': 'sent',
+                'content': 'Ya totally are you good with the price?'
             }
         ]
     },
@@ -114,7 +118,6 @@ function loadConversations() {
 }
 function selectConversation(num) {
     selected = num;
-    console.log(num);
     for (var i = 0; i < conversations.length; i++) {
         var toInsert = "";
         if (i == num) {
@@ -143,7 +146,6 @@ function selectConversation(num) {
         view.innerHTML = "";
         view.insertAdjacentHTML('beforeend', toInsert);
         for (var i_1 = 0; i_1 < conversations[num]['messages'].length; i_1++) {
-            console.log(conversations[num]['messages'][i_1]['type']);
             if (conversations[num]['messages'][i_1]['type'] == 'received') {
                 displayWhiteMessage(conversations[num]['messages'][i_1]['content']);
             }
@@ -154,7 +156,7 @@ function selectConversation(num) {
     }
 }
 function displayBlueMessage(message) {
-    var toInsert = "<div class='media w-50 mb-3'> \
+    var toInsert = "<div class='media w-50 ml-auto mb-3'> \
     <div class='media-body'> \
         <div class='bg-primary rounded py-2 px-3 mb-2'> \
             <p class='text-small mb-0 text-white'>" + message + "</p> \
@@ -176,29 +178,35 @@ function displayWhiteMessage(message) {
     view.insertAdjacentHTML('beforeend', toInsert);
 }
 function sendMessage() {
-    var _this = this;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        var message, newURL, resp;
+    return __awaiter(this, void 0, void 0, function () {
+        var message;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    message = document.getElementById("send-message-bar").value;
-                    displayBlueMessage(message);
-                    newURL = myURL + "messages/";
-                    return [4 /*yield*/, fetch(newURL, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                'user': conversations['messages'][selected]['content'],
-                                'message': message
-                            })
-                        })];
-                case 1:
-                    resp = _a.sent();
-                    return [2 /*return*/];
-            }
+            message = document.getElementById("send-message-bar").value;
+            document.getElementById("send-message-bar").value = "";
+            console.log(message);
+            /*
+            const newURL = myURL + "messages/";
+            const resp = await fetch(newURL,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(
+                        {
+                            'user': conversations[selected]['messages']['content'],
+                            'message': message
+                        }
+                    )
+                }
+            );
+            */
+            conversations[selected]['messages'].push({
+                'type': 'sent',
+                'content': message
+            });
+            displayBlueMessage(message);
+            return [2 /*return*/];
         });
-    }); });
+    });
 }
