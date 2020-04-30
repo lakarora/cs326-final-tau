@@ -68,6 +68,8 @@ window.onload = function () {
     sm.addEventListener('click', sendMessage);
     var cb = document.getElementById('conversation');
     cb.addEventListener('click', selectConversation);
+    var ai = document.getElementById('account-info');
+    ai.addEventListener('click', accountInfo);
     loadConversations();
 };
 var parseCookie = function (str) {
@@ -79,6 +81,16 @@ var parseCookie = function (str) {
         return acc;
     }, {});
 };
+function accountInfo() {
+    return __awaiter(this, void 0, void 0, function () {
+        var newURL;
+        return __generator(this, function (_a) {
+            newURL = myURL + "accountInfo/";
+            window.open(newURL, "_self");
+            return [2 /*return*/];
+        });
+    });
+}
 function loadConversations() {
     return __awaiter(this, void 0, void 0, function () {
         var newURL, responseJson, view, i, toInsert, toInsert, view_1;

@@ -1,8 +1,8 @@
-let myURL = "http://localhost:8080/";
+const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 
-//let conversations = [];
+let conversations = [];
 let selected = 0;
-
+/*
 let conversations = [
         {
             'username': 'Nathan',
@@ -29,7 +29,7 @@ let conversations = [
             ]
         }
     ];
-
+*/
 
 window.onload = function(){
     let sm = document.getElementById('send-message-button');
@@ -50,7 +50,6 @@ let parseCookie = str =>
 
 async function loadConversations() {
     const newURL = myURL + "messages/";
-    /*
     var cookie = document.cookie;
     if(cookie == ""){
         alert("Please Log In!");
@@ -77,14 +76,11 @@ async function loadConversations() {
                 )
             });
         const responseJson = await resp.json(); 
-        */
-        const responseJson ={
-            'result': 'success'
-        }
+
         if(responseJson['result'] != 'success')
             alert("Error while sorting");
         else {
-            //conversations = responseJson['conversations'];
+            conversations = responseJson['conversations'];
             let view = document.getElementById('users-box');
             view.innerHTML ="";
             if (conversations.length > 0) {
@@ -108,7 +104,7 @@ async function loadConversations() {
                 view.insertAdjacentHTML('beforeend', toInsert);
             }   
         }
-    //}
+    }
 }
 
 function selectConversation(num) {
