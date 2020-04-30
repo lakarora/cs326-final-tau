@@ -35,6 +35,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+window.onload = function () {
+    var sb = document.getElementById("searchBtn");
+    sb.addEventListener("click", searchBook);
+};
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -60,13 +64,41 @@ function postData(url, data) {
 }
 function searchBook() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, title, resp;
+        var newURL, data, resp;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    newURL = myURL + "search/";
-                    title = document.getElementById("title").value;
-                    return [4 /*yield*/, postData(newURL, { query: title })];
+                    newURL = myURL + "/search/";
+                    data = {};
+                    if (document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
+                        alert("Can only check 1");
+                        return [2 /*return*/];
+                    }
+                    else if (!document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
+                        alert("You must select an option!");
+                        return [2 /*return*/];
+                    }
+                    else if (document.getElementById("searchByBook").checked) {
+                        data = {
+                            'type': 'byBook',
+                            'query': {
+                                'title': document.getElementById("title").value,
+                                'isbn': document.getElementById("isbn").value,
+                                'author': document.getElementById("author").value
+                            }
+                        };
+                    }
+                    else {
+                        data = {
+                            'type': 'byCourse',
+                            'query': {
+                                'title': document.getElementById("dropdownMenuButton").value,
+                                'isbn': document.getElementById("courseSubject").value,
+                                'author': document.getElementById("courseNumber").value
+                            }
+                        };
+                    }
+                    return [4 /*yield*/, postData(newURL, data)];
                 case 1:
                     resp = _a.sent();
                     return [2 /*return*/];

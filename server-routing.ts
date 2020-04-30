@@ -41,7 +41,7 @@ export class Server {
         this.server.post('/search/', this.searchBookHandler.bind(this));
         this.server.get('/search/', function(req, res) {
             res.type('.html');
-            res.sendFile('searchBook.html', { root: "./static" });
+            res.sendFile('searchResults.html', { root: "./static" });
         });
         this.server.get('/sell/', function(req, res) {
             res.type('.html');
@@ -128,6 +128,8 @@ export class Server {
     }
 
     private async searchBookHandler(request,response) : Promise<void> {
+        let searchType = request.body.type;
+        
         let searchQuery = request.body.query;
         /* 
             variables for picture title description condition... ect. will be used to get info from database

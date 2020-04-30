@@ -34,42 +34,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "http://localhost:8080/";
-//let conversations = [];
+var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var conversations = [];
 var selected = 0;
-var conversations = [
-    {
-        'username': 'Nathan',
-        'date': 'April 26',
-        'messages': [
-            {
-                'type': 'received',
-                'content': 'Hello can i buy the bio book?'
-            },
-            {
-                'type': 'sent',
-                'content': 'Ya totally are you good with the price?'
-            }
-        ]
-    },
-    {
-        'username': 'Nishad',
-        'date': 'April 24',
-        'messages': [
-            {
-                'type': 'sent',
-                'content': 'I saw the posting for the cs book would you be willing to negotiate?'
-            }
-        ]
-    }
-];
+/*
+let conversations = [
+        {
+            'username': 'Nathan',
+            'date': 'April 26',
+            'messages': [
+                {
+                    'type': 'received',
+                    'content': 'Hello can i buy the bio book?'
+                },
+                {
+                    'type': 'sent',
+                    'content': 'Ya totally are you good with the price?'
+                }
+            ]
+        },
+        {
+            'username': 'Nishad',
+            'date': 'April 24',
+            'messages': [
+                {
+                    'type': 'sent',
+                    'content': 'I saw the posting for the cs book would you be willing to negotiate?'
+                }
+            ]
+        }
+    ];
+*/
 window.onload = function () {
     var sm = document.getElementById('send-message-button');
     sm.addEventListener('click', sendMessage);
     var cb = document.getElementById('conversation');
     cb.addEventListener('click', selectConversation);
-    var ai = document.getElementById('account-info');
-    ai.addEventListener('click', accountInfo);
     loadConversations();
 };
 var parseCookie = function (str) {
@@ -81,32 +81,49 @@ var parseCookie = function (str) {
         return acc;
     }, {});
 };
-function accountInfo() {
-    return __awaiter(this, void 0, void 0, function () {
-        var newURL;
-        return __generator(this, function (_a) {
-            newURL = myURL + "accountInfo/";
-            window.open(newURL, "_self");
-            return [2 /*return*/];
-        });
-    });
-}
 function loadConversations() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, responseJson, view, i, toInsert, toInsert, view_1;
+        var newURL, cookie, cookieObj, newURL_1, uname, resp, responseJson, view, i, toInsert, toInsert, view_1;
         return __generator(this, function (_a) {
-            newURL = myURL + "messages/";
-            responseJson = {
-                'result': 'success'
-            };
-            if (responseJson['result'] != 'success')
-                alert("Error while sorting");
-            else {
-                view = document.getElementById('users-box');
-                view.innerHTML = "";
-                if (conversations.length > 0) {
-                    for (i = 0; i < conversations.length; i++) {
-                        toInsert = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+            switch (_a.label) {
+                case 0:
+                    newURL = myURL + "messages/";
+                    cookie = document.cookie;
+                    if (cookie == "") {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    cookieObj = parseCookie(cookie);
+                    if (!(cookieObj.username == null)) return [3 /*break*/, 1];
+                    alert("Please Log In!");
+                    location.replace(myURL);
+                    return [3 /*break*/, 4];
+                case 1:
+                    newURL_1 = myURL + "messages/";
+                    uname = cookieObj.username;
+                    return [4 /*yield*/, fetch(newURL_1, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                'username': uname
+                            })
+                        })];
+                case 2:
+                    resp = _a.sent();
+                    return [4 /*yield*/, resp.json()];
+                case 3:
+                    responseJson = _a.sent();
+                    if (responseJson['result'] != 'success')
+                        alert("Error while sorting");
+                    else {
+                        conversations = responseJson['conversations'];
+                        view = document.getElementById('users-box');
+                        view.innerHTML = "";
+                        if (conversations.length > 0) {
+                            for (i = 0; i < conversations.length; i++) {
+                                toInsert = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
                                         <div class='media'> \
                                             <div class='media-body ml-4'> \
                                                 <div class='d-flex align-items-center justify-content-between mb-1'> \
@@ -115,16 +132,18 @@ function loadConversations() {
                                             </div> \
                                         </div> \
                                     </a>";
-                        view.insertAdjacentHTML('beforeend', toInsert);
+                                view.insertAdjacentHTML('beforeend', toInsert);
+                            }
+                        }
+                        else {
+                            toInsert = "<p>No Messages</p>";
+                            view_1 = document.getElementById('messages-box');
+                            view_1.insertAdjacentHTML('beforeend', toInsert);
+                        }
                     }
-                }
-                else {
-                    toInsert = "<p>No Messages</p>";
-                    view_1 = document.getElementById('messages-box');
-                    view_1.insertAdjacentHTML('beforeend', toInsert);
-                }
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
             }
-            return [2 /*return*/];
         });
     });
 }
