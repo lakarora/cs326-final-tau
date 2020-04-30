@@ -119,7 +119,6 @@ function filterResults() {
                     if (responseJson['result'] != 'success')
                         alert("Error while sorting");
                     else {
-                        alert("Sort stuff");
                         r = responseJson['searchResults'];
                         /*
                             Each search result will have a json object with:
@@ -177,6 +176,7 @@ function searchBook() {
             switch (_a.label) {
                 case 0:
                     searchQuery = document.getElementById("search-bar-main").value;
+                    console.log(searchQuery);
                     newURL = myURL + "search/";
                     return [4 /*yield*/, fetch(newURL, {
                             method: 'POST',

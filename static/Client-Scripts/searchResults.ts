@@ -79,7 +79,6 @@ async function filterResults() {
     if(responseJson['result'] != 'success')
         alert("Error while sorting");
      else {
-        alert("Sort stuff");
         let r = responseJson['searchResults'];
         /*
             Each search result will have a json object with:
@@ -135,7 +134,7 @@ function searchBook() {
 
         // Cast because TypeScript takes it as HTMLElement which does not have value field
         let searchQuery = (<HTMLInputElement>document.getElementById("search-bar-main")).value;
-        
+        console.log(searchQuery);
         const newURL = myURL + "search/";
         const resp = await fetch(newURL, 
             {
