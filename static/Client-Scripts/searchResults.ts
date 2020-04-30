@@ -3,8 +3,6 @@ const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 let searchQuery = "";
 
 window.onload=function(){
-    let sb = document.getElementById("searchButton");
-    sb.addEventListener("click", searchBook);
     let sp= document.getElementById("max-price-filter");
     (<HTMLInputElement>sp).value = '600';
     sp.addEventListener("change", adjustMaxPrice);
@@ -13,6 +11,7 @@ window.onload=function(){
     sr.addEventListener("change", adjustSellerRating);
     let fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
+    displayBooks(sessionStorage.getItem('searchResults'));
 }
 
 function adjustSellerRating() {
@@ -57,7 +56,7 @@ async function filterResults() {
     if ((<HTMLInputElement>document.getElementById("customCheck5")).checked) {
         cond.push("new");
     } 
-    const newURL = myURL + "search/";
+    const newURL = myURL + "/search/";
     const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -127,49 +126,5 @@ function displayBooks(r){
 
         view.insertAdjacentHTML('beforeend', toInsert);
     }
-}
-
-function searchBook() {
-    (async () => {
-
-        // Cast because TypeScript takes it as HTMLElement which does not have value field
-        let searchQuery = (<HTMLInputElement>document.getElementById("search-bar-main")).value;
-        console.log(searchQuery);
-        const newURL = myURL + "search/";
-        const resp = await fetch(newURL, 
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        'search': searchQuery
-                    }
-                )
-            });
-        const responseJson = await resp.json(); 
-        // Dummy code
-        
-        if(responseJson['result'] != 'success')
-            alert("Error while searching for book");
-        else {
-            let r = responseJson['searchResults'];
-            /*
-                Each search result will have a json object with:
-                    Title
-                    Picture url
-                    Description
-                    Price
-                    Condition
-                    Seller Name
-                    Link to their page
-                    Seller Rating
-
-            */
-
-            displayBooks(r);
-        }
-    })()
 }
 

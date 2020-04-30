@@ -37,8 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var searchQuery = "";
 window.onload = function () {
-    var sb = document.getElementById("searchButton");
-    sb.addEventListener("click", searchBook);
     var sp = document.getElementById("max-price-filter");
     sp.value = '600';
     sp.addEventListener("change", adjustMaxPrice);

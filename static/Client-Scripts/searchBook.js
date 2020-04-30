@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var myURL = "https://localhost:8080/";
 window.onload = function () {
     var sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
@@ -70,11 +70,7 @@ function searchBook() {
                 case 0:
                     newURL = myURL + "/search/";
                     data = {};
-                    if (document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
-                        alert("Can only check 1");
-                        return [2 /*return*/];
-                    }
-                    else if (!document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
+                    if (!document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
                         alert("You must select an option!");
                         return [2 /*return*/];
                     }

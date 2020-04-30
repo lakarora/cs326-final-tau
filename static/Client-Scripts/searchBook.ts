@@ -22,13 +22,10 @@ async function postData(url : string, data: any) {
  
 }
 
-async function searchBook(): Promise<void> {
+async function searchBook(){
     const newURL = myURL + "/search/";
     let data = {};
-    if ((<HTMLInputElement>document.getElementById("searchByBook")).checked && !(<HTMLInputElement>document.getElementById("searchByCourse")).checked) {
-        alert("Can only check 1");
-        return;
-    } else if (!(<HTMLInputElement>document.getElementById("searchByBook")).checked && !(<HTMLInputElement>document.getElementById("searchByCourse")).checked){
+    if (!(<HTMLInputElement>document.getElementById("searchByBook")).checked && !(<HTMLInputElement>document.getElementById("searchByCourse")).checked){
         alert("You must select an option!");
         return;
     } else if ((<HTMLInputElement>document.getElementById("searchByBook")).checked){
@@ -51,5 +48,13 @@ async function searchBook(): Promise<void> {
         }
     } 
     var resp = await postData(newURL, data);
+    const responseJson = await resp.json(); 
+    if (responseJson['result'] != 'success'){
+        alert('Couldnt connect to server');
+    } else {
+        sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
+        window.open(myURL+'/seachResults.html', "_self");
+    }
+    
 }
 
