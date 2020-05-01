@@ -34,7 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var myURL = "http://localhost:8080/";
 var searchQuery = "";
 window.onload = function () {
     var sp = document.getElementById("max-price-filter");
@@ -45,6 +46,7 @@ window.onload = function () {
     sr.addEventListener("change", adjustSellerRating);
     var fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
+    displayBooks(sessionStorage.getItem('searchResults'));
 };
 function adjustSellerRating() {
     var sellerRating = document.getElementById("seller-rating-filter").value;
@@ -95,7 +97,7 @@ function filterResults() {
                     if (document.getElementById("customCheck5").checked) {
                         cond.push("new");
                     }
-                    newURL = myURL + "search/";
+                    newURL = myURL + "/search/";
                     return [4 /*yield*/, fetch(newURL, {
                             method: 'POST',
                             headers: {
@@ -137,6 +139,8 @@ function filterResults() {
         });
     });
 }
+function messageUser(num) {
+}
 function displayBooks(r) {
     var view = document.getElementById('result-view');
     view.innerHTML = "";
@@ -161,56 +165,10 @@ function displayBooks(r) {
                     <img src='resources/star.png' alt='star' height='16px' width='16px'></img></h5> \
                 </div> </div> <div class='col'> \
                 <h5 style='padding-top:75%;'>$" + r[i]['price'] + "</h5> \
+                <h5 style='padding-top:5%;'>Amazon Price: $" + r[i]['amazonPrice'] + "140</h5> \
+                <button id='message-button' type='button' class='btn btn-primary' onclick='messageUser(" + i + ")'>Message</button> \
             </div>  \
         </div>";
         view.insertAdjacentHTML('beforeend', toInsert);
     }
-}
-function searchBook() {
-    var _this = this;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        var searchQuery, newURL, resp, responseJson, r;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    searchQuery = document.getElementById("search-bar-main").value;
-                    console.log(searchQuery);
-                    newURL = myURL + "search/";
-                    return [4 /*yield*/, fetch(newURL, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                'search': searchQuery
-                            })
-                        })];
-                case 1:
-                    resp = _a.sent();
-                    return [4 /*yield*/, resp.json()];
-                case 2:
-                    responseJson = _a.sent();
-                    // Dummy code
-                    if (responseJson['result'] != 'success')
-                        alert("Error while searching for book");
-                    else {
-                        r = responseJson['searchResults'];
-                        /*
-                            Each search result will have a json object with:
-                                Title
-                                Picture url
-                                Description
-                                Price
-                                Condition
-                                Seller Name
-                                Link to their page
-                                Seller Rating
-            
-                        */
-                        displayBooks(r);
-                    }
-                    return [2 /*return*/];
-            }
-        });
-    }); })();
 }

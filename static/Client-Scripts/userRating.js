@@ -34,8 +34,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var myURL = "http://localhost:8080/";
 window.onload = function () {
+    var userInfo = JSON.parse(sessionStorage.getItem("findUser"));
+    var username = document.getElementById("username");
+    username.innerHTML = userInfo.username;
+    var userInst = document.getElementById("userInstitute");
+    userInst.innerHTML = userInfo.institute;
+    var sRating = userInfo.sRating;
+    var bRating = userInfo.bRating;
     var sr = document.getElementById("giveSellerRating");
     sr.addEventListener("click", sellerRate);
     var br = document.getElementById("giveBuyerRating");

@@ -1,5 +1,7 @@
 import { userInfo } from "os";
-const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+const myURL = "http://localhost:8080/"
+
 
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);

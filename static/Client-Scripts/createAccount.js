@@ -36,7 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var myURL = "https://fathomless-sea-16239.herokuapp.com/";
+// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var myURL = "http://localhost:8080/";
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);
 };

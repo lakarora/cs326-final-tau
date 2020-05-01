@@ -34,7 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "https://localhost:8080/";
+// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
+var myURL = "http://localhost:8080/";
 window.onload = function () {
     var sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
@@ -64,7 +65,7 @@ function postData(url, data) {
 }
 function searchBook() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, data, resp;
+        var newURL, data, resp, responseJson;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -97,6 +98,16 @@ function searchBook() {
                     return [4 /*yield*/, postData(newURL, data)];
                 case 1:
                     resp = _a.sent();
+                    return [4 /*yield*/, resp.json()];
+                case 2:
+                    responseJson = _a.sent();
+                    if (responseJson['result'] != 'success') {
+                        alert('Couldnt connect to server');
+                    }
+                    else {
+                        sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
+                        window.open(myURL + '/seachResults.html', "_self");
+                    }
                     return [2 /*return*/];
             }
         });
