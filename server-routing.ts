@@ -141,7 +141,8 @@ export class Server {
                     'account-link': '#',
                     'account-name': 'Minutemen2021',
                     'seller-rating': '4.6',
-                    'price': '100'
+                    'price': '100',
+                    'amazonPrice': '140'
                 }]
             }));
             response.end();
@@ -156,15 +157,12 @@ export class Server {
                     'account-link': '#',
                     'account-name': 'Minutemen2021',
                     'seller-rating': '4.6',
-                    'price': '100'
+                    'price': '100',
+                    'amazonPrice': '140'
                 }]
             }));
             response.end();
         }
-        /* 
-            variables for picture title description condition... ect. will be used to get info from database
-        */
-
     }
 
     private async loginHandler(request, response) : Promise<void> {

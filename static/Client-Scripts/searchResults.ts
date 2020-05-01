@@ -94,6 +94,9 @@ async function filterResults() {
 
         displayBooks(r);
     }
+}
+
+function messageUser(num) {
 
 }
 
@@ -121,6 +124,8 @@ function displayBooks(r){
                     <img src='resources/star.png' alt='star' height='16px' width='16px'></img></h5> \
                 </div> </div> <div class='col'> \
                 <h5 style='padding-top:75%;'>$" + r[i]['price'] + "</h5> \
+                <h5 style='padding-top:5%;'>Amazon Price: $"+r[i]['amazonPrice']+"140</h5> \
+                <button id='message-button' type='button' class='btn btn-primary' onclick='messageUser("+i+")'>Message</button> \
             </div>  \
         </div>";
 

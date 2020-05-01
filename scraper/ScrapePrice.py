@@ -4,8 +4,13 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import json
+import random
 
 amazon_url = 'https://www.amazon.com/s?k='
+user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+               'MMozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
+               'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
+]
 
 def get_top_link(page):
     soup = BeautifulSoup(page.content)
@@ -20,7 +25,8 @@ def get_top_link(page):
 def get_page(URL):
     headers = requests.utils.default_headers()
     headers.update({
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0',
+        'User-Agent': user_agents[random.randint(0,2)],
+        'Referer': 'https://www.google.com/'
     })
     page = requests.get(URL, headers=headers)
     if page.status_code == 200:
@@ -46,6 +52,7 @@ class ScrapePrice:
         book_page = get_page(top_link)
         price = scrape_price(book_page)
         return price
+
 
 if __name__ == "__main__": 
     s = ScrapePrice()
