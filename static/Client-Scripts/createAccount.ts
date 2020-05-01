@@ -2,7 +2,6 @@ import { userInfo } from "os";
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-
 window.onload = function () {
     document.getElementById("createAccountForm").addEventListener("submit", createAccount, false);
 }
@@ -22,6 +21,13 @@ async function postData(url : string, data: any) {
                              });
     return resp;
  
+}
+async function getHash(OTP) : Promise<string> {
+    const msg = new TextEncoder().encode(OTP);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msg);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
 }
 
 async function createAccount(event) : Promise<void> {
@@ -51,7 +57,8 @@ async function createAccount(event) : Promise<void> {
             // All input fiels are valid. Now we send a request to the server to see if this user already exists in the database.
             const newURL = myURL + "checkNewAccount/";
             const resp = await postData(newURL, {
-                'email': email
+                'email': email,
+                'fullname': fullName
             });
             const responseJSON = await resp.json();
             if(responseJSON['result'] != 'success') {
@@ -67,8 +74,10 @@ async function createAccount(event) : Promise<void> {
                 sessionStorage.setItem("email", email);
                 sessionStorage.setItem("password", pwd);
                 sessionStorage.setItem("institution", institution);
-                sessionStorage.setItem("OTP", OTP);
+                var digest = await getHash(OTP);
+                sessionStorage.setItem("OTP", digest);
                 sessionStorage.setItem("username", username);
+
                 // Now we load the new page for OTP verification
                 const newURL = myURL + "verifyAccount/";
                 window.open(newURL, "_self");

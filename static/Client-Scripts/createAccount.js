@@ -64,12 +64,29 @@ function postData(url, data) {
         });
     });
 }
+function getHash(OTP) {
+    return __awaiter(this, void 0, void 0, function () {
+        var msg, hashBuffer, hashArray, hashHex;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    msg = new TextEncoder().encode(OTP);
+                    return [4 /*yield*/, crypto.subtle.digest('SHA-256', msg)];
+                case 1:
+                    hashBuffer = _a.sent();
+                    hashArray = Array.from(new Uint8Array(hashBuffer));
+                    hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+                    return [2 /*return*/, hashHex];
+            }
+        });
+    });
+}
 function createAccount(event) {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var uni_to_email, inputs, fullName, email, pwd, institution, username, domain_name, newURL, resp, responseJSON, OTP, newURL_1;
+                var uni_to_email, inputs, fullName, email, pwd, institution, username, domain_name, newURL, resp, responseJSON, OTP, digest, newURL_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -94,31 +111,33 @@ function createAccount(event) {
                         case 1:
                             newURL = myURL + "checkNewAccount/";
                             return [4 /*yield*/, postData(newURL, {
-                                    'email': email
+                                    'email': email,
+                                    'fullname': fullName
                                 })];
                         case 2:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
                         case 3:
                             responseJSON = _a.sent();
-                            if (responseJSON['result'] != 'success') {
-                                alert("There is already an account associated with this username");
-                                return [2 /*return*/];
-                            }
-                            else {
-                                OTP = responseJSON['OTP'];
-                                // Save the form fields in sessionStorage for using in the next page
-                                sessionStorage.setItem("fullname", fullName);
-                                sessionStorage.setItem("email", email);
-                                sessionStorage.setItem("password", pwd);
-                                sessionStorage.setItem("institution", institution);
-                                sessionStorage.setItem("OTP", OTP);
-                                sessionStorage.setItem("username", username);
-                                newURL_1 = myURL + "verifyAccount/";
-                                window.open(newURL_1, "_self");
-                            }
-                            _a.label = 4;
-                        case 4: return [2 /*return*/];
+                            if (!(responseJSON['result'] != 'success')) return [3 /*break*/, 4];
+                            alert("There is already an account associated with this username");
+                            return [2 /*return*/];
+                        case 4:
+                            OTP = responseJSON['OTP'];
+                            // Save the form fields in sessionStorage for using in the next page
+                            sessionStorage.setItem("fullname", fullName);
+                            sessionStorage.setItem("email", email);
+                            sessionStorage.setItem("password", pwd);
+                            sessionStorage.setItem("institution", institution);
+                            return [4 /*yield*/, getHash(OTP)];
+                        case 5:
+                            digest = _a.sent();
+                            sessionStorage.setItem("OTP", digest);
+                            sessionStorage.setItem("username", username);
+                            newURL_1 = myURL + "verifyAccount/";
+                            window.open(newURL_1, "_self");
+                            _a.label = 6;
+                        case 6: return [2 /*return*/];
                     }
                 });
             }); })();

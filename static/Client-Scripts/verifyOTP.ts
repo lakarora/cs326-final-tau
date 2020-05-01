@@ -1,8 +1,6 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-
-
 window.onload = function() {
     document.getElementById("verifyOTPButton").addEventListener("click", verifyOTP, false);
 }
@@ -22,7 +20,16 @@ async function postData(url : string, data: any) {
                              });
     return resp;
  
-}''
+}
+
+async function getHash(OTP) : Promise<string> {
+    const msg = new TextEncoder().encode(OTP);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msg);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+}
+
 async function verifyOTP() : Promise<void> {
     (async () => {
         if(sessionStorage.length == 0)
@@ -37,17 +44,14 @@ async function verifyOTP() : Promise<void> {
         var OTP = sessionStorage.getItem("OTP");
         var userOTP = (<HTMLInputElement>document.getElementById("otp")).value;
         var username = sessionStorage.getItem("username");
-        console.log(userOTP);
-        console.log(typeof(userOTP));
-        // Use hardcoded value for now, email is not set up
-        if(userOTP != '123456') {
+        const userOTPHash = await getHash(userOTP);
+        if(await getHash(userOTP) != OTP) {
             alert("Invalid OTP. Please try again!");
-            location.reload();            
+            return;           
         }
 
         // OTP is valid. Register the user
         const newURL = myURL + "registerUser/";
-        console.log(newURL);
         const resp = await postData(newURL, {
             // 'fullname': fname,
             'email': email

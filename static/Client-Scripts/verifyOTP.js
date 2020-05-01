@@ -62,13 +62,29 @@ function postData(url, data) {
         });
     });
 }
-'';
+function getHash(OTP) {
+    return __awaiter(this, void 0, void 0, function () {
+        var msg, hashBuffer, hashArray, hashHex;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    msg = new TextEncoder().encode(OTP);
+                    return [4 /*yield*/, crypto.subtle.digest('SHA-256', msg)];
+                case 1:
+                    hashBuffer = _a.sent();
+                    hashArray = Array.from(new Uint8Array(hashBuffer));
+                    hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+                    return [2 /*return*/, hashHex];
+            }
+        });
+    });
+}
 function verifyOTP() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var pwd, fname, email, uni, OTP, userOTP, username, newURL, resp, respJSON;
+                var pwd, fname, email, uni, OTP, userOTP, username, userOTPHash, newURL, resp, respJSON;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
@@ -83,15 +99,16 @@ function verifyOTP() {
                             OTP = sessionStorage.getItem("OTP");
                             userOTP = document.getElementById("otp").value;
                             username = sessionStorage.getItem("username");
-                            console.log(userOTP);
-                            console.log(typeof (userOTP));
-                            // Use hardcoded value for now, email is not set up
-                            if (userOTP != '123456') {
+                            return [4 /*yield*/, getHash(userOTP)];
+                        case 1:
+                            userOTPHash = _a.sent();
+                            return [4 /*yield*/, getHash(userOTP)];
+                        case 2:
+                            if ((_a.sent()) != OTP) {
                                 alert("Invalid OTP. Please try again!");
-                                location.reload();
+                                return [2 /*return*/];
                             }
                             newURL = myURL + "registerUser/";
-                            console.log(newURL);
                             return [4 /*yield*/, postData(newURL, {
                                     // 'fullname': fname,
                                     'email': email
@@ -99,10 +116,10 @@ function verifyOTP() {
                                     // 'institution': uni,
                                     // 'username': username
                                 })];
-                        case 1:
+                        case 3:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
-                        case 2:
+                        case 4:
                             respJSON = _a.sent();
                             if (respJSON['result'] != 'success') {
                                 alert("An error occured. Please try again");
