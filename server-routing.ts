@@ -69,8 +69,13 @@ export class Server {
             res.sendFile('setPrice.html', {root: "./static"});
         });
         this.router.post('/postBook/', this.addBookHandler.bind(this));
+        this.server.get('/rateUser/', function(req, res){
+            res.type('.html');
+            res.sendFile('userRating.html', {root: "./static"});
+        });
+        this.router.post('/findUser/', this.findUserHandler.bind(this));
     }   
-    
+
     private getServer() {
         return this.server;
     }
@@ -244,6 +249,19 @@ export class Server {
         var bookData = request.body;
         // send bookDat to the set of books, update user blah blah
         response.write(JSON.stringify({status: "success"}));
+        response.end();
+    }
+
+    //dummy handler for findUser request 
+    private async findUserHandler(request, response) : Promise<void> {
+        var user = request.body.user;
+        // query database to extract the ratings and info for "user"
+        response.write(JSON.stringify({
+            "status": "200",
+            "username": user,
+            "institute": "UMass Amherst",
+            "sRating": 4.5,
+            "bRating": 5 }));
         response.end();
     }
 
