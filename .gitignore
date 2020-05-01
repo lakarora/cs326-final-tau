@@ -2,3 +2,5 @@
 **/.DS_Store
 ScrapePrice.ipynb
 node_modules/*
+secrets.ts
+secrets.js
