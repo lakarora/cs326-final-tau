@@ -1,7 +1,4 @@
-// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
-const myURL = "http://localhost:8080/"
-
-
+const myURL = "http://localhost:8080/";
 window.onload = function () {
     document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
     document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);

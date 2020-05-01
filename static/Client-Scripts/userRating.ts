@@ -1,7 +1,6 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-
 window.onload=function(){
     const userInfo = JSON.parse(sessionStorage.getItem("findUser"));
     var username = (<HTMLElement>document.getElementById("username"));
