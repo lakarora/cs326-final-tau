@@ -9,12 +9,15 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 export class Server {
+
+    private database;
     private server = express();
     private port = process.env.PORT;
     private router = express.Router();
 
     // Leave out database part for now
-    constructor() {
+    constructor(db) {
+        this.database = db;
         this.router.use((request, response, next) => {
             response.header('Content-Type','application/json');
             response.header('Access-Control-Allow-Origin', '*');

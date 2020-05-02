@@ -46,10 +46,11 @@ var google = require("googleapis").google;
 var OAuth2 = google.auth.OAuth2;
 var Server = /** @class */ (function () {
     // Leave out database part for now
-    function Server() {
+    function Server(db) {
         this.server = express();
         this.port = process.env.PORT;
         this.router = express.Router();
+        this.database = db;
         this.router.use(function (request, response, next) {
             response.header('Content-Type', 'application/json');
             response.header('Access-Control-Allow-Origin', '*');
@@ -347,7 +348,23 @@ var Server = /** @class */ (function () {
             });
         });
     };
-    //dummy handler for 
+    //dummy handler for adding a rating
+    Server.prototype.rateUserHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var rating, rType, ratedUser;
+            return __generator(this, function (_a) {
+                rating = request.body.rating;
+                rType = request.body.rType;
+                ratedUser = request.body.ratedUser;
+                response.write(JSON.stringify({
+                    status: 200,
+                    result: "success"
+                }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
+    };
     Server.prototype.listen = function (port) {
         return this.server.listen(port);
     };
