@@ -47,11 +47,16 @@ export class Server {
             res.type('.html');
             res.sendFile('sellBook.html', { root: "./static" });
         });
-        this.router.post('/userRating/', this.userRatingHandler.bind(this));
+
+        this.router.post('/findUser/', this.findUserHandler.bind(this));
+
         this.server.get('/rate/', function(req, res) {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
         });
+        
+        this.router.post('/userRating/', this.rateUserHandler.bind(this));
+        
         this.router.post('/accountInfo/', this.accountInfoHandler.bind(this));
         this.server.get('/accountInfo/', function(req, res){
             res.type('.html');
@@ -73,7 +78,7 @@ export class Server {
             res.type('.html');
             res.sendFile('userRating.html', {root: "./static"});
         });
-        this.router.post('/findUser/', this.findUserHandler.bind(this));
+        
     }   
 
     private getServer() {
@@ -257,13 +262,15 @@ export class Server {
         var user = request.body.user;
         // query database to extract the ratings and info for "user"
         response.write(JSON.stringify({
-            "status": "200",
+            "status": 200,
             "username": user,
             "institute": "UMass Amherst",
             "sRating": 4.5,
             "bRating": 5 }));
         response.end();
     }
+
+    //dummy handler for 
 
     public listen(port) : void {
         return this.server.listen(port);

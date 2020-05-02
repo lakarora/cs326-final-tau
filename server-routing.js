@@ -81,7 +81,7 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('sellBook.html', { root: "./static" });
         });
-        this.router.post('/userRating/', this.userRatingHandler.bind(this));
+        this.router.post('/findUser/', this.findUserHandler.bind(this));
         this.server.get('/rate/', function (req, res) {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
@@ -102,6 +102,10 @@ var Server = /** @class */ (function () {
             res.sendFile('setPrice.html', { root: "./static" });
         });
         this.router.post('/postBook/', this.addBookHandler.bind(this));
+        this.server.get('/rateUser/', function (req, res) {
+            res.type('.html');
+            res.sendFile('userRating.html', { root: "./static" });
+        });
     }
     Server.prototype.getServer = function () {
         return this.server;
@@ -173,53 +177,43 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.searchBookHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var searchQuery;
+            var searchType;
             return __generator(this, function (_a) {
-                searchQuery = request.body.query;
-                /*
-                    variables for picture title description condition... ect. will be used to get info from database
-                */
-                response.write(JSON.stringify({
-                    'result': "success",
-                    'searchResults': [{
-                            'picture': 'resources/no-image-listing.png',
-                            'title': searchQuery,
-                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                            'condition': 'New',
-                            'account-link': '#',
-                            'account-name': 'Minutemen2021',
-                            'seller-rating': '4.6',
-                            'price': '100'
-                        }, {
-                            'picture': 'resources/no-image-listing.png',
-                            'title': searchQuery,
-                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                            'condition': 'New',
-                            'account-link': '#',
-                            'account-name': 'Minutemen2021',
-                            'seller-rating': '4.6',
-                            'price': '100'
-                        }, {
-                            'picture': 'resources/no-image-listing.png',
-                            'title': searchQuery,
-                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                            'condition': 'New',
-                            'account-link': '#',
-                            'account-name': 'Minutemen2021',
-                            'seller-rating': '4.6',
-                            'price': '100'
-                        }, {
-                            'picture': 'resources/no-image-listing.png',
-                            'title': searchQuery,
-                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                            'condition': 'New',
-                            'account-link': '#',
-                            'account-name': 'Minutemen2021',
-                            'seller-rating': '4.6',
-                            'price': '100'
-                        }]
-                }));
-                response.end();
+                searchType = request.body.type;
+                if (searchType == 'byBook') {
+                    response.write(JSON.stringify({
+                        'result': "success",
+                        'searchResults': [{
+                                'picture': 'resources/no-image-listing.png',
+                                'title': 'Book1',
+                                'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                                'condition': 'New',
+                                'account-link': '#',
+                                'account-name': 'Minutemen2021',
+                                'seller-rating': '4.6',
+                                'price': '100',
+                                'amazonPrice': '140'
+                            }]
+                    }));
+                    response.end();
+                }
+                else {
+                    response.write(JSON.stringify({
+                        'result': "success",
+                        'searchResults': [{
+                                'picture': 'resources/no-image-listing.png',
+                                'title': 'Book1',
+                                'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                                'condition': 'New',
+                                'account-link': '#',
+                                'account-name': 'Minutemen2021',
+                                'seller-rating': '4.6',
+                                'price': '100',
+                                'amazonPrice': '140'
+                            }]
+                    }));
+                    response.end();
+                }
                 return [2 /*return*/];
             });
         });
@@ -316,6 +310,25 @@ var Server = /** @class */ (function () {
                 bookData = request.body;
                 // send bookDat to the set of books, update user blah blah
                 response.write(JSON.stringify({ status: "success" }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
+    };
+    //dummy handler for findUser request 
+    Server.prototype.findUserHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user;
+            return __generator(this, function (_a) {
+                user = request.body.user;
+                // query database to extract the ratings and info for "user"
+                response.write(JSON.stringify({
+                    "status": 100,
+                    "username": user,
+                    "institute": "UMass Amherst",
+                    "sRating": 4.5,
+                    "bRating": 5
+                }));
                 response.end();
                 return [2 /*return*/];
             });
