@@ -36,10 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+var secrets_1 = require("./../cs326-final-tau/secrets");
 var http = require('http');
 var url = require('url');
 var express = require('express');
 var path = require('path');
+var nodemailer = require('nodemailer');
+var google = require("googleapis").google;
+var OAuth2 = google.auth.OAuth2;
 var Server = /** @class */ (function () {
     // Leave out database part for now
     function Server() {
@@ -106,6 +110,10 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('userRating.html', { root: "./static" });
         });
+<<<<<<< HEAD
+=======
+        this.router.post('/findUser/', this.findUserHandler.bind(this));
+>>>>>>> 2837e33d3666a0164b3a980aa1d20344fbe3f71f
     }
     Server.prototype.getServer = function () {
         return this.server;
@@ -252,37 +260,45 @@ var Server = /** @class */ (function () {
     // dummy handler for checking if account exists
     Server.prototype.checkNewAccount = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var email, OTP;
+            var email, fullName, OTP, oauth2Client, accessToken, transporter, mailOptions;
             return __generator(this, function (_a) {
                 email = request.body.email;
+                fullName = request.body.fullname;
                 OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-                // Send this OTP to the user for verification via email. 
-                //For now, this is excluded beacuse it requires an email password/hash of password for safety.
-                //Also OAuth2 needs to be set up 
-                // var transporter = nodemailer.createTransport({
-                //     service: 'gmail',
-                //     auth: {
-                //         user:'lakshayarora3107@gmail.com',
-                //         password:'fjo3rnfr'
-                //     }
-                // });
-                // var mailOptions = {
-                //     from: 'lakshayarora3107@gmail.com',
-                //     to: email,
-                //     subject: 'Passage OTP Verification',
-                //     text: 'Welcome to Passage! Enter this OTP for account verification: ' + OTP
-                // };
-                // transporter.sendMail(mailOptions, function(error, info) {
-                //     if(error) {
-                //         console.log(error);
-                //     } else {
-                //         console.log('Email sent: ' + info.response);
-                //     }
-                // });
+                oauth2Client = new OAuth2(secrets_1.secrets.clientId, secrets_1.secrets.clientSecret, "https://developers.google.com/oauthplayground");
+                oauth2Client.setCredentials({
+                    refresh_token: secrets_1.secrets.refreshToken
+                });
+                accessToken = oauth2Client.getAccessToken();
+                transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: "OAuth2",
+                        user: 'lakshayarora3107@gmail.com',
+                        clientId: secrets_1.secrets.clientId,
+                        clientSecret: secrets_1.secrets.clientSecret,
+                        refreshToken: secrets_1.secrets.refreshToken,
+                        accessToken: accessToken
+                    }
+                });
+                mailOptions = {
+                    from: 'lakshayarora3107@gmail.com',
+                    to: email,
+                    subject: 'Passage OTP Verification',
+                    text: 'Hi ' + fullName + '. Welcome to Passage! Enter this OTP for account verification: ' + OTP
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
                 // Hard coded value returned for now
                 response.write(JSON.stringify({
                     'result': 'success',
-                    'OTP': 123456
+                    'OTP': OTP
                 }));
                 response.end();
                 return [2 /*return*/];
@@ -323,7 +339,11 @@ var Server = /** @class */ (function () {
                 user = request.body.user;
                 // query database to extract the ratings and info for "user"
                 response.write(JSON.stringify({
+<<<<<<< HEAD
                     "status": 100,
+=======
+                    "status": "200",
+>>>>>>> 2837e33d3666a0164b3a980aa1d20344fbe3f71f
                     "username": user,
                     "institute": "UMass Amherst",
                     "sRating": 4.5,

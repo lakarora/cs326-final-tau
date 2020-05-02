@@ -1,9 +1,13 @@
 import { throws } from "assert";
-
+import {secrets} from './../cs326-final-tau/secrets';
 let http = require('http');
 let url = require('url');
 let express = require('express');
 let path = require('path');
+let nodemailer = require('nodemailer');
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+
 export class Server {
     private server = express();
     private port = process.env.PORT;
@@ -202,40 +206,53 @@ export class Server {
     // dummy handler for checking if account exists
     private async checkNewAccount(request, response) : Promise<void> {
         var email = request.body.email;
+        var fullName = request.body.fullname;
+
         // Check if email exists in db. If it does, return failure. 
+
         //If it does not, send a 6-digit OTP to this email and return the OTP and success to the client
         var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
         // Send this OTP to the user for verification via email. 
-        //For now, this is excluded beacuse it requires an email password/hash of password for safety.
-        //Also OAuth2 needs to be set up 
+        const oauth2Client = new OAuth2(
+            secrets.clientId,
+            secrets.clientSecret,
+            "https://developers.google.com/oauthplayground"
+       );
+       oauth2Client.setCredentials({
+           refresh_token: secrets.refreshToken
+       });
+       const accessToken = oauth2Client.getAccessToken();
+       var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                    type: "OAuth2",
+                    user:'lakshayarora3107@gmail.com',
+                    clientId: secrets.clientId,
+                    clientSecret: secrets.clientSecret,
+                    refreshToken: secrets.refreshToken,
+                    accessToken: accessToken
+                }
+        });
 
-        // var transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user:'lakshayarora3107@gmail.com',
-        //         password:'fjo3rnfr'
-        //     }
-        // });
-
-        // var mailOptions = {
-        //     from: 'lakshayarora3107@gmail.com',
-        //     to: email,
-        //     subject: 'Passage OTP Verification',
-        //     text: 'Welcome to Passage! Enter this OTP for account verification: ' + OTP
-        // };
-        // transporter.sendMail(mailOptions, function(error, info) {
-        //     if(error) {
-        //         console.log(error);
-        //     } else {
-        //         console.log('Email sent: ' + info.response);
-        //     }
-        // });
+        var mailOptions = {
+            from: 'lakshayarora3107@gmail.com',
+            to: email,
+            subject: 'Passage OTP Verification',
+            text: 'Hi ' + fullName + '. Welcome to Passage! Enter this OTP for account verification: ' + OTP
+        };
+        transporter.sendMail(mailOptions, function(error, info) {
+            if(error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
 
         // Hard coded value returned for now
         response.write(JSON.stringify({
             'result': 'success',
-            'OTP': 123456
+            'OTP': OTP
         }));
         response.end();
     }

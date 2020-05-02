@@ -22,9 +22,11 @@
   "homepage": "https://github.com/lakarora/cs326-final-tau#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "googleapis": "^49.0.0",
     "mongodb": "^3.5.6",
     "nodemailer": "^6.4.6",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {},
   "description": ""
