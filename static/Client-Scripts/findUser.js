@@ -36,15 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
+// let parseCookie = str =>
+//   str
+//     .split(';')
+//     .map(v => v.split('='))
+//     .reduce((acc, v) => {
+//       acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+//       return acc;
+//     }, {});
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -56,7 +55,8 @@ function postData(url, data) {
                         cache: 'no-cache',
                         credentials: 'same-origin',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
                         redirect: 'follow',
                         body: JSON.stringify(data)
@@ -70,28 +70,36 @@ function postData(url, data) {
 }
 function findUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var user, newURL, resp, respJson;
+        var _this = this;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    user = document.getElementById("findUserInput").value;
-                    newURL = myURL + "findUser/";
-                    return [4 /*yield*/, postData(newURL, { "user": user })];
-                case 1:
-                    resp = _a.sent();
-                    return [4 /*yield*/, resp.json()];
-                case 2:
-                    respJson = _a.sent();
-                    if (respJson.status == "404") {
-                        alert("User not found");
-                        location.reload();
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var userName, newURL, reqBody, resp, respJson;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            console.log("In find user");
+                            userName = document.getElementById("findUserInput").value;
+                            newURL = myURL + "findUser/";
+                            console.log(newURL);
+                            reqBody = { "user": userName };
+                            return [4 /*yield*/, postData(newURL, reqBody)];
+                        case 1:
+                            resp = _a.sent();
+                            if (!(resp.status == 404)) return [3 /*break*/, 2];
+                            alert("User not found");
+                            location.reload();
+                            return [3 /*break*/, 4];
+                        case 2: return [4 /*yield*/, resp.json()];
+                        case 3:
+                            respJson = _a.sent();
+                            sessionStorage.setItem("findUser", JSON.stringify(respJson));
+                            location.replace(myURL + "rateUser/");
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
-                    else {
-                        sessionStorage.setItem("findUser", JSON.stringify(respJson));
-                        location.replace(myURL + "/rateUser");
-                    }
-                    return [2 /*return*/];
-            }
+                });
+            }); })();
+            return [2 /*return*/];
         });
     });
 }
