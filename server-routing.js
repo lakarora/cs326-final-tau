@@ -90,6 +90,7 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
         });
+        this.router.post('/userRating/', this.rateUserHandler.bind(this));
         this.router.post('/accountInfo/', this.accountInfoHandler.bind(this));
         this.server.get('/accountInfo/', function (req, res) {
             res.type('.html');
@@ -110,10 +111,6 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('userRating.html', { root: "./static" });
         });
-<<<<<<< HEAD
-=======
-        this.router.post('/findUser/', this.findUserHandler.bind(this));
->>>>>>> 2837e33d3666a0164b3a980aa1d20344fbe3f71f
     }
     Server.prototype.getServer = function () {
         return this.server;
@@ -339,11 +336,7 @@ var Server = /** @class */ (function () {
                 user = request.body.user;
                 // query database to extract the ratings and info for "user"
                 response.write(JSON.stringify({
-<<<<<<< HEAD
-                    "status": 100,
-=======
-                    "status": "200",
->>>>>>> 2837e33d3666a0164b3a980aa1d20344fbe3f71f
+                    "status": 200,
                     "username": user,
                     "institute": "UMass Amherst",
                     "sRating": 4.5,
@@ -354,6 +347,7 @@ var Server = /** @class */ (function () {
             });
         });
     };
+    //dummy handler for 
     Server.prototype.listen = function (port) {
         return this.server.listen(port);
     };

@@ -51,7 +51,7 @@ async function sellerRate() {
             body: JSON.stringify(
                 {
                     "rating": rating,
-                    'type': 'seller',
+                    'rType': 'seller',
                     'ratedUser': username,
                     'rater': currUser
                 }
@@ -96,7 +96,7 @@ async function buyerRate() {
             body: JSON.stringify(
                 {
                     "rating": rating,
-                    "type": "buyer",
+                    "rType": "buyer",
                     "ratedUser": username,
                     "rater": currUser
                 }

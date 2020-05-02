@@ -287,7 +287,17 @@ export class Server {
         response.end();
     }
 
-    //dummy handler for 
+    //dummy handler for adding a rating
+    private async rateUserHandler(request, response) : Promise<void> {
+        var rating = request.body.rating;
+        var rType = request.body.rType;
+        var ratedUser = request.body.ratedUser;
+        response.write(JSON.stringify({
+            status: 200,
+            result: "success"
+        }));
+        response.end();
+    }
 
     public listen(port) : void {
         return this.server.listen(port);
