@@ -2,6 +2,15 @@
 const myURL = "http://localhost:8080/"
 
 
+let parseCookie = str =>
+  str
+    .split(';')
+    .map(v => v.split('='))
+    .reduce((acc, v) => {
+      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+      return acc;
+    }, {});
+
 window.onload=function(){
     const userInfo = JSON.parse(sessionStorage.getItem("findUser"));
     var username = (<HTMLElement>document.getElementById("username"));
@@ -23,6 +32,16 @@ async function sellerRate() {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
         const newURL = myURL + "userRating";
+        if(document.cookie == ""){
+            alert("Please Log In!");
+            location.replace(myURL);
+        }
+        var cookieObj = parseCookie(document.cookie);
+        if(cookieObj.username == null ){
+            alert("Please Log In!");
+            location.replace(myURL);
+        }
+        var currUser = cookieObj.username;
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -31,9 +50,10 @@ async function sellerRate() {
             },
             body: JSON.stringify(
                 {
-                    'rating': rating,
+                    "rating": rating,
                     'type': 'seller',
-                    'email': username,
+                    'ratedUser': username,
+                    'rater': currUser
                 }
             )
         }); 
@@ -57,6 +77,16 @@ async function buyerRate() {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
         const newURL = myURL + "userRating/";
+        if(document.cookie == ""){
+            alert("Please Log In!");
+            location.replace(myURL);
+        }
+        var cookieObj = parseCookie(document.cookie);
+        if(cookieObj.username == null ){
+            alert("Please Log In!");
+            location.replace(myURL);
+        }
+        var currUser = cookieObj.username;
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -65,22 +95,25 @@ async function buyerRate() {
             },
             body: JSON.stringify(
                 {
-                    'rating': rating,
-                    'type': 'buyer',
-                    'email': username,
+                    "rating": rating,
+                    "type": "buyer",
+                    "ratedUser": username,
+                    "rater": currUser
                 }
             )
         }); 
         const responseJson = await resp.json();
 
-        if(responseJson['result'] != 'success')
-            alert("Error while logging in")
+        if(responseJson['result'] != 'success'){
+            alert("Error while logging in");
+            location.replace(myURL);
+        }
         else {
             alert("User Has Been Rated");
 
             // Now load the next page --> Options to buy, sell, rate users, and view user profile
             //const newURL = myURL + "static/selectAfterLogin.html";
-            const newURL = "./selectActionAfterLogin.html";
+            const newURL = myURL + 'rate/';
             window.open(newURL, "_self");
         }
     });
