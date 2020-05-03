@@ -156,13 +156,34 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.registerUser = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
+            var buyerRating, sellerRating, numBuyerRatings, numSellerRatings, queryObj, result;
             return __generator(this, function (_a) {
-                // Return dummy value for now
-                response.write(JSON.stringify({
-                    'result': 'success'
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        buyerRating = 0.0;
+                        sellerRating = 0.0;
+                        numBuyerRatings = 0;
+                        numSellerRatings = 0;
+                        queryObj = {
+                            'name': request.body.fullname,
+                            'email': request.body.email,
+                            'password': request.body.password,
+                            'institution': request.body.institution,
+                            'username': request.body.username,
+                            'buyerRating': 0.0,
+                            'sellerRating': 0.0,
+                            'numBuyerRatings': 0,
+                            'numSellerRatings': 0
+                        };
+                        return [4 /*yield*/, this.db.putOne(queryObj, 'userInfo')];
+                    case 1:
+                        result = _a.sent();
+                        response.write(JSON.stringify({
+                            'result': result
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };

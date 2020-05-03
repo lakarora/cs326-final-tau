@@ -110,11 +110,11 @@ function verifyOTP() {
                             }
                             newURL = myURL + "registerUser/";
                             return [4 /*yield*/, postData(newURL, {
-                                    // 'fullname': fname,
-                                    'email': email
-                                    // 'password': pwd,
-                                    // 'institution': uni,
-                                    // 'username': username
+                                    'fullname': fname,
+                                    'email': email,
+                                    'password': pwd,
+                                    'institution': uni,
+                                    'username': username
                                 })];
                         case 3:
                             resp = _a.sent();

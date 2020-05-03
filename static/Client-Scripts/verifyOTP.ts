@@ -53,11 +53,11 @@ async function verifyOTP() : Promise<void> {
         // OTP is valid. Register the user
         const newURL = myURL + "registerUser/";
         const resp = await postData(newURL, {
-            // 'fullname': fname,
-            'email': email
-            // 'password': pwd,
-            // 'institution': uni,
-            // 'username': username
+            'fullname': fname,
+            'email': email,
+            'password': pwd,
+            'institution': uni,
+            'username': username
         });
         const respJSON = await resp.json();
         if(respJSON['result'] != 'success') {

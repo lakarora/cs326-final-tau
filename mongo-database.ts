@@ -22,4 +22,17 @@ export class Database {
         let result = await collection.findOne(query);
         return result;
     }
+
+    public async putOne(query, collectionName: string) : Promise<string> {
+        let collection = this.db.collection(collectionName);
+        let result = await collection.insertOne(query).then(
+            val => {
+                return 'success';
+            },
+            reason => {
+                return 'failure';
+            }
+        );
+        return result;
+    }
 }   

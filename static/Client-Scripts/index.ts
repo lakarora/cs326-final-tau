@@ -3,14 +3,24 @@ window.onload = function () {
     document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
     document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);
 }
+
+async function getHash(OTP) : Promise<string> {
+    const msg = new TextEncoder().encode(OTP);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msg);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+    return hashHex;
+}
+
 async function verifyLogin() : Promise<void> {
     (async () => {
 
-        // Cast because TypeScript takes it as HTMLElement which does not have value field
-
         // Match entire word. Usernames can only be alphanumeric
         let rexp = new RegExp('^[A-Za-z0-9]+$');
+
+        // Cast because TypeScript takes it as HTMLElement which does not have value field
         var username = (<HTMLInputElement>document.getElementById("loginUsername")).value
+
         if(username.match(rexp) == null) {
             alert("Invalid username");
             return;
@@ -30,7 +40,7 @@ async function verifyLogin() : Promise<void> {
                 body: JSON.stringify(
                     {
                         'email': username,
-                        'password': password
+                        'password': await getHash(password)
                     }
                 )
             });

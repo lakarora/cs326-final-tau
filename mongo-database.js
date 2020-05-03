@@ -72,6 +72,25 @@ var Database = /** @class */ (function () {
             });
         });
     };
+    Database.prototype.putOne = function (query, collectionName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var collection, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        collection = this.db.collection(collectionName);
+                        return [4 /*yield*/, collection.insertOne(query).then(function (val) {
+                                return 'success';
+                            }, function (reason) {
+                                return 'failure';
+                            })];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result];
+                }
+            });
+        });
+    };
     return Database;
 }());
 exports.Database = Database;

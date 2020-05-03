@@ -86,9 +86,9 @@ function createAccount(event) {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var uni_to_email, inputs, fullName, email, pwd, institution, username, domain_name, newURL, resp, responseJSON, OTP, digest, newURL_1;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var uni_to_email, inputs, fullName, email, pwd, institution, username, domain_name, newURL, resp, responseJSON, OTP, _a, _b, _c, digest, newURL_1;
+                return __generator(this, function (_d) {
+                    switch (_d.label) {
                         case 0:
                             event.preventDefault();
                             uni_to_email = {
@@ -115,10 +115,10 @@ function createAccount(event) {
                                     'fullname': fullName
                                 })];
                         case 2:
-                            resp = _a.sent();
+                            resp = _d.sent();
                             return [4 /*yield*/, resp.json()];
                         case 3:
-                            responseJSON = _a.sent();
+                            responseJSON = _d.sent();
                             if (!(responseJSON['result'] != 'success')) return [3 /*break*/, 4];
                             alert("There is already an account associated with this email");
                             return [2 /*return*/];
@@ -127,17 +127,23 @@ function createAccount(event) {
                             // Save the form fields in sessionStorage for using in the next page
                             sessionStorage.setItem("fullname", fullName);
                             sessionStorage.setItem("email", email);
-                            sessionStorage.setItem("password", pwd);
+                            // Store the password hash for security reasons
+                            _b = (_a = sessionStorage).setItem;
+                            _c = ["password"];
+                            return [4 /*yield*/, getHash(pwd)];
+                        case 5:
+                            // Store the password hash for security reasons
+                            _b.apply(_a, _c.concat([_d.sent()]));
                             sessionStorage.setItem("institution", institution);
                             return [4 /*yield*/, getHash(OTP)];
-                        case 5:
-                            digest = _a.sent();
+                        case 6:
+                            digest = _d.sent();
                             sessionStorage.setItem("OTP", digest);
                             sessionStorage.setItem("username", username);
                             newURL_1 = myURL + "verifyAccount/";
                             window.open(newURL_1, "_self");
-                            _a.label = 6;
-                        case 6: return [2 /*return*/];
+                            _d.label = 7;
+                        case 7: return [2 /*return*/];
                     }
                 });
             }); })();

@@ -22,6 +22,7 @@ async function postData(url : string, data: any) {
     return resp;
  
 }
+
 async function getHash(OTP) : Promise<string> {
     const msg = new TextEncoder().encode(OTP);
     const hashBuffer = await crypto.subtle.digest('SHA-256', msg);
@@ -72,7 +73,9 @@ async function createAccount(event) : Promise<void> {
                 // Save the form fields in sessionStorage for using in the next page
                 sessionStorage.setItem("fullname", fullName);
                 sessionStorage.setItem("email", email);
-                sessionStorage.setItem("password", pwd);
+
+                // Store the password hash for security reasons
+                sessionStorage.setItem("password", await getHash(pwd));
                 sessionStorage.setItem("institution", institution);
                 var digest = await getHash(OTP);
                 sessionStorage.setItem("OTP", digest);

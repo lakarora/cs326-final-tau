@@ -126,12 +126,29 @@ export class Server {
     }
 
     private async registerUser(request, response) : Promise<void> {
-        // Return dummy value for now
+        // This email is unused and valid. Create a document in userInfo collection for this new user.
+        let buyerRating = 0.0;
+        let sellerRating = 0.0;
+        let numBuyerRatings = 0;
+        let numSellerRatings = 0;
+        let queryObj = {
+            'name': request.body.fullname,
+            'email': request.body.email,
+            'password': request.body.password,
+            'institution': request.body.institution,
+            'username': request.body.username,
+            'buyerRating': 0.0,
+            'sellerRating': 0.0,
+            'numBuyerRatings': 0,
+            'numSellerRatings': 0
+        };
+        const result = await this.db.putOne(queryObj, 'userInfo');
         response.write(JSON.stringify({
-            'result': 'success'
+            'result': result
         }));
         response.end();
     }
+
     private async userRatingHandler(request, response) : Promise<void> {
         let userRating = request.body.rating;
         let type = request.body.rating;
