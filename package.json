@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/lakarora/cs326-final-tau#readme",
   "dependencies": {
+    "@types/jquery": "^3.3.36",
     "express": "^4.17.1",
     "googleapis": "^49.0.0",
     "mongodb": "^3.5.6",

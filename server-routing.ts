@@ -9,7 +9,6 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 export class Server {
-
     private database;
     private server = express();
     private port = process.env.PORT;
@@ -262,7 +261,14 @@ export class Server {
 
     // dummy handler that gets Amazon price using the scraper
     private async amazonPriceHandler(request, response) : Promise<void> {
-        var isbn = request.body.isbn;
+        let isbn = request.body.isbn;
+        $.getJSON('https://fathomless-sea-16239.herokuapp.com/price?query=?', 
+        function(isbn, textStatus, jqXHR) {
+            let r = JSON.parse(jqXHR.responseText);
+            response.write(JSON.stringify({'amazon-price': r['amazon_price']}));
+            response.end();
+        }
+)
         // send isbn and/or other data to the amazon scraper, get price
         var bookPrice = {'price': 27};
         response.write(JSON.stringify(bookPrice));

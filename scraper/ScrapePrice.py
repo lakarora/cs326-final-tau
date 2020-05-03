@@ -1,10 +1,12 @@
 import numpy as np
-import pandas as pd
 from bs4 import BeautifulSoup
 import requests
 import re
 import json
 import random
+from flask import Flask
+from flask import jsonify
+import time
 
 amazon_url = 'https://www.amazon.com/s?k='
 user_agents = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
@@ -18,8 +20,8 @@ def get_top_link(page):
     links = []
     for link in soup.findAll('a', {"class": "a-link-normal a-text-normal"}):
         links.append(link.get('href'))
-    
     link = 'https://www.amazon.com' +links[1]
+
     return link
 
 def get_page(URL):
@@ -37,7 +39,7 @@ def get_page(URL):
 def scrape_price(page):
     soup = BeautifulSoup(page.content)
     prices = []
-    for p in soup.findAll('span', {"class": "a-size-medium a-color-price header-price"}):
+    for p in soup.findAll('span', {"class": ["a-size-medium a-color-price header-price",'a-size-medium a-color-price offer-price a-text-normal']}):
         prices.append(p)
     price = re.findall("[0-9]+.[0-9]+", str(prices[0]))
     return float(price[0])
@@ -49,12 +51,18 @@ class ScrapePrice:
         page = get_page(URL)
         top_link = get_top_link(page)
         print(top_link)
+        time.sleep(.1)
         book_page = get_page(top_link)
         price = scrape_price(book_page)
         return price
 
+app = Flask(__name__)
 
-if __name__ == "__main__": 
+@app.route("/price/<param>")
+def get_price(param):
     s = ScrapePrice()
-    print(s.get_price("Artificial Intelligence A Modern Approach"))
-    
+    print(param)
+    return jsonify(amazon_price=s.get_price(str(param))) 
+
+if __name__ == '__main__':
+    app.run()
