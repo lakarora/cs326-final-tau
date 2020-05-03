@@ -50,7 +50,7 @@ var Server = /** @class */ (function () {
         this.server = express();
         this.port = process.env.PORT;
         this.router = express.Router();
-        this.database = db;
+        this.db = db;
         this.router.use(function (request, response, next) {
             response.header('Content-Type', 'application/json');
             response.header('Access-Control-Allow-Origin', '*');
@@ -262,6 +262,14 @@ var Server = /** @class */ (function () {
             return __generator(this, function (_a) {
                 email = request.body.email;
                 fullName = request.body.fullname;
+                // Check if email exists in db. If it does, return failure. 
+                if (this.db.get({ 'email': email }, 'userInfo') != null) {
+                    response.write(JSON.stringify({
+                        'result': 'failure'
+                    }));
+                    response.end();
+                    return [2 /*return*/];
+                }
                 OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
                 oauth2Client = new OAuth2(secrets_1.secrets.clientId, secrets_1.secrets.clientSecret, "https://developers.google.com/oauthplayground");
                 oauth2Client.setCredentials({

@@ -9,14 +9,14 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 export class Server {
-    private database;
+    private db;
     private server = express();
     private port = process.env.PORT;
     private router = express.Router();
 
     // Leave out database part for now
     constructor(db) {
-        this.database = db;
+        this.db = db;
         this.router.use((request, response, next) => {
             response.header('Content-Type','application/json');
             response.header('Access-Control-Allow-Origin', '*');
@@ -211,6 +211,13 @@ export class Server {
         var fullName = request.body.fullname;
 
         // Check if email exists in db. If it does, return failure. 
+        if(this.db.get({'email': email}, 'userInfo') != null) {
+            response.write(JSON.stringify({
+                'result': 'failure'
+            }));
+            response.end();
+            return;
+        }
 
         //If it does not, send a 6-digit OTP to this email and return the OTP and success to the client
         var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
@@ -262,13 +269,13 @@ export class Server {
     // dummy handler that gets Amazon price using the scraper
     private async amazonPriceHandler(request, response) : Promise<void> {
         let isbn = request.body.isbn;
-        $.getJSON('https://fathomless-sea-16239.herokuapp.com/price?query=?', 
-        function(isbn, textStatus, jqXHR) {
-            let r = JSON.parse(jqXHR.responseText);
-            response.write(JSON.stringify({'amazon-price': r['amazon_price']}));
-            response.end();
-        }
-)
+        // $.getJSON('https://fathomless-sea-16239.herokuapp.com/price?query=?', 
+        // function(isbn, textStatus, jqXHR) {
+        //     let r = JSON.parse(jqXHR.responseText);
+        //     response.write(JSON.stringify({'amazon-price': r['amazon_price']}));
+        //     response.end();
+        // }
+// )
         // send isbn and/or other data to the amazon scraper, get price
         var bookPrice = {'price': 27};
         response.write(JSON.stringify(bookPrice));
