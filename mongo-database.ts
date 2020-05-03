@@ -9,9 +9,9 @@ export class Database {
     constructor() {
         this.client = new this.MongoClient(this.uri, { useNewUrlParser: true});
         // Open up a connection to the client
-        console.log('hi');
         (async () => {
             await this.client.connect().catch(err => { console.log(err); });
+            this.db = this.client.db('PassageDB');
             console.log('Successfully connected to the database');
         })();
     }

@@ -62,7 +62,7 @@ async function createAccount(event) : Promise<void> {
             });
             const responseJSON = await resp.json();
             if(responseJSON['result'] != 'success') {
-                alert("There is already an account associated with this username");
+                alert("There is already an account associated with this email");
                 return;
             } 
             else {

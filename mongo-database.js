@@ -44,13 +44,13 @@ var Database = /** @class */ (function () {
         this.uri = secrets_1.secrets.mongoUri;
         this.client = new this.MongoClient(this.uri, { useNewUrlParser: true });
         // Open up a connection to the client
-        console.log('hi');
         (function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.client.connect()["catch"](function (err) { console.log(err); })];
                     case 1:
                         _a.sent();
+                        this.db = this.client.db('PassageDB');
                         console.log('Successfully connected to the database');
                         return [2 /*return*/];
                 }

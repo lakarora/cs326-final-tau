@@ -120,7 +120,7 @@ function createAccount(event) {
                         case 3:
                             responseJSON = _a.sent();
                             if (!(responseJSON['result'] != 'success')) return [3 /*break*/, 4];
-                            alert("There is already an account associated with this username");
+                            alert("There is already an account associated with this email");
                             return [2 /*return*/];
                         case 4:
                             OTP = responseJSON['OTP'];

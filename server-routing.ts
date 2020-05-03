@@ -211,7 +211,8 @@ export class Server {
         var fullName = request.body.fullname;
 
         // Check if email exists in db. If it does, return failure. 
-        if(this.db.get({'email': email}, 'userInfo') != null) {
+        const result = await this.db.get({'email': email}, 'userInfo');
+        if(result != null) {
             response.write(JSON.stringify({
                 'result': 'failure'
             }));
