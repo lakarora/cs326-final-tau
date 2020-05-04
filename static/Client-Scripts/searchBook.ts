@@ -23,39 +23,32 @@ async function postData(url : string, data: any) {
  
 }
 
-async function searchBook(){
-    const newURL = myURL + "/search/";
-    let data = {};
-    if (!(<HTMLInputElement>document.getElementById("searchByBook")).checked && !(<HTMLInputElement>document.getElementById("searchByCourse")).checked){
-        alert("You must select an option!");
-        return;
-    } else if ((<HTMLInputElement>document.getElementById("searchByBook")).checked){
-        data = {
-            'type':'byBook',
-            'query': {
-                'title': (<HTMLInputElement>document.getElementById("title")).value,
-                'isbn': (<HTMLInputElement>document.getElementById("isbn")).value,
-                'author':(<HTMLInputElement>document.getElementById("author")).value 
+async function searchBook(): Promise<void> {
+    (async () => {
+        let newURL = myURL + "searchBook/";
+        let data = {};
+        if ((<HTMLInputElement>document.getElementById('title')).value=='' || (<HTMLInputElement>document.getElementById('title')).value==null) {
+            alert("Search was empty!!!");
+        } else {
+            data = {
+                'query':(<HTMLInputElement>document.getElementById('title')).value
+            }
+            var resp = await postData(newURL, data);
+            
+            //console.log(JSON.stringify(responseJson));
+            if (resp.status == 200) {
+                const responseJson = await resp.json(); 
+                sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
+                let newURL = myURL+'seachResults/';
+                console.log(newURL);
+                location.replace(myURL + 'searchResults/');
+                //window.open(newURL, "_self");
+            } else if (resp.status==404) {
+                alert("No book by that title was found");
+            } else {
+                alert("Couldnt connect to the server");
             }
         }
-    } else {
-        data = {
-            'type':'byCourse',
-            'query': {
-                'title': (<HTMLInputElement>document.getElementById("dropdownMenuButton")).value,
-                'isbn': (<HTMLInputElement>document.getElementById("courseSubject")).value,
-                'author':(<HTMLInputElement>document.getElementById("courseNumber")).value 
-            }
-        }
-    } 
-    var resp = await postData(newURL, data);
-    const responseJson = await resp.json(); 
-    if (responseJson['result'] != 'success'){
-        alert('Couldnt connect to server');
-    } else {
-        sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
-        window.open(myURL+'/seachResults.html', "_self");
-    }
-    
+    })();
 }
 

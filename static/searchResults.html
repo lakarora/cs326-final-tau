@@ -5,19 +5,19 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="./Client-Scripts/searchResults.js"></script>
+        <script src="../Client-Scripts/searchResults.js"></script>
     </head>
     <header>
         <nav class="navbar navbar-dark bg-dark" style="z-index: 3;">
             <a class="navbar-brand" href="index.html">
-                <img src="resources/book.png" width="30" height="30" alt="">
+                <img src="../resources/book.png" width="30" height="30" alt="">
             </a>
             <a class="navbar-brand" href="messages.html">
-                <img src="resources/userIcon.png" width="30" height="30" alt="">
+                <img src="../resources/userIcon.png" width="30" height="30" alt="">
             </a>
         </nav>
     </header>
-    <div style="padding: 5% 5% 5% 25%;border-bottom: 5px solid rgb(53, 58, 64); background-image: url('./resources/accountInfoBg.jpg');">
+    <div style="padding: 5% 5% 5% 25%;border-bottom: 5px solid rgb(53, 58, 64); background-image: url('../resources/accountInfoBg.jpg');">
         <h1 style="font-size: 30pt;padding-left:28%;color:rgb(231, 231, 231);">Passage</h1>
         <!--<input type="text" id="search-bar-main" name="search-bar" placeholder="Search for a book...">-->
         <!--<input type="image"  id="searchButton" src="resources/searchIcon.png "  style="height:35px;width:35px;">-->
@@ -29,20 +29,20 @@
             <div class="row">
                 <div class="col" style="border-right: 2px solid rgb(53, 58, 64);">
                     <h3>Order By:</h3>
-                    <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                    <div class="custom-control custom-radio" id='order'>
+                        <input value='desc' type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
                         <label class="custom-control-label" for="customRadio1">Price Descending</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                        <input value='asc' type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
                         <label class="custom-control-label" for="customRadio2">Price Ascending</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                        <input value='cond' type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
                         <label class="custom-control-label" for="customRadio3">Best Condition</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+                        <input value='rate' type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
                         <label class="custom-control-label" for="customRadio4">Seller Rating</label>
                     </div>
                     <br>
@@ -109,7 +109,7 @@
                     <div class="card flex-row flex-wrap">
                         <div class="col">
                             <div class="card-header border-0">
-                                <img src="resources/no-image-listing.png" alt="" height="100px"width="100px">
+                                <img src="./resources/no-image-listing.png" alt="" height="100px"width="100px">
                             </div>
                         </div>
                         <div class="col-9">

@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style type="text/css">
             body{
-                background-image: url('../resources/accountInfoBg.jpg');
+                background-image: url('./resources/accountInfoBg.jpg');
             }
             #bookInfo {
                margin: 0 auto; 
@@ -27,61 +27,39 @@
             .searchChoice{
                 margin-left: 15%;
             }
+            .main {
+                width: 50%;
+                margin: 50px auto;
+            }
+
+            /* Bootstrap 4 text input with search icon */
+
+            .has-search .form-control {
+                padding-left: 2.375rem;
+            }
+
+            .has-search .form-control-feedback {
+                position: absolute;
+                z-index: 2;
+                display: block;
+                width: 2.375rem;
+                height: 2.375rem;
+                line-height: 2.375rem;
+                text-align: center;
+                pointer-events: none;
+                color: #aaa;
+            }
         </style>
-        <script type="text/javascript" src="../Client-Scripts/searchBook.js"></script>
+        <script type="text/javascript" src="./Client-Scripts/searchBook.js"></script>
     </head>
     <body>
         <div id="bookInfo">
             <br>
             <h3 align="center">Search for Books</h3>
             <br><br>
-            <div id="searchChoice" class="custom-control custom-radio">
-                <input type="radio" id="searchByBook" name="searchBy" value="sByBook" style="margin-left: 2%;">
-                <label for="searchByBook">Search by Book</label>
-
-                <input type="radio" id="searchByCourse" name="searchBy" value="sByCourse" style="margin-left: 45%;">
-                <label for="searchByCourse">Seach by Course</label>
-            </div>
-            <br>
-            <div class="search-types">
-                <div>
-                    <dl class="row" style="padding-left: 4%">
-                        <dt class="col-sm-3">Book Title: </dt>
-                        <dd class="col-sm-9" ><input type="text" id="title"></dd>
-                        
-                        <dt class="col-sm-3">ISBN:</dt>
-                        <dd class="col-sm-9" ><input type="text" id="isbn"></dd>
-                        
-                        <dt class="col-sm-3">Author(s):</dt>
-                        <dd class="col-sm-9"><input type="text" id="author"></dd>
-                    </dl>
-                    <br>
-                </div>
-                <div>
-                    <dl class="row" style="padding-left: 3%">
-                        <dt class="col-sm-3">Insitution: </dt>
-                        <dd class="col-sm-9">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                University
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">UMass Amherst</a>
-                                <a class="dropdown-item" href="#">Amherst College</a>
-                                <a class="dropdown-item" href="#">Smith College</a>
-                                <a class="dropdown-item" href="#">Mount Holyoke College</a>
-                                <a class="dropdown-item" href="#">Hampshire College</a>
-                            </div>
-                            </div>
-                        </dd>
-        
-                        <dt class="col-sm-3">Course Subject: </dt>
-                        <dd class="col-sm-9" ><input type="text" id="courseSubject"></dd>
-        
-                        <dt class="col-sm-3">Course Number: </dt>
-                        <dd class="col-sm-9" ><input type="text" id="courseNumber"></dd>
-        
-                    </dl>
+            <div>
+                <div class="input-group" style="padding-left: 10%;padding-right: 10%;">
+                    <input id='title'type="text" class="form-control" placeholder="Search for book by title...">
                 </div>
             </div>
             <br>

@@ -12,6 +12,7 @@ export class Server {
     private db;
     private server = express();
     private port = process.env.PORT;
+    
     private router = express.Router();
 
     // Leave out database part for now
@@ -29,7 +30,19 @@ export class Server {
         // Handle POST data as JSON
         this.server.use(express.json());
         this.server.use('/', this.router);
-        
+
+        // SEARCH
+        this.server.post('/searchBook/', this.searchBookHandler.bind(this));
+        this.server.get('/search/', function(req, res) {
+            res.type('.html');
+            res.sendFile('searchBook.html', { root: "./static" });
+        });
+        this.server.get('/searchResults/', function(req,res) {
+            res.type('.html');
+            res.sendFile('searchResults.html', { root: "./static" });
+        });
+        this.router.post('/postMessage/', this.postMessageHandler.bind(this));
+
         this.router.post('/login/', this.loginHandler.bind(this));
         this.router.post('/registerUser/', this.registerUser.bind(this));
         this.server.get('/options/', function(req, res) {
@@ -45,11 +58,7 @@ export class Server {
             res.type('.html');
             res.sendFile('messages.html', { root: "./static" });
         });
-        this.server.post('/search/', this.searchBookHandler.bind(this));
-        this.server.get('/search/', function(req, res) {
-            res.type('.html');
-            res.sendFile('searchBook.html', { root: "./static" });
-        });
+        
         this.server.get('/sell/', function(req, res) {
             res.type('.html');
             res.sendFile('sellBook.html', { root: "./static" });
@@ -98,6 +107,55 @@ export class Server {
     private getServer() {
         return this.server;
     }
+
+    private async postMessageHandler(request, response) : Promise<void> {
+        let user = request.body.user;
+        let message = request.body.message;
+
+        /*
+            put data in server
+        */
+       response.write(JSON.stringify({'result':'success'}));
+       response.end();
+    }
+
+    private async searchBookHandler(request,response) : Promise<void> {
+        let title = request.body.query;
+        /*
+        if (book is found) {
+            response.write(JSON.stringify(result));
+        } else {
+            response.write(JSON.stringify({'result' : 'notfound'}));
+            response.end();
+        }
+
+        */
+    //    if(false) {
+
+       // } else {
+            response.write(JSON.stringify({
+                'result': "success",
+                'searchResults': [{
+                    'picture':'../resources/no-image-listing.png',
+                    'title': title,
+                    'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                    'condition': 'New',
+                    'account-link': '#',
+                    'account-name': 'Minutemen2021',
+                    'seller-rating': '4.6',
+                    'price': '100',
+                    'amazonPrice': '140'
+                }]
+            }));
+            response.end();
+     //   }
+    }
+
+    private async searchResultsHandler(request, response) : Promise<void> {
+        response.write(JSON.stringify({"result": "success"}));
+        response.end();
+    }
+
 
     private async messagesHandler(request, response) : Promise<void> {
         let user = request.body.user;
@@ -166,44 +224,6 @@ export class Server {
             'result': 'success'
         }));
         response.end();
-    }
-
-    private async searchBookHandler(request,response) : Promise<void> {
-        let searchType = request.body.type;
-
-        if (searchType == 'byBook') {
-            response.write(JSON.stringify({
-                'result': "success",
-                'searchResults': [{
-                    'picture':'resources/no-image-listing.png',
-                    'title': 'Book1',
-                    'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                    'condition': 'New',
-                    'account-link': '#',
-                    'account-name': 'Minutemen2021',
-                    'seller-rating': '4.6',
-                    'price': '100',
-                    'amazonPrice': '140'
-                }]
-            }));
-            response.end();
-        } else {
-            response.write(JSON.stringify({
-                'result': "success",
-                'searchResults': [{
-                    'picture':'resources/no-image-listing.png',
-                    'title': 'Book1',
-                    'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                    'condition': 'New',
-                    'account-link': '#',
-                    'account-name': 'Minutemen2021',
-                    'seller-rating': '4.6',
-                    'price': '100',
-                    'amazonPrice': '140'
-                }]
-            }));
-            response.end();
-        }
     }
 
     private async loginHandler(request, response) : Promise<void> {
@@ -309,18 +329,17 @@ export class Server {
 
     // dummy handler that gets Amazon price using the scraper
     private async amazonPriceHandler(request, response) : Promise<void> {
-        let isbn = request.body.isbn;
-        // $.getJSON('https://fathomless-sea-16239.herokuapp.com/price?query=?', 
-        // function(isbn, textStatus, jqXHR) {
-        //     let r = JSON.parse(jqXHR.responseText);
-        //     response.write(JSON.stringify({'amazon-price': r['amazon_price']}));
-        //     response.end();
-        // }
-// )
+        let query = request.body.query;
+        $.getJSON('https://stormy-tundra-04347.herokuapp.com/'+query,
+        function(isbn, textStatus, jqXHR) {
+            let r = JSON.parse(jqXHR.responseText);
+            response.write(JSON.stringify({'amazon-price': r['amazon_price']}));
+            response.end();
+        });
         // send isbn and/or other data to the amazon scraper, get price
-        var bookPrice = {'price': 27};
-        response.write(JSON.stringify(bookPrice));
-        response.end();
+        //var bookPrice = {'price': 27};
+        //response.write(JSON.stringify(bookPrice));
+        //response.end();
     }
 
     // dummy handler that posts book and sends response
