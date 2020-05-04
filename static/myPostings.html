@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My Profile</title>
+        <title>My Postings</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <style type="text/css">
@@ -20,35 +20,36 @@
                 justify-content: center;
                 margin-left: 5%;
             }
+            .tasksBoard{
+                /* background-color: #fff; */
+                margin-top: 20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-right: 40px;
+                /*display: none;*/
+            }
+            .delete{
+                background-color: #ff6161;
+                padding: 0px 3px 0px 3px;
+                color: #fff;
+                cursor: pointer;
+            }
         </style>
-         <script type="text/javascript" src="../Client-Scripts/accountInfo.js"></script>
+         <script type="text/javascript" src="../Client-Scripts/myPostings.js"></script>
     </head>
-    <body onload="getInfo();">
+    <body onload="renderList();">
         <div id="accInfo">
             <br>
-            <h3 align="center">My Profile</h3>
-            <br><br>
-            <dl class="row" style="padding-left: 20px;">
-                <dt class="col-sm-3">Full Name:</dt>
-                <dd class="col-sm-9" id="fullName"></dd>
-                
-                <dt class="col-sm-3">Username:</dt>
-                <dd class="col-sm-9" id="username"></dd>
-                
-                <dt class="col-sm-3">Institution:</dt>
-                <dd class="col-sm-9" id="userInstitute"></dd>
-
-                <dt class="col-sm-3">Buyer Rating:</dt>
-                <dd class="col-sm-9" id="bRating"></dd>
-
-                <dt class="col-sm-3">Seller Rating:</dt>
-                <dd class="col-sm-9" id="sRating"></dd>
-            </dl>
-            <br>
-            <button type="button" class="btn btn-info" onclick="myPosts();" >View/Modify Postings</button>
-            <button type="button" class="btn btn-info" >Messages</button>
-            <button type="button" class="btn btn-info" >Change Password</button>
-            <br><br>
+            <h3 align="center">My Postings</h3>
+            <div class="tasksBoard">
+                <ul style="margin-left: 10px;" id="listPosts">
+                  <!-- <li><input type="checkbox">&nbsp;&nbsp;<label>Vanilla JavaScript</label></li>
+                  <li><input type="checkbox">&nbsp;&nbsp;<label>Vue.js</label></li>
+                  <li><input type="checkbox">&nbsp;&nbsp;<label>React.js</label></li>
+                  <li><input type="checkbox">&nbsp;&nbsp;<label>Node.js</label></li> -->
+                </ul>
+                <button type="button" class="btn btn-info" id="Confirm">Submit</button>
+              </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

@@ -61,9 +61,9 @@ var Server = /** @class */ (function () {
         this.server.use('/', express.static('./static'));
         // Handle POST data as JSON
         this.server.use(express.json());
+        this.server.use('/', this.router);
         this.router.post('/login/', this.loginHandler.bind(this));
         this.router.post('/registerUser/', this.registerUser.bind(this));
-        this.server.use('/', this.router);
         this.server.get('/options/', function (req, res) {
             res.type('.html');
             res.sendFile('selectActionAfterLogin.html', { root: "./static" });
@@ -102,6 +102,12 @@ var Server = /** @class */ (function () {
             res.type('html');
             res.sendFile('verifyOTP.html', { root: "./static" });
         });
+        //router for checking your own postings
+        this.server.get('/MyPostings/', function (req, res) {
+            res.type('html');
+            res.sendFile('myPostings.html', { root: "./static" });
+        });
+        this.router.post('/MyPostings/', this.myPostingsHandler.bind(this));
         this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
         this.router.get('/setPrice/', function (req, res) {
             res.type('html');
@@ -247,30 +253,19 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.loginHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var username, password, result, returnString;
+            var username, password, returnString;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        username = request.body.username;
-                        password = request.body.password;
-                        return [4 /*yield*/, this.db.get({
-                                $and: [
-                                    { "username": username },
-                                    { "password": password }
-                                ]
-                            }, 'userInfo')];
-                    case 1:
-                        result = _a.sent();
-                        returnString = 'success';
-                        if (result == null) {
-                            returnString = 'failure';
-                        }
-                        response.write(JSON.stringify({
-                            'result': returnString
-                        }));
-                        response.end();
-                        return [2 /*return*/];
-                }
+                username = request.body.username;
+                password = request.body.password;
+                returnString = 'failure';
+                // if(res == null) {
+                //     returnString = 'failure';
+                // }
+                response.write(JSON.stringify({
+                    "result": "success"
+                }));
+                response.end();
+                return [2 /*return*/];
             });
         });
     };
@@ -416,6 +411,24 @@ var Server = /** @class */ (function () {
                 response.write(JSON.stringify({
                     status: 200,
                     result: "success"
+                }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
+    };
+    //dummy handler for viewing your own postings
+    Server.prototype.myPostingsHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var username;
+            return __generator(this, function (_a) {
+                username = request.body.username;
+                response.write(JSON.stringify({
+                    status: 200,
+                    result: "success",
+                    postings: [
+                        "My First Book", "My Second Book", "My Third Book"
+                    ]
                 }));
                 response.end();
                 return [2 /*return*/];

@@ -35,9 +35,9 @@ async function verifyLogin() : Promise<void> {
         let rexp = new RegExp('^[A-Za-z0-9]+$');
 
         // Cast because TypeScript takes it as HTMLElement which does not have value field
-        var username = (<HTMLInputElement>document.getElementById("loginUsername")).value
+        var userName = (<HTMLInputElement>document.getElementById("loginUsername")).value
 
-        if(username.match(rexp) == null) {
+        if(userName.match(rexp) == null) {
             alert("Invalid username");
             return;
         }
@@ -49,18 +49,18 @@ async function verifyLogin() : Promise<void> {
         const hashPwd = await getHash(password);
         const newURL = myURL + "login/";
         const resp = await postData(newURL, {
-            'username': username,
-            'password': hashPwd
+            "username": userName,
+            "password": hashPwd
         });
         const responseJson = await resp.json();
-        if(responseJson['result'] != 'success') {
+        if(responseJson['result'] != "success") {
             alert("Error while logging in");
             location.reload();
         }
         else {
             alert("Login successful");
             // Set cookie in browser for the logged in use and load the next page
-            document.cookie = "username=" + username;
+            document.cookie = "username=" + userName;
 
             // Now load the next page --> Options to buy, sell, rate users, and view user profile
             const newURL = myURL + "options/";

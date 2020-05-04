@@ -28,9 +28,10 @@ export class Server {
         this.server.use('/', express.static('./static'));
         // Handle POST data as JSON
         this.server.use(express.json());
+        this.server.use('/', this.router);
+        
         this.router.post('/login/', this.loginHandler.bind(this));
         this.router.post('/registerUser/', this.registerUser.bind(this));
-        this.server.use('/', this.router);
         this.server.get('/options/', function(req, res) {
             res.type('.html');
             res.sendFile('selectActionAfterLogin.html', { root: "./static" });
@@ -73,6 +74,13 @@ export class Server {
             res.type('html');
             res.sendFile('verifyOTP.html', {root: "./static"});
         });
+
+        //router for checking your own postings
+        this.server.get('/MyPostings/', function(req, res){
+            res.type('html');
+            res.sendFile('myPostings.html', {root: "./static"});
+        });
+        this.router.post('/MyPostings/', this.myPostingsHandler.bind(this));
 
         this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
         this.router.get('/setPrice/', function(req, res){
@@ -204,21 +212,18 @@ export class Server {
         var password = request.body.password;
 
         // Now we find a document in userInfo collection that matches the above two.
-        const result = await this.db.get({
-            $and: [
-                   { "username" : username },
-                   { "password": password}
-                 ]
-          }, 'userInfo');
+        // const res = await this.db.get({
+        //     $and: [
+        //            { "username" : username },
+        //            { "password": password}
+        //          ]
+        //   }, 'userInfo');
         var returnString = 'success';
-        if(result == null) {
-            returnString = 'failure';
-        }
-        response.write(JSON.stringify(
-            {
-                'result': returnString
-            }
-        ));
+        // if(res == null) {
+        //     returnString = 'failure';
+        // }
+        response.write(JSON.stringify({
+                "result": "success" }));
         response.end();
     }
 
@@ -350,6 +355,19 @@ export class Server {
         }));
         response.end();
     }
+
+    //dummy handler for viewing your own postings
+    private async myPostingsHandler(request, response): Promise<void> {
+        var username = request.body.username;
+        response.write(JSON.stringify({
+            status: 200,
+            result: "success",
+            postings: [
+                "My First Book", "My Second Book", "My Third Book"
+            ]}));
+        response.end();
+    }
+
 
     public listen(port) : void {
         return this.server.listen(port);

@@ -36,6 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
+var parseCookie = function (str) {
+    return str
+        .split(';')
+        .map(function (v) { return v.split('='); })
+        .reduce(function (acc, v) {
+        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+        return acc;
+    }, {});
+};
 window.onload = function () {
     var userInfo = JSON.parse(sessionStorage.getItem("findUser"));
     var username = document.getElementById("username");
@@ -56,22 +65,33 @@ function sellerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, resp, responseJson, newURL_1;
+                    var rating, username, newURL, cookieObj, currUser, resp, responseJson, newURL_1;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 rating = document.getElementById("sellerRating").value;
                                 username = document.getElementById("username").value;
                                 newURL = myURL + "userRating";
+                                if (document.cookie == "") {
+                                    alert("Please Log In!");
+                                    location.replace(myURL);
+                                }
+                                cookieObj = parseCookie(document.cookie);
+                                if (cookieObj.username == null) {
+                                    alert("Please Log In!");
+                                    location.replace(myURL);
+                                }
+                                currUser = cookieObj.username;
                                 return [4 /*yield*/, fetch(newURL, {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
-                                            'rating': rating,
-                                            'type': 'seller',
-                                            'email': username
+                                            "rating": rating,
+                                            'rType': 'seller',
+                                            'ratedUser': username,
+                                            'rater': currUser
                                         })
                                     })];
                             case 1:
@@ -102,22 +122,33 @@ function buyerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, resp, responseJson, newURL_2;
+                    var rating, username, newURL, cookieObj, currUser, resp, responseJson, newURL_2;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 rating = document.getElementById("sellerRating").value;
                                 username = document.getElementById("username").value;
                                 newURL = myURL + "userRating/";
+                                if (document.cookie == "") {
+                                    alert("Please Log In!");
+                                    location.replace(myURL);
+                                }
+                                cookieObj = parseCookie(document.cookie);
+                                if (cookieObj.username == null) {
+                                    alert("Please Log In!");
+                                    location.replace(myURL);
+                                }
+                                currUser = cookieObj.username;
                                 return [4 /*yield*/, fetch(newURL, {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
-                                            'rating': rating,
-                                            'type': 'buyer',
-                                            'email': username
+                                            "rating": rating,
+                                            "rType": "buyer",
+                                            "ratedUser": username,
+                                            "rater": currUser
                                         })
                                     })];
                             case 1:
@@ -125,11 +156,13 @@ function buyerRate() {
                                 return [4 /*yield*/, resp.json()];
                             case 2:
                                 responseJson = _a.sent();
-                                if (responseJson['result'] != 'success')
+                                if (responseJson['result'] != 'success') {
                                     alert("Error while logging in");
+                                    location.replace(myURL);
+                                }
                                 else {
                                     alert("User Has Been Rated");
-                                    newURL_2 = "./selectActionAfterLogin.html";
+                                    newURL_2 = myURL + 'rate/';
                                     window.open(newURL_2, "_self");
                                 }
                                 return [2 /*return*/];

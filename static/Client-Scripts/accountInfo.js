@@ -45,6 +45,29 @@ var parseCookie = function (str) {
         return acc;
     }, {});
 };
+function postData(url, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(url, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        body: JSON.stringify(data)
+                    })];
+                case 1:
+                    resp = _a.sent();
+                    return [2 /*return*/, resp];
+            }
+        });
+    });
+}
 function getInfo() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
@@ -96,6 +119,39 @@ function getInfo() {
                             sRating.innerHTML = "<b>" + respJson.sRating + "\/5</b>";
                             _a.label = 4;
                         case 4: return [2 /*return*/];
+                    }
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
+function myPosts() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username, newURL, resp, respJson;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            username = document.getElementById("username");
+                            newURL = myURL + "MyPostings/";
+                            return [4 /*yield*/, postData(newURL, { "userName": username })];
+                        case 1:
+                            resp = _a.sent();
+                            return [4 /*yield*/, resp.json()];
+                        case 2:
+                            respJson = _a.sent();
+                            if (resp.status == 404) {
+                                alert("Error");
+                                location.reload();
+                            }
+                            else {
+                                sessionStorage.setItem("myPosts", JSON.stringify(respJson));
+                                location.replace(newURL);
+                            }
+                            return [2 /*return*/];
                     }
                 });
             }); })();

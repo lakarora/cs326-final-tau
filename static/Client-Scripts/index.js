@@ -84,13 +84,13 @@ function verifyLogin() {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var rexp, username, password, hashPwd, newURL, resp, responseJson, newURL_1;
+                var rexp, userName, password, hashPwd, newURL, resp, responseJson, newURL_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             rexp = new RegExp('^[A-Za-z0-9]+$');
-                            username = document.getElementById("loginUsername").value;
-                            if (username.match(rexp) == null) {
+                            userName = document.getElementById("loginUsername").value;
+                            if (userName.match(rexp) == null) {
                                 alert("Invalid username");
                                 return [2 /*return*/];
                             }
@@ -104,22 +104,22 @@ function verifyLogin() {
                             hashPwd = _a.sent();
                             newURL = myURL + "login/";
                             return [4 /*yield*/, postData(newURL, {
-                                    'username': username,
-                                    'password': hashPwd
+                                    "username": userName,
+                                    "password": hashPwd
                                 })];
                         case 2:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
                         case 3:
                             responseJson = _a.sent();
-                            if (responseJson['result'] != 'success') {
+                            if (responseJson['result'] != "success") {
                                 alert("Error while logging in");
                                 location.reload();
                             }
                             else {
                                 alert("Login successful");
                                 // Set cookie in browser for the logged in use and load the next page
-                                document.cookie = "username=" + username;
+                                document.cookie = "username=" + userName;
                                 newURL_1 = myURL + "options/";
                                 window.open(newURL_1, "_self");
                             }
