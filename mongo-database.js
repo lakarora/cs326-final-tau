@@ -42,7 +42,7 @@ var Database = /** @class */ (function () {
         var _this = this;
         this.MongoClient = require('mongodb').MongoClient;
         this.uri = secrets_1.secrets.mongoUri;
-        this.client = new this.MongoClient(this.uri, { useNewUrlParser: true });
+        this.client = new this.MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         // Open up a connection to the client
         (function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {

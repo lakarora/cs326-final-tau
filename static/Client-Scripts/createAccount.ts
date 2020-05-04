@@ -59,11 +59,12 @@ async function createAccount(event) : Promise<void> {
             const newURL = myURL + "checkNewAccount/";
             const resp = await postData(newURL, {
                 'email': email,
-                'fullname': fullName
+                'username': username,
+                'fullName': fullName
             });
             const responseJSON = await resp.json();
             if(responseJSON['result'] != 'success') {
-                alert("There is already an account associated with this email");
+                alert("Email or username already taken");
                 return;
             } 
             else {

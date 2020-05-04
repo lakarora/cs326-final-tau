@@ -56,14 +56,37 @@ function getHash(OTP) {
         });
     });
 }
+function postData(url, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(url, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        body: JSON.stringify(data)
+                    })];
+                case 1:
+                    resp = _a.sent();
+                    return [2 /*return*/, resp];
+            }
+        });
+    });
+}
 function verifyLogin() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var rexp, username, password, newURL, resp, _a, _b, _c, _d, _e, _f, _g, responseJson, newURL_1;
-                return __generator(this, function (_h) {
-                    switch (_h.label) {
+                var rexp, username, password, hashPwd, newURL, resp, responseJson, newURL_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
                         case 0:
                             rexp = new RegExp('^[A-Za-z0-9]+$');
                             username = document.getElementById("loginUsername").value;
@@ -76,29 +99,19 @@ function verifyLogin() {
                                 alert("Invalid password");
                                 return [2 /*return*/];
                             }
-                            newURL = myURL + "login/";
-                            _a = fetch;
-                            _b = [newURL];
-                            _c = {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            };
-                            _e = (_d = JSON).stringify;
-                            _f = {
-                                'email': username
-                            };
-                            _g = 'password';
                             return [4 /*yield*/, getHash(password)];
-                        case 1: return [4 /*yield*/, _a.apply(void 0, _b.concat([(_c.body = _e.apply(_d, [(_f[_g] = _h.sent(),
-                                        _f)]),
-                                    _c)]))];
+                        case 1:
+                            hashPwd = _a.sent();
+                            newURL = myURL + "login/";
+                            return [4 /*yield*/, postData(newURL, {
+                                    'username': username,
+                                    'password': hashPwd
+                                })];
                         case 2:
-                            resp = _h.sent();
+                            resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
                         case 3:
-                            responseJson = _h.sent();
+                            responseJson = _a.sent();
                             if (responseJson['result'] != 'success') {
                                 alert("Error while logging in");
                                 location.reload();

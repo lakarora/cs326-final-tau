@@ -7,7 +7,7 @@ export class Database {
     private db;
 
     constructor() {
-        this.client = new this.MongoClient(this.uri, { useNewUrlParser: true});
+        this.client = new this.MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true});
         // Open up a connection to the client
         (async () => {
             await this.client.connect().catch(err => { console.log(err); });

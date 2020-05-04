@@ -200,10 +200,23 @@ export class Server {
 
     private async loginHandler(request, response) : Promise<void> {
 
-        // Leaving dummy code for now
+        var username = request.body.username;
+        var password = request.body.password;
+
+        // Now we find a document in userInfo collection that matches the above two.
+        const result = await this.db.get({
+            $and: [
+                   { "username" : username },
+                   { "password": password}
+                 ]
+          }, 'userInfo');
+        var returnString = 'success';
+        if(result == null) {
+            returnString = 'failure';
+        }
         response.write(JSON.stringify(
             {
-                'result': 'success'
+                'result': returnString
             }
         ));
         response.end();
@@ -225,10 +238,15 @@ export class Server {
     // dummy handler for checking if account exists
     private async checkNewAccount(request, response) : Promise<void> {
         var email = request.body.email;
-        var fullName = request.body.fullname;
-
+        var username = request.body.username;
+        var fullName = request.body.fullName;
         // Check if email exists in db. If it does, return failure. 
-        const result = await this.db.get({'email': email}, 'userInfo');
+        const result = await this.db.get(   {
+            $or: [
+                   { "email" : email },
+                   { "username": username}
+                 ]
+          }, 'userInfo');
         if(result != null) {
             response.write(JSON.stringify({
                 'result': 'failure'

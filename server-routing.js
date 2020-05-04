@@ -247,13 +247,30 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.loginHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
+            var username, password, result, returnString;
             return __generator(this, function (_a) {
-                // Leaving dummy code for now
-                response.write(JSON.stringify({
-                    'result': 'success'
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        username = request.body.username;
+                        password = request.body.password;
+                        return [4 /*yield*/, this.db.get({
+                                $and: [
+                                    { "username": username },
+                                    { "password": password }
+                                ]
+                            }, 'userInfo')];
+                    case 1:
+                        result = _a.sent();
+                        returnString = 'success';
+                        if (result == null) {
+                            returnString = 'failure';
+                        }
+                        response.write(JSON.stringify({
+                            'result': returnString
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -279,13 +296,19 @@ var Server = /** @class */ (function () {
     // dummy handler for checking if account exists
     Server.prototype.checkNewAccount = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var email, fullName, result, OTP, oauth2Client, accessToken, transporter, mailOptions;
+            var email, username, fullName, result, OTP, oauth2Client, accessToken, transporter, mailOptions;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         email = request.body.email;
-                        fullName = request.body.fullname;
-                        return [4 /*yield*/, this.db.get({ 'email': email }, 'userInfo')];
+                        username = request.body.username;
+                        fullName = request.body.fullName;
+                        return [4 /*yield*/, this.db.get({
+                                $or: [
+                                    { "email": email },
+                                    { "username": username }
+                                ]
+                            }, 'userInfo')];
                     case 1:
                         result = _a.sent();
                         if (result != null) {

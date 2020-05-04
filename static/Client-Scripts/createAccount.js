@@ -112,7 +112,8 @@ function createAccount(event) {
                             newURL = myURL + "checkNewAccount/";
                             return [4 /*yield*/, postData(newURL, {
                                     'email': email,
-                                    'fullname': fullName
+                                    'username': username,
+                                    'fullName': fullName
                                 })];
                         case 2:
                             resp = _d.sent();
@@ -120,7 +121,7 @@ function createAccount(event) {
                         case 3:
                             responseJSON = _d.sent();
                             if (!(responseJSON['result'] != 'success')) return [3 /*break*/, 4];
-                            alert("There is already an account associated with this email");
+                            alert("Email or username already taken");
                             return [2 /*return*/];
                         case 4:
                             OTP = responseJSON['OTP'];
