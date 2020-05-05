@@ -5,6 +5,7 @@ let url = require('url');
 let express = require('express');
 let path = require('path');
 var $ = require('jquery');
+let ObjectID = require('mongodb').ObjectID;
 let nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -95,6 +96,8 @@ export class Server {
             res.sendFile('myPostings.html', {root: "./static"});
         });
         this.router.post('/MyPostings/', this.myPostingsHandler.bind(this));
+        this.router.post('/Delete', this.deletePostingsHandler.bind(this));
+
 
         this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
         this.router.get('/setPrice/', function(req, res){
@@ -423,7 +426,7 @@ export class Server {
     private async myPostingsHandler(request, response): Promise<void> {
         var username = request.body.username;
         var result = await this.db.getMany({"username": username}, 'bookPostings');
-        console.log(result);
+        // console.log(result);
         if(result.length == 0){
             response.write(JSON.stringify({
                 status: 200,
@@ -442,6 +445,19 @@ export class Server {
             "status": 200,
             "result": "success",
             "postings": postings
+        }));
+        response.end();
+    }
+
+    // handler for delete my postings
+    private async deletePostingsHandler(request, response): Promise<void> {
+        var delList = request.body.delList.map(x => ObjectID(x));
+        var query = {_id: {$in : delList }};
+        var result = await this.db.delete(query, "bookPostings");
+        console.log(result);
+        response.write(JSON.stringify({
+            "status": 200,
+            "result": result,
         }));
         response.end();
     }

@@ -41,9 +41,12 @@ window.onload = function () {
     (function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             validateUser();
+            renderList();
             return [2 /*return*/];
         });
     }); })();
+    console.log("IN ONLOAD");
+    document.getElementById("delete").addEventListener("click", confirmDelete);
 };
 function validateUser() {
     return __awaiter(this, void 0, void 0, function () {
@@ -99,7 +102,6 @@ function renderList() {
     return __awaiter(this, void 0, void 0, function () {
         var listP, posts, i;
         return __generator(this, function (_a) {
-            console.log("sdfasjdf");
             listP = document.getElementById("listPosts");
             posts = JSON.parse(sessionStorage.getItem("myPosts")).postings;
             if (posts.length == 0) {
@@ -108,9 +110,35 @@ function renderList() {
                 return [2 /*return*/];
             }
             for (i = 0; i < posts.length; i++) {
-                listP.appendChild(createListItem(posts[i], i));
+                listP.appendChild(createListItem(posts[i].title, i));
             }
             return [2 /*return*/];
+        });
+    });
+}
+//function  to submit the elements to be deleted
+function confirmDelete() {
+    return __awaiter(this, void 0, void 0, function () {
+        var posts, delList, i, newURL, resp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log("IN CONF delete");
+                    posts = JSON.parse(sessionStorage.getItem("myPosts")).postings;
+                    delList = [];
+                    for (i = 0; i < posts.length; i++) {
+                        if ((document.getElementById("ch" + i.toString())).checked) {
+                            delList.push(posts[i]._id);
+                        }
+                    }
+                    console.log(delList);
+                    newURL = myURL + 'Delete/';
+                    return [4 /*yield*/, postData(newURL, { "delList": delList })];
+                case 1:
+                    resp = _a.sent();
+                    window.open(myURL + 'accountInfo/', '_self');
+                    return [2 /*return*/];
+            }
         });
     });
 }

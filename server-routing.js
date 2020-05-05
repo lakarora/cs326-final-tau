@@ -42,6 +42,7 @@ var url = require('url');
 var express = require('express');
 var path = require('path');
 var $ = require('jquery');
+var ObjectID = require('mongodb').ObjectID;
 var nodemailer = require('nodemailer');
 var google = require("googleapis").google;
 var OAuth2 = google.auth.OAuth2;
@@ -119,6 +120,7 @@ var Server = /** @class */ (function () {
             res.sendFile('myPostings.html', { root: "./static" });
         });
         this.router.post('/MyPostings/', this.myPostingsHandler.bind(this));
+        this.router.post('/Delete', this.deletePostingsHandler.bind(this));
         this.router.post('/setPrice/', this.amazonPriceHandler.bind(this));
         this.router.get('/setPrice/', function (req, res) {
             res.type('html');
@@ -150,36 +152,28 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.searchBookHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var title;
+            var title, res;
             return __generator(this, function (_a) {
-                title = request.body.query;
-                /*
-                if (book is found) {
-                    response.write(JSON.stringify(result));
-                } else {
-                    response.write(JSON.stringify({'result' : 'notfound'}));
-                    response.end();
+                switch (_a.label) {
+                    case 0:
+                        title = request.body.query;
+                        return [4 /*yield*/, this.db.get({ "title": title }, 'bookPostings')];
+                    case 1:
+                        res = _a.sent();
+                        if (res == null) {
+                            response.write(JSON.stringify({
+                                'result': "nobooks"
+                            }));
+                        }
+                        else {
+                            response.write(JSON.stringify({
+                                'result': "success",
+                                'searchResults': [res]
+                            }));
+                        }
+                        response.end();
+                        return [2 /*return*/];
                 }
-        
-                */
-                //    if(false) {
-                // } else {
-                response.write(JSON.stringify({
-                    'result': "success",
-                    'searchResults': [{
-                            'picture': '../resources/no-image-listing.png',
-                            'title': title,
-                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                            'condition': 'New',
-                            'account-link': '#',
-                            'account-name': 'Minutemen2021',
-                            'seller-rating': '4.6',
-                            'price': '100',
-                            'amazonPrice': '140'
-                        }]
-                }));
-                response.end();
-                return [2 /*return*/];
             });
         });
     };
@@ -486,18 +480,60 @@ var Server = /** @class */ (function () {
     //dummy handler for viewing your own postings
     Server.prototype.myPostingsHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var username;
+            var username, result, postings, i;
             return __generator(this, function (_a) {
-                username = request.body.username;
-                response.write(JSON.stringify({
-                    status: 200,
-                    result: "success",
-                    postings: [
-                        "My First Book", "My Second Book", "My Third Book"
-                    ]
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        username = request.body.username;
+                        return [4 /*yield*/, this.db.getMany({ "username": username }, 'bookPostings')];
+                    case 1:
+                        result = _a.sent();
+                        // console.log(result);
+                        if (result.length == 0) {
+                            response.write(JSON.stringify({
+                                status: 200,
+                                result: "success",
+                                postings: []
+                            }));
+                        }
+                        postings = [];
+                        for (i = 0; i < result.length; i++) {
+                            postings.push({
+                                "title": result[i].title,
+                                "_id": result[i]._id
+                            });
+                        }
+                        response.write(JSON.stringify({
+                            "status": 200,
+                            "result": "success",
+                            "postings": postings
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // handler for delete my postings
+    Server.prototype.deletePostingsHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var delList, query, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        delList = request.body.delList.map(function (x) { return ObjectID(x); });
+                        query = { _id: { $in: delList } };
+                        return [4 /*yield*/, this.db["delete"](query, "bookPostings")];
+                    case 1:
+                        result = _a.sent();
+                        console.log(result);
+                        response.write(JSON.stringify({
+                            "status": 200,
+                            "result": result
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };

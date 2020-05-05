@@ -4,3 +4,4 @@ ScrapePrice.ipynb
 node_modules/*
 secrets.ts
 secrets.js
+twilioKeys.ts

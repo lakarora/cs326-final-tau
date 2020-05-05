@@ -116,7 +116,8 @@ function myPosts() {
                         case 0:
                             username = document.getElementById("username");
                             newURL = myURL + "MyPostings/";
-                            return [4 /*yield*/, postData(newURL, { "userName": username })];
+                            console.log(username);
+                            return [4 /*yield*/, postData(newURL, { "username": sessionStorage.getItem('currentUser') })];
                         case 1:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];

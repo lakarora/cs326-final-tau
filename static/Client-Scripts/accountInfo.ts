@@ -53,7 +53,8 @@ async function myPosts() : Promise<void> {
     (async () => { 
         var username = (<HTMLElement>document.getElementById("username"));
         var newURL = myURL + "MyPostings/"
-        var resp = await postData( newURL, {"userName":username});
+        console.log(username);
+        var resp = await postData( newURL, {"username": sessionStorage.getItem('currentUser')});
         const respJson = await resp.json();
         if(resp.status == 404){
             alert("Error");

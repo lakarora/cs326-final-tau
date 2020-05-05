@@ -51,4 +51,19 @@ export class Database {
         );
         return res;
     }
+
+    public async delete(query, collectionName: string): Promise<string> {
+        let collection = this.db.collection(collectionName);
+        console.log(query);
+        let res = await collection.deleteMany(query)
+            .then(result => {
+                console.log(result);
+                return result;
+            })
+            .catch( err => {
+                console.log(err);
+                return null;
+            });
+        return res;
+    }
 }   

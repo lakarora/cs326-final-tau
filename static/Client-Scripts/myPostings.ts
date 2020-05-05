@@ -4,7 +4,10 @@ const myURL = "http://localhost:8080/"
 window.onload = function() {
     (async() => {
         validateUser();
+        renderList();
     })();
+    console.log("IN ONLOAD");
+    document.getElementById("delete").addEventListener("click", confirmDelete);
 }
 
 async function validateUser(): Promise<void> {
@@ -43,7 +46,6 @@ function createListItem(bookTitle : string, n: number) {
 }
 
 async function renderList(){
-    console.log("sdfasjdf");
     var listP = (<HTMLElement>document.getElementById("listPosts"));
     var posts = JSON.parse(sessionStorage.getItem("myPosts")).postings;
     if( posts.length == 0){
@@ -52,6 +54,22 @@ async function renderList(){
         return;
     }
     for(let i=0; i< posts.length; i++){
-        listP.appendChild(createListItem(posts[i], i));
+        listP.appendChild(createListItem(posts[i].title, i));
     }
+}
+
+//function  to submit the elements to be deleted
+async function  confirmDelete(){
+    console.log("IN CONF delete");
+    var posts = JSON.parse(sessionStorage.getItem("myPosts")).postings;
+    var delList = [];
+    for(let i=0; i< posts.length; i++){
+        if((<HTMLInputElement>(document.getElementById("ch"+i.toString()))).checked){
+            delList.push(posts[i]._id);
+        }
+    }
+    console.log(delList);
+    var newURL = myURL + 'Delete/'
+    var resp = await postData(newURL, {"delList": delList});
+    window.open(myURL+'accountInfo/', '_self');
 }
