@@ -91,6 +91,39 @@ var Database = /** @class */ (function () {
             });
         });
     };
+    Database.prototype.getMany = function (query, collectionName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var collection, res;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        collection = this.db.collection(collectionName);
+                        console.log(query);
+                        return [4 /*yield*/, collection.find(query).toArray().then(function (data) {
+                                console.log(data);
+                                return data;
+                            }, function (err) {
+                                console.log(err);
+                                return null;
+                            })];
+                    case 1:
+                        res = _a.sent();
+                        // let res = await collection.find(query).then(
+                        //     val => {
+                        //         let arr = val.toArray();
+                        //         console.log(arr);
+                        //         return arr;
+                        //     },
+                        //     err => {
+                        //         console.log(err);
+                        //         return null;
+                        //     }
+                        // )
+                        return [2 /*return*/, res];
+                }
+            });
+        });
+    };
     return Database;
 }());
 exports.Database = Database;
