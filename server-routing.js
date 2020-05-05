@@ -152,12 +152,18 @@ var Server = /** @class */ (function () {
     };
     Server.prototype.searchBookHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var title, res;
+            var query, res;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        title = request.body.query;
-                        return [4 /*yield*/, this.db.getMany({ "title": title }, 'bookPostings')];
+                        query = request.body.query;
+                        return [4 /*yield*/, this.db.getMany({
+                                $or: [
+                                    { "title": query },
+                                    { "author": query },
+                                    { "isbn": query }
+                                ]
+                            }, 'bookPostings')];
                     case 1:
                         res = _a.sent();
                         if (res == null || res.length == 0) {

@@ -128,21 +128,16 @@ export class Server {
     }
 
     private async searchBookHandler(request,response) : Promise<void> {
-        let title = request.body.query;
-        /*
-        if (book is found) {
-            response.write(JSON.stringify(result));
-        } else {
-            response.write(JSON.stringify({'result' : 'notfound'}));
-            response.end();
-        }
-
-        */
-    //    if(false) {
-
-       // } else {
+        let query = request.body.query;
         const res = await this.db.getMany(
-            { "title" : title}
+            {
+                $or: [
+                    { "title" : query},
+                    { "author": query},
+                    { "isbn": query}
+                  ]
+            }
+            
            ,'bookPostings');
         if (res == null || res.length == 0) {
             response.write(JSON.stringify({
@@ -157,7 +152,6 @@ export class Server {
         }
 
         response.end();
-     //   }
     }
 
     private async searchResultsHandler(request, response) : Promise<void> {
