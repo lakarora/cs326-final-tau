@@ -1,6 +1,11 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
+window.onload = function () {
+    (async() => {
+        validateUser()
+    })();
+}
 let searchResults = [];
 async function postData(url : string, data: any) {
     const resp = await fetch(url,
@@ -19,14 +24,15 @@ async function postData(url : string, data: any) {
  
 }
 
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
+async function validateUser(): Promise<void> {
+    (async () => {
+        var username = sessionStorage.getItem('currentUser');
+        if(username == null){
+            alert("Please Log In!");
+            location.replace(myURL);
+         }
+    })();
+ }
 
 window.onload=function(){
     let sp= document.getElementById("max-price-filter");
@@ -104,36 +110,25 @@ async function filterResults() {
 
 async function messageUser(num): Promise<void> {
     (async () => {
-        var cookie = document.cookie;
-        if(cookie == ""){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var cookieObj = parseCookie(cookie);
-        if( cookieObj.username == null){
-            alert("Please Log In!");
-            location.replace(myURL);
-        } else {
-            let newURL = myURL + "searchBook/";
-            let bookData = searchResults[num];
-            let message = prompt("What would you like to say?", "Hello, Im interested in your "+bookData['title']+ " posting.");
-            if (message == "" || message == null) {
+        let newURL = myURL + "searchBook/";
+        let bookData = searchResults[num];
+        let message = prompt("What would you like to say?", "Hello, Im interested in your "+bookData['title']+ " posting.");
+        if (message == "" || message == null) {
 
-            } else {
-                let data = {
-                    'message': message,
-                    'user': searchResults['account-name']
-                }
-                let newURL = myURL + "postMessage/"
-                var resp = await postData(newURL, data);
-                if (resp.status == 200) {
-                    const responseJson = await resp.json();
-                    if (responseJson['result'] == 'success') {
-                        let newURL = myURL + 'messages/'
-                        location.replace(newURL);
-                    } else {
-                        alert("Couldn't send message");
-                    }
+        } else {
+            let data = {
+                'message': message,
+                'user': searchResults['account-name']
+            }
+            let newURL = myURL + "postMessage/"
+            var resp = await postData(newURL, data);
+            if (resp.status == 200) {
+                const responseJson = await resp.json();
+                if (responseJson['result'] == 'success') {
+                    let newURL = myURL + 'messages/'
+                    location.replace(newURL);
+                } else {
+                    alert("Couldn't send message");
                 }
             }
         }

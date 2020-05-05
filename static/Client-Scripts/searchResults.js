@@ -36,6 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
+window.onload = function () {
+    var _this = this;
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            validateUser();
+            return [2 /*return*/];
+        });
+    }); })();
+};
 var searchResults = [];
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
@@ -60,15 +69,25 @@ function postData(url, data) {
         });
     });
 }
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
+function validateUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username;
+                return __generator(this, function (_a) {
+                    username = sessionStorage.getItem('currentUser');
+                    if (username == null) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
 window.onload = function () {
     var sp = document.getElementById("max-price-filter");
     sp.value = '600';
@@ -158,38 +177,27 @@ function messageUser(num) {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var cookie, cookieObj, newURL, bookData, message, data, newURL_1, resp, responseJson, newURL_2;
+                var newURL, bookData, message, data, newURL_1, resp, responseJson, newURL_2;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            cookie = document.cookie;
-                            if (cookie == "") {
-                                alert("Please Log In!");
-                                location.replace(myURL);
-                            }
-                            cookieObj = parseCookie(cookie);
-                            if (!(cookieObj.username == null)) return [3 /*break*/, 1];
-                            alert("Please Log In!");
-                            location.replace(myURL);
-                            return [3 /*break*/, 5];
-                        case 1:
                             newURL = myURL + "searchBook/";
                             bookData = searchResults[num];
                             message = prompt("What would you like to say?", "Hello, Im interested in your " + bookData['title'] + " posting.");
-                            if (!(message == "" || message == null)) return [3 /*break*/, 2];
-                            return [3 /*break*/, 5];
-                        case 2:
+                            if (!(message == "" || message == null)) return [3 /*break*/, 1];
+                            return [3 /*break*/, 4];
+                        case 1:
                             data = {
                                 'message': message,
                                 'user': searchResults['account-name']
                             };
                             newURL_1 = myURL + "postMessage/";
                             return [4 /*yield*/, postData(newURL_1, data)];
-                        case 3:
+                        case 2:
                             resp = _a.sent();
-                            if (!(resp.status == 200)) return [3 /*break*/, 5];
+                            if (!(resp.status == 200)) return [3 /*break*/, 4];
                             return [4 /*yield*/, resp.json()];
-                        case 4:
+                        case 3:
                             responseJson = _a.sent();
                             if (responseJson['result'] == 'success') {
                                 newURL_2 = myURL + 'messages/';
@@ -198,8 +206,8 @@ function messageUser(num) {
                             else {
                                 alert("Couldn't send message");
                             }
-                            _a.label = 5;
-                        case 5: return [2 /*return*/];
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
                 });
             }); })();
