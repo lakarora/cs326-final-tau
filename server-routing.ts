@@ -4,6 +4,7 @@ let http = require('http');
 let url = require('url');
 let express = require('express');
 let path = require('path');
+var $ = require('jquery');
 let nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -137,21 +138,22 @@ export class Server {
     //    if(false) {
 
        // } else {
+        const res = await this.db.getMany(
+            { "title" : title}
+           ,'bookPostings');
+        if (res == null) {
+            response.write(JSON.stringify({
+                'result': "nobooks",
+
+            }));
+        } else {
             response.write(JSON.stringify({
                 'result': "success",
-                'searchResults': [{
-                    'picture':'../resources/no-image-listing.png',
-                    'title': title,
-                    'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                    'condition': 'New',
-                    'account-link': '#',
-                    'account-name': 'Minutemen2021',
-                    'seller-rating': '4.6',
-                    'price': '100',
-                    'amazonPrice': '140'
-                }]
+                'searchResults': res
             }));
-            response.end();
+        }
+
+        response.end();
      //   }
     }
 
@@ -333,26 +335,43 @@ export class Server {
 
     // dummy handler that gets Amazon price using the scraper
     private async amazonPriceHandler(request, response) : Promise<void> {
-        let query = request.body.query;
-        $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, {}, function(data) {
-            response.write(JSON.stringify({
-                'status': 200,
-                'amazon-price': data.amazon_price
-            }));
-            response.end();
-            console.log();
-        });
+        let query = request.body.title;
+        let url = 'https://stormy-tundra-04347.herokuapp.com/' + query;
+
+        // await fetch('https://stormy-tundra-04347.herokuapp.com/' + query, {}, function(data) {
+            // response.write(JSON.stringify({
+            //     'status': 200,
+            //     'amazon-price': data.price;
+            // }));
+        //     response.end();
+        //     console.log();
+        // });
+        // var data = await fetch('https://stormy-tundra-04347.herokuapp.com/' + query,
+        //     {
+        //         method: 'GET',
+        //         mode: 'cors',
+        //         cache: 'no-cache',
+        //         credentials: 'same-origin',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         redirect: 'follow'
+        // });
+        
         // send isbn and/or other data to the amazon scraper, get price
-        //var bookPrice = {'price': 27};
-        //response.write(JSON.stringify(bookPrice));
-        //response.end();
+        var bookPrice = {'price': 27};
+        response.write(JSON.stringify(bookPrice));
+        response.end();
     }
 
     // dummy handler that posts book and sends response
     private async addBookHandler(request, response) : Promise<void> {
         var bookData = request.body;
-        // send bookDat to the set of books, update user blah blah
-        response.write(JSON.stringify({status: "success"}));
+        // send bookData to the set of books, update user blah blah
+        const result = await this.db.putOne(bookData, 'bookPostings');
+        response.write(JSON.stringify({
+            'result': result
+        }));
         response.end();
     }
 
@@ -420,12 +439,27 @@ export class Server {
     //dummy handler for viewing your own postings
     private async myPostingsHandler(request, response): Promise<void> {
         var username = request.body.username;
+        var result = await this.db.getMany({"username": username}, 'bookPostings');
+        console.log(result);
+        if(result.length == 0){
+            response.write(JSON.stringify({
+                status: 200,
+                result: "success",
+                postings: [],
+            }));
+        }
+        var postings = [];
+        for(let i=0; i<result.length; i++){
+            postings.push({
+                "title": result[i].title, 
+                "_id": result[i]._id
+            });
+        }
         response.write(JSON.stringify({
-            status: 200,
-            result: "success",
-            postings: [
-                "My First Book", "My Second Book", "My Third Book"
-            ]}));
+            "status": 200,
+            "result": "success",
+            "postings": postings
+        }));
         response.end();
     }
 

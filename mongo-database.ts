@@ -43,5 +43,19 @@ export class Database {
             return 'success';
         else
             return 'failure';
+    public async getMany(query, collectionName: string) : Promise<string> {
+        let collection = this.db.collection(collectionName);
+        console.log(query);
+        let res = await collection.find(query).toArray().then(
+            data => {
+                console.log(data);
+                return data;
+            },
+            err => {
+                console.log(err);
+                return null;
+            }
+        );
+        return res;
     }
 }   

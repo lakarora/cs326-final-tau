@@ -1,7 +1,7 @@
-## Title
+## Title: Tau
 
 ## Application Name: Passage
-
+https://fathomless-sea-16239.herokuapp.com/
 ## Semester: Spring 2020
 
 ## Overview
@@ -14,6 +14,53 @@ Passage is a web-based application that students in any of the Five Colleges can
 ## User Interface
 
 ## APIs
+
+* localhost:8080/messages/ - Dashboard for your message feeds, need to be logged in to access it
+* localhost:8080/findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
+* localhost:8080/userRating/ - Used to fetch data from the database about the searched users informaion
+* localhost:8080/accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
+* localhost:8080/checkNewAccount/ - Used to check if a created account alread exists
+
+
+* localhost:8080/MyPostings/ - Used to display the users current postings, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to retreive postings |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| postings | Array | Returns all of the users posts |
+* localhost:8080/setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| title      | (Required) The title of the book to get scraped on Amazon |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| price | number | Returns the price of the book on Amazon|
+* localhost:8080/postBook/ - Page to enter in book information to be posted, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| body      | (Required) The book information to be added to the server |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the book was added to the database|
+
+* localhost:8080/searchBook/ - Post request to retreive book data from the database
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| query      | (Required) The search query that is to be used on the database to find books|
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| searchResults | Array | Returns array of books that matched search query |             
 
 ## Database
 There are two database collections used for Passage implemented in mongoDB. 
@@ -37,18 +84,18 @@ There are two database collections used for Passage implemented in mongoDB.
 
     bookPostings {
         
-        user: String,   // User who posted book
+        _id: ObjectId,
+        username: String,   // User who posted book
         title: String, // Title of the book
-        description: String, // Description of the book
+        author: String ,    // Author(s) of the book
+        isbn: String ,      // ISBN of the book
         condition: String,  // Condition that the book is in
-        seller-rating: float, // Seller rating of the user who posted
+        institution: String     // University that the book was used at
+        subject: String,  // Course subject of the book
+        courseNumber: String,   // Course number that the book is used for
         price: float,   // Price of the book 
         amazonPrice: float,  // Price of the book on amazon      
-        author: array of Strings ,    // Author(s) of the book
-        ISBN: String ,      // ISBN of the book
-        courseNumber: String,   // Course number that the book is used for
-        courseSubject: String,  // Course subject of the book
-        institution: String     // University that the book was used at
+        
     }
 
 ## URL Routes/Mappings
@@ -66,9 +113,17 @@ There are two database collections used for Passage implemented in mongoDB.
 * /setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
 * /postBook/ - Page to enter in book information to be posted, need to be logged in to use
 * /rateUser/ - Displays username, instution, seller rating, and buyer rating of the searched person. Need to be logged in to use
+* /search/ - Displays a search bar to search books by their title
+* /searchBook/ - Post request to retreive book data from the database
+* /searchResults/ - Displays all of the books from the search query
 ## Authentication/Authorization
+Users are authenticated when they first create an account. Passage will send them an OTP which they must type in correctly in order for the account to successfuly be added to the database. Afterwards the user is prompted to log in. Most of the website is only accessable while the user is logged into a verified account. In order to check whether the person is logged in, we store the username in browser cookies and check on almost every page if they are null. If so we route the user back to the home page.
 
 ## Division of Labor
+* Lakshay Arora - Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. Set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs. Deployed the project on Heroku. Created the secrets file and the mongo database atlas luster with two collections for user information and book postings. Created the verification for user log in and OTP. Also added authentication functionality for gmail accounts. Added get functionality to the database.
 
+* Nishad Ranade - Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page. Started with the Options page, and then implemented the My Profile with a dummy request-response handler, which grabs your own information from the database. Also did the Sell Book page, where a user can input book details, make a request to the server to get the Amazon Used Price for the book through a scraper, decide the price of the posted book based on that, and then post the book for sale.Created database interactions for the search and rate user functionalitites. Also created a new page with server interactions for modifying postings. Updated the server interactions with the messages page for book postings.
+
+* Nathan Grant - Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options. Did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page. Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
 ## Conclusion
 

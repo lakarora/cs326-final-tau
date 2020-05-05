@@ -60,48 +60,24 @@ function postData(url, data) {
         });
     });
 }
-function validateUser() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            (function () { return __awaiter(_this, void 0, void 0, function () {
-                var username;
-                return __generator(this, function (_a) {
-                    username = sessionStorage.getItem('currentUser');
-                    if (username == null) {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    return [2 /*return*/];
-                });
-            }); })();
-            return [2 /*return*/];
-        });
-    });
-}
+var parseCookie = function (str) {
+    return str
+        .split(';')
+        .map(function (v) { return v.split('='); })
+        .reduce(function (acc, v) {
+        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+        return acc;
+    }, {});
+};
 window.onload = function () {
-    var _this = this;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            validateUser();
-            return [2 /*return*/];
-        });
-    }); })();
     var sp = document.getElementById("max-price-filter");
     sp.value = '600';
     sp.addEventListener("change", adjustMaxPrice);
-    var sr = document.getElementById("seller-rating-filter");
-    sr.value = '0';
-    sr.addEventListener("change", adjustSellerRating);
     var fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
     searchResults = JSON.parse(sessionStorage.getItem('searchResults'));
     displayBooks(searchResults);
 };
-function adjustSellerRating() {
-    var sellerRating = document.getElementById("seller-rating-filter").value;
-    document.getElementById("seller-rating-title").innerHTML = "Seller Rating: " + sellerRating;
-}
 function adjustMaxPrice() {
     var maxPrice = document.getElementById("max-price-filter").value;
     document.getElementById("max-price-title").innerHTML = "Max Price: $" + maxPrice;
@@ -124,25 +100,15 @@ function csort(a, b) {
     else
         return -1;
 }
-function rsort(a, b) {
-    if (a['seller-rating'] > b['seller-rating'])
-        return 1;
-    else
-        return -1;
-}
 function filterResults() {
     return __awaiter(this, void 0, void 0, function () {
-        var order, maxPrice, sellerRating, cond, maxPrice_1, sellerRating_1, toDisplay, i;
+        var order, maxPrice, cond, maxPrice_1, toDisplay, i;
         return __generator(this, function (_a) {
             order = document.getElementById("order").value;
             maxPrice = parseFloat(document.getElementById("max-price-filter").value);
-            sellerRating = parseFloat(document.getElementById("seller-rating-filter").value);
             cond = [];
             if (isNaN(maxPrice)) {
                 maxPrice_1 = 10000000000;
-            }
-            if (isNaN(sellerRating)) {
-                sellerRating_1 = '-1';
             }
             if (document.getElementById("customCheck1").checked) {
                 cond.push('poor');
@@ -169,7 +135,6 @@ function filterResults() {
             toDisplay = [];
             for (i = 0; i < searchResults.length; i++) {
                 if (cond.includes(searchResults[i]['condition'].toLowerCase()) &&
-                    parseFloat(searchResults[i]['seller-rating']) > sellerRating &&
                     parseFloat(searchResults[i]['price']) < maxPrice) {
                     toDisplay.push(searchResults[i]);
                 }
@@ -183,9 +148,6 @@ function filterResults() {
             else if (order == 'cond') {
                 toDisplay = toDisplay.sort(csort);
             }
-            else if (order == 'rate') {
-                toDisplay = toDisplay.sort(rsort);
-            }
             displayBooks(toDisplay);
             return [2 /*return*/];
         });
@@ -196,27 +158,38 @@ function messageUser(num) {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var newURL, bookData, message, data, newURL_1, resp, responseJson, newURL_2;
+                var cookie, cookieObj, newURL, bookData, message, data, newURL_1, resp, responseJson, newURL_2;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
+                            cookie = document.cookie;
+                            if (cookie == "") {
+                                alert("Please Log In!");
+                                location.replace(myURL);
+                            }
+                            cookieObj = parseCookie(cookie);
+                            if (!(cookieObj.username == null)) return [3 /*break*/, 1];
+                            alert("Please Log In!");
+                            location.replace(myURL);
+                            return [3 /*break*/, 5];
+                        case 1:
                             newURL = myURL + "searchBook/";
                             bookData = searchResults[num];
                             message = prompt("What would you like to say?", "Hello, Im interested in your " + bookData['title'] + " posting.");
-                            if (!(message == "" || message == null)) return [3 /*break*/, 1];
-                            return [3 /*break*/, 4];
-                        case 1:
+                            if (!(message == "" || message == null)) return [3 /*break*/, 2];
+                            return [3 /*break*/, 5];
+                        case 2:
                             data = {
                                 'message': message,
                                 'user': searchResults['account-name']
                             };
                             newURL_1 = myURL + "postMessage/";
                             return [4 /*yield*/, postData(newURL_1, data)];
-                        case 2:
-                            resp = _a.sent();
-                            if (!(resp.status == 200)) return [3 /*break*/, 4];
-                            return [4 /*yield*/, resp.json()];
                         case 3:
+                            resp = _a.sent();
+                            if (!(resp.status == 200)) return [3 /*break*/, 5];
+                            return [4 /*yield*/, resp.json()];
+                        case 4:
                             responseJson = _a.sent();
                             if (responseJson['result'] == 'success') {
                                 newURL_2 = myURL + 'messages/';
@@ -225,8 +198,8 @@ function messageUser(num) {
                             else {
                                 alert("Couldn't send message");
                             }
-                            _a.label = 4;
-                        case 4: return [2 /*return*/];
+                            _a.label = 5;
+                        case 5: return [2 /*return*/];
                     }
                 });
             }); })();
@@ -245,24 +218,20 @@ function displayBooks(r) {
         <div class='card flex-row flex-wrap'> \
             <div class='col'> \
                 <div class='card-header border-0'> \
-                    <img src='" + r[i]['picture'] + "' alt='' height='100px'width='100px'> \
+                    <img src='../resources/no-image-listing.png' alt='' height='100px'width='100px'> \
                 </div> \
             </div> \
             <div class='col-9'> \
                 <div class='card-block px-2' style='padding-left: 3%;'> \
                     <a href='#' rel='Posting'><h4 class='card-title'>" + r[i]['title'] + "</h4></a> \
-                    <h5>Desctiption:</h5> \
-                    <p class='card-text'>" + r[i]['description'] + " \
-                    </p> \
                     <h5>Condition:</h5> \
-                    <p>" + r[i]['condition'] + "</p> \
-                    <h5>Seller Name: <a href='" + r[i]['account-link'] + "' rel='Account Popup' style='padding-right:10%;'>" + r[i]['account-name'] + "</a>  \
-                    Rating: " + r[i]['seller-rating'] + "\
-                    <img src='../resources/star.png' alt='star' height='16px' width='16px'></img></h5> \
+                    <p>" + r[i]['condition'] + "</p>  </br></br>\
+                    <h5>Seller Name: <a href='#' rel='Account Popup' style='padding-right:10%;'>" + r[i]['username'] + "</a>  \
                 </div> </div> <div class='col'> \
-                <h5 style='padding-top:75%;'>$" + r[i]['price'] + "</h5> \
+                <h5 style='padding-top:75%;color:blue;'>$" + r[i]['price'] + "</h5> \
                 <h5 style='padding-top:5%;'>Amazon Price: $" + r[i]['amazonPrice'] + "</h5> \
                 <button id='message-button' type='button' class='btn btn-primary' onclick='messageUser(" + i + ")'>Message</button> \
+                </br> \
             </div>  \
         </div>";
         view.insertAdjacentHTML('beforeend', toInsert);
