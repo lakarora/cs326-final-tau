@@ -32,19 +32,11 @@ window.onload=function(){
     let sp= document.getElementById("max-price-filter");
     (<HTMLInputElement>sp).value = '600';
     sp.addEventListener("change", adjustMaxPrice);
-    let sr= document.getElementById("seller-rating-filter");
-    (<HTMLInputElement>sr).value = '0';
-    sr.addEventListener("change", adjustSellerRating);
     let fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
     searchResults = JSON.parse(sessionStorage.getItem('searchResults'));
     console.log(searchResults);
     displayBooks(searchResults);
-}
-
-function adjustSellerRating() {
-    let sellerRating = (<HTMLInputElement>document.getElementById("seller-rating-filter")).value;
-    document.getElementById("seller-rating-title").innerHTML = "Seller Rating: "+sellerRating;
 }
 
 function adjustMaxPrice() {
@@ -64,21 +56,13 @@ function csort(a,b) {
     if(a['condition'] > b['condition']) return 1;
     else return -1;
 }
-function rsort(a,b) {
-    if(a['seller-rating'] > b['seller-rating']) return 1;
-    else return -1;
-}
 
 async function filterResults() {
     let order = (<HTMLInputElement>document.getElementById("order")).value;
     let maxPrice = parseFloat((<HTMLInputElement>document.getElementById("max-price-filter")).value);
-    let sellerRating = parseFloat((<HTMLInputElement>document.getElementById("seller-rating-filter")).value);
     let cond = [];
     if (isNaN(maxPrice)) {
         let maxPrice = 10000000000;
-    }
-    if (isNaN(sellerRating)){
-        let sellerRating = '-1';
     }
     if ((<HTMLInputElement>document.getElementById("customCheck1")).checked) {
         cond.push('poor');
@@ -105,7 +89,6 @@ async function filterResults() {
     let toDisplay = [];
     for (let i = 0; i < searchResults.length; i++) {
         if (cond.includes(searchResults[i]['condition'].toLowerCase()) &&
-            //parseFloat(searchResults[i]['seller-rating']) > sellerRating &&
             parseFloat(searchResults[i]['price']) < maxPrice) {
             toDisplay.push(searchResults[i]);
         }
@@ -116,8 +99,6 @@ async function filterResults() {
         toDisplay = toDisplay.sort(asc);
     } else if (order == 'cond') {
         toDisplay = toDisplay.sort(csort);
-    } else if (order == 'rate') {
-        toDisplay = toDisplay.sort(rsort);
     } 
     displayBooks(toDisplay);
 }

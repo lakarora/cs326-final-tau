@@ -34,16 +34,16 @@ async function searchBook(): Promise<void> {
                 'query':(<HTMLInputElement>document.getElementById('title')).value
             }
             var resp = await postData(newURL, data);
-            
+            const responseJson = await resp.json(); 
             console.log(JSON.stringify(resp));
-            if (resp.status == 200) {
-                const responseJson = await resp.json(); 
+            if (responseJson['result'] == 'success') {
+
                 sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
                 let newURL = myURL+'seachResults/';
                 console.log(newURL);
                 location.replace(myURL + 'searchResults/');
                 //window.open(newURL, "_self");
-            } else if (resp.status==404) {
+            } else if (responseJson['result'] == 'nobooks') {
                 alert("No book by that title was found");
             } else {
                 alert("Couldnt connect to the server");

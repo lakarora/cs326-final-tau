@@ -141,11 +141,18 @@ export class Server {
         const res = await this.db.get(
             { "title" : title}
            ,'bookPostings');
-        
-        response.write(JSON.stringify({
-            'result': "success",
-            'searchResults': [res]
-        }));
+        if (res == null) {
+            response.write(JSON.stringify({
+                'result': "nobooks",
+
+            }));
+        } else {
+            response.write(JSON.stringify({
+                'result': "success",
+                'searchResults': [res]
+            }));
+        }
+
         response.end();
      //   }
     }
