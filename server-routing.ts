@@ -421,12 +421,27 @@ export class Server {
     //dummy handler for viewing your own postings
     private async myPostingsHandler(request, response): Promise<void> {
         var username = request.body.username;
+        var result = await this.db.getMany({"username": username}, 'bookPostings');
+        console.log(result);
+        if(result.length == 0){
+            response.write(JSON.stringify({
+                status: 200,
+                result: "success",
+                postings: [],
+            }));
+        }
+        var postings = [];
+        for(let i=0; i<result.length; i++){
+            postings.push({
+                "title": result[i].title, 
+                "_id": result[i]._id
+            });
+        }
         response.write(JSON.stringify({
-            status: 200,
-            result: "success",
-            postings: [
-                "My First Book", "My Second Book", "My Third Book"
-            ]}));
+            "status": 200,
+            "result": "success",
+            "postings": postings
+        }));
         response.end();
     }
 
