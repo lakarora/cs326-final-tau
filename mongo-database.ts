@@ -36,6 +36,13 @@ export class Database {
         return result;
     }
 
+    public async updateSingular(query, newValues, collectionName: string): Promise<string> {
+        let collection = this.db.collection(collectionName);
+        let result = await collection.updateOne(query, newValues);
+        if(result.modifiedCount == 1)
+            return 'success';
+        else
+            return 'failure';
     public async getMany(query, collectionName: string) : Promise<string> {
         let collection = this.db.collection(collectionName);
         console.log(query);

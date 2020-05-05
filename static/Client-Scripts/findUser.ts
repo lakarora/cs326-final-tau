@@ -43,14 +43,11 @@ async function findUser(): Promise<void> {
         const resp = await postData(newURL, reqBody);
         const respJSON = await resp.json();
         if(respJSON.result != 'success'){
-            console.log(respJSON.result);
-            console.log("HI");
             alert("User not found");
             return;
         }
         else{
             // We got the information from the server. Put it in session storage for next page.
-            // console.log(typeof(resp));
             sessionStorage.setItem("rateUserInfo", JSON.stringify(respJSON)); 
             window.open(myURL + "rateUser/", "_self");
         }

@@ -37,35 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
 window.onload = function () {
-    var _this = this;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            validateUser();
-            return [2 /*return*/];
-        });
-    }); })();
     var sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
 };
-function validateUser() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            (function () { return __awaiter(_this, void 0, void 0, function () {
-                var username;
-                return __generator(this, function (_a) {
-                    username = sessionStorage.getItem('currentUser');
-                    if (username == null) {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    return [2 /*return*/];
-                });
-            }); })();
-            return [2 /*return*/];
-        });
-    });
-}
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -102,7 +76,7 @@ function searchBook() {
                             data = {};
                             if (!(document.getElementById('title').value == '' || document.getElementById('title').value == null)) return [3 /*break*/, 1];
                             alert("Search was empty!!!");
-                            return [3 /*break*/, 5];
+                            return [3 /*break*/, 4];
                         case 1:
                             data = {
                                 'query': document.getElementById('title').value
@@ -110,24 +84,25 @@ function searchBook() {
                             return [4 /*yield*/, postData(newURL, data)];
                         case 2:
                             resp = _a.sent();
-                            if (!(resp.status == 200)) return [3 /*break*/, 4];
                             return [4 /*yield*/, resp.json()];
                         case 3:
                             responseJson = _a.sent();
-                            sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
-                            newURL_1 = myURL + 'seachResults/';
-                            console.log(newURL_1);
-                            location.replace(myURL + 'searchResults/');
-                            return [3 /*break*/, 5];
-                        case 4:
-                            if (resp.status == 404) {
+                            console.log(JSON.stringify(resp));
+                            if (responseJson['result'] == 'success') {
+                                sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
+                                newURL_1 = myURL + 'seachResults/';
+                                console.log(newURL_1);
+                                location.replace(myURL + 'searchResults/');
+                                //window.open(newURL, "_self");
+                            }
+                            else if (responseJson['result'] == 'nobooks') {
                                 alert("No book by that title was found");
                             }
                             else {
                                 alert("Couldnt connect to the server");
                             }
-                            _a.label = 5;
-                        case 5: return [2 /*return*/];
+                            _a.label = 4;
+                        case 4: return [2 /*return*/];
                     }
                 });
             }); })();

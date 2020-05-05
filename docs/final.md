@@ -1,4 +1,4 @@
-## Title
+## Title: Tau
 
 ## Application Name: Passage
 https://fathomless-sea-16239.herokuapp.com/
@@ -12,18 +12,140 @@ Passage is a web-based application that students in any of the Five Colleges can
 * Nathan Grant - [N8Grant](https://github.com/N8Grant)
 
 ## User Interface
+ HTML        | Description          |
+| ------------- |:-------------:|
+| accountInfo.html | Displays your account information |
+| createAccount.html | Form with input to create a new account |
+| findUserToRate.html | Search bar for username to rate another user |
+| index.html | Home page where you can log in |
+| messages.html | Messages page where you contact other users |
+| myPostings.html | Page for all of your current postings |
+| searchBook.html | Page for inputting title of book to search |
+| searchResults.html | Page for displaying relevent books |
+| sellBook.html | Enter in book informaiton to sell |
+| setPrice.html | Compare price with amazon and enter in price |
+| userRating.html | Dislplays user information |
+| verifyOTP.html | Input the otp which was sent through email |
+
+Home Page:
+![image](./resources/final/home.png)
+
+Login:
+![image](./resources/final/login.png)
+
+Create Account:
+![image](./resources/final/create-account.png)
+
+OTP:
+![image](./resources/final/otp.png)
+
+User Options:
+![image](./resources/final/user-options.png)
+
+User Profile:
+![image](./resources/final/user-profile.png)
+
+Search Book:
+![image](./resources/final/search-book.png)
+
+Search Results:
+![image](./resources/final/search-results.png)
 
 ## APIs
 
-* /messages/ - Dashboard for your message feeds, need to be logged in to access it
-* /findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
-* /userRating/ - Used to fetch data from the database about the searched users informaion
-* /accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
-* /checkNewAccount/ - Used to check if a created account alread exists
-* /MyPostings/ - Used to display the users current postings, need to be logged in to use
-* /setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
-* /postBook/ - Page to enter in book information to be posted, need to be logged in to use
-* /searchBook/ - Post request to retreive book data from the database
+* localhost:8080/findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to rate |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| username | String    |  Username of person |
+| institution   | String | College name of person |
+| sellerRating    | number | Seller rating of person |
+| buyerRating    | number | Buyer rating of person|
+| numBuyerRatings   | number | Number of buyer ratings of person |
+| numSellerRatings   | number | Number of seller ratings of person|
+
+* localhost:8080/userRating/ - Used to fetch data from the database about the searched users informaion
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| email     | (Required) Username of person to create account |
+| username     | (Required) Username of person to create account |
+| fullName     | (Required) Username of person to create account |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the creation was successful |
+
+* localhost:8080/accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to retreive account info |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| username | String    |  Username of person |
+| fullName    | String | Full name of person |
+| institution   | String | College name of person |
+| sRating    | number | Seller rating of person |
+| bRating    | number | Buyer rating of person|
+* localhost:8080/checkNewAccount/ - Used to check if a created account alread exists
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| email     | (Required) Username of person to create account |
+| username     | (Required) Username of person to create account |
+| fullName     | (Required) Username of person to create account |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the creation was successful |
+| OTP | String | Returns a OTP that the user has to enter to authenticate themselves|
+* localhost:8080/MyPostings/ - Used to display the users current postings, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to retreive postings |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| postings | Array | Returns all of the users posts |
+* localhost:8080/setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| title      | (Required) The title of the book to get scraped on Amazon |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| price | number | Returns the price of the book on Amazon|
+* localhost:8080/postBook/ - Page to enter in book information to be posted, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| body      | (Required) The book information to be added to the server |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the book was added to the database|
+
+* localhost:8080/searchBook/ - Post request to retreive book data from the database
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| query      | (Required) The search query that is to be used on the database to find books|
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| searchResults | Array | Returns array of books that matched search query |             
 
 ## Database
 There are two database collections used for Passage implemented in mongoDB. 
@@ -89,4 +211,4 @@ Users are authenticated when they first create an account. Passage will send the
 
 * Nathan Grant - Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options. Did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page. Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
 ## Conclusion
-
+Given the online setting, it was a bit more challenging putting together a large project like this. Overall we all learned a great deal about the fundamentals of creating and deploying a fully funcioning website. One difficulty was when we all had to work on the server routing file at once but there was no one good way to do it. We decided that it would be best if we each kept in communication when we were pulling and pushing to the repository so that none of our code was getting overwritten. We all learned valuable skills at each part of the development phase. We wish that we had learned about database interactions earlier because they were a vary large part of the project and it was a quick transition.

@@ -50,6 +50,7 @@ window.onload = function () {
     }); })();
     document.getElementById("giveSellerRating").addEventListener("click", sellerRate);
     document.getElementById("giveBuyerRating").addEventListener("click", buyerRate);
+    document.getElementById("addRating").addEventListener("click", rateUser);
 };
 function validateUser() {
     return __awaiter(this, void 0, void 0, function () {
@@ -70,6 +71,92 @@ function validateUser() {
         });
     });
 }
+function postData(url, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var resp;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(url, {
+                        method: 'POST',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        redirect: 'follow',
+                        body: JSON.stringify(data)
+                    })];
+                case 1:
+                    resp = _a.sent();
+                    return [2 /*return*/, resp];
+            }
+        });
+    });
+}
+function rateUser(userInfo) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            // Passes in the new rating to be set to the server
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var userInfo, rating, ratingType, numBuyerRatings, numSellerRatings, buyerRating, sellerRating, newTotalRating, newRating, newTotalRating, newRating, newURL, resp, respJSON;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
+                            rating = parseInt(document.getElementById("rating").value);
+                            ratingType = 'sellerRating', numBuyerRatings = parseInt(userInfo.numBuyerRatings), numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseInt(userInfo.buyerRating), sellerRating = parseInt(userInfo.sellerRating);
+                            if (sessionStorage.getItem('buyerRating?')) {
+                                ratingType = 'buyerRating';
+                                newTotalRating = rating + buyerRating * numBuyerRatings;
+                                numBuyerRatings = numBuyerRatings + 1;
+                                newRating = newTotalRating / numBuyerRatings;
+                            }
+                            else {
+                                newTotalRating = rating + sellerRating * numSellerRatings;
+                                numSellerRatings = numSellerRatings + 1;
+                                newRating = newTotalRating / numSellerRatings;
+                            }
+                            newURL = myURL + "addNewRating/";
+                            return [4 /*yield*/, postData(newURL, {
+                                    'ratingType': ratingType,
+                                    'userToBeRated': userInfo.username,
+                                    'newRating': newRating,
+                                    'numSellerRatings': numSellerRatings,
+                                    'numBuyerRatings': numBuyerRatings,
+                                    'oldBuyerRating': buyerRating,
+                                    'oldSellerRating': sellerRating
+                                })];
+                        case 1:
+                            resp = _a.sent();
+                            return [4 /*yield*/, resp.json()];
+                        case 2:
+                            respJSON = _a.sent();
+                            if (respJSON['result'] != 'success') {
+                                alert("There was en error. Please try again");
+                                // Clear both buyerRating, sellerRating, userInfo for future use
+                                sessionStorage.removeItem('sellerRating?');
+                                sessionStorage.removeItem('buyerRating?');
+                                sessionStorage.removeItem('rateUserInfo');
+                                location.reload();
+                            }
+                            else {
+                                alert("Rating has been updated");
+                                window.open(myURL + "options/", "_self");
+                                // Clear both buyerRating, sellerRating, userInfo for future use
+                                sessionStorage.removeItem('sellerRating?');
+                                sessionStorage.removeItem('buyerRating?');
+                                sessionStorage.removeItem('rateUserInfo');
+                            }
+                            return [2 /*return*/];
+                    }
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
 function populateElements(userInfo) {
     return __awaiter(this, void 0, void 0, function () {
         var uni_to_fullname;
@@ -81,104 +168,27 @@ function populateElements(userInfo) {
                 'amherstcol': 'Amherst College',
                 'hampshire': 'Hampshire College'
             };
-            document.getElementById("username").innerHTML = userInfo["username"];
+            document.getElementById("username").innerHTML = userInfo.username;
             document.getElementById("userInstitute").innerHTML = uni_to_fullname[userInfo.institution];
-            document.getElementById("sellerRating").innerHTML = userInfo.sellerRating;
-            document.getElementById("buyerRating").innerHTML = userInfo.buyerRating;
+            // show only one decimals of the ratings
+            document.getElementById("sellerRating").innerHTML = userInfo.sellerRating.toFixed(1);
+            document.getElementById("buyerRating").innerHTML = userInfo.buyerRating.toFixed(1);
             return [2 /*return*/];
         });
     });
 }
 function sellerRate() {
     return __awaiter(this, void 0, void 0, function () {
-        var rate;
         return __generator(this, function (_a) {
-            rate = document.getElementById("addRating");
-            rate.addEventListener("click", function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, resp, responseJson, newURL_1;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                rating = document.getElementById("sellerRating").value;
-                                username = document.getElementById("username").value;
-                                newURL = myURL + "userRating";
-                                return [4 /*yield*/, fetch(newURL, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            "rating": rating,
-                                            'rType': 'seller',
-                                            'ratedUser': username
-                                        })
-                                    })];
-                            case 1:
-                                resp = _a.sent();
-                                return [4 /*yield*/, resp.json()];
-                            case 2:
-                                responseJson = _a.sent();
-                                if (responseJson['result'] != 'success')
-                                    alert("Error while logging in");
-                                else {
-                                    alert("User Has Been Rated");
-                                    newURL_1 = "./selectActionAfterLogin.html";
-                                    window.open(newURL_1, "_self");
-                                }
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            });
+            sessionStorage.setItem('sellerRating?', '1');
             return [2 /*return*/];
         });
     });
 }
 function buyerRate() {
     return __awaiter(this, void 0, void 0, function () {
-        var rate;
         return __generator(this, function (_a) {
-            rate = document.getElementById("addRating");
-            rate.addEventListener("click", function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, resp, responseJson, newURL_2;
-                    return __generator(this, function (_a) {
-                        switch (_a.label) {
-                            case 0:
-                                rating = document.getElementById("sellerRating").value;
-                                username = document.getElementById("username").value;
-                                newURL = myURL + "userRating/";
-                                return [4 /*yield*/, fetch(newURL, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            "rating": rating,
-                                            "rType": "buyer",
-                                            "ratedUser": username
-                                        })
-                                    })];
-                            case 1:
-                                resp = _a.sent();
-                                return [4 /*yield*/, resp.json()];
-                            case 2:
-                                responseJson = _a.sent();
-                                if (responseJson['result'] != 'success') {
-                                    alert("Error while logging in");
-                                    location.replace(myURL);
-                                }
-                                else {
-                                    alert("User Has Been Rated");
-                                    newURL_2 = myURL + 'rate/';
-                                    window.open(newURL_2, "_self");
-                                }
-                                return [2 /*return*/];
-                        }
-                    });
-                });
-            });
+            sessionStorage.setItem("buyerRating?", '1');
             return [2 /*return*/];
         });
     });
