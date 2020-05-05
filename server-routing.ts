@@ -71,7 +71,7 @@ export class Server {
             res.sendFile('findUserToRate.html', { root: "./static" });
         });
         
-        this.router.post('/userRating/', this.rateUserHandler.bind(this));
+        this.router.post('/addNewRating/', this.rateUserHandler.bind(this));
         
         this.router.post('/accountInfo/', this.accountInfoHandler.bind(this));
         this.server.get('/accountInfo/', function(req, res){
@@ -374,8 +374,7 @@ export class Server {
             return;
         }
         // Return the user info to the client
-        console.log("GOT USER INFO");
-        console.log(resp);
+        
         response.write(JSON.stringify({
             "result": 'success',
             "username": username,
@@ -390,12 +389,30 @@ export class Server {
 
     //dummy handler for adding a rating
     private async rateUserHandler(request, response) : Promise<void> {
-        var rating = request.body.rating;
-        var rType = request.body.rType;
-        var ratedUser = request.body.ratedUser;
+        var ratingType = request.body.ratingType;
+        var userToBeRated = request.body.userToBeRated;
+        var newRating = request.body.newRating;
+        var numSellerRatings = request.body.numSellerRatings;
+        var numBuyerRatings = request.body.numBuyerRatings;
+        var oldBuyerRating = request.body.oldBuyerRating;
+        var oldSellerRating = request.body.oldSellerRating;
+        var query = {
+            'username': userToBeRated
+        };
+        var newvalues = {};
+        if(ratingType == 'buyerRating') {
+            newvalues = {
+                $set: {'numBuyerRatings': numBuyerRatings, 'buyerRating': newRating}
+            };
+        }
+        else {
+            newvalues = {
+                $set: {'numSellerRatings': numSellerRatings, 'sellerRating': newRating}
+            }
+        }
+        var resultString = await this.db.updateSingular(query, newvalues, 'userInfo');
         response.write(JSON.stringify({
-            status: 200,
-            result: "success"
+            result: resultString
         }));
         response.end();
     }

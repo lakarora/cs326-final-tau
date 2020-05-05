@@ -13,10 +13,9 @@ window.onload=function(){
         populateElements(userInfo);
 
     })();
-
-
     document.getElementById("giveSellerRating").addEventListener("click", sellerRate);
     document.getElementById("giveBuyerRating").addEventListener("click", buyerRate);
+    document.getElementById("addRating").addEventListener("click", rateUser);
 }
 
 async function validateUser(): Promise<void> {
@@ -26,8 +25,79 @@ async function validateUser(): Promise<void> {
             alert("Please Log In!");
             location.replace(myURL);
          }
-    })(); 
+    })();
  }
+
+ async function postData(url : string, data: any) {
+    const resp = await fetch(url,
+                             {
+                                 method: 'POST',
+                                 mode: 'cors',
+                                 cache: 'no-cache',
+                                 credentials: 'same-origin',
+                                 headers: {
+                                     'Content-Type': 'application/json'
+                                 },
+                                 redirect: 'follow',
+                                 body: JSON.stringify(data)
+                             });
+    return resp;
+ 
+}
+
+async function rateUser(userInfo): Promise<void> {
+    // Passes in the new rating to be set to the server
+    (async () => {
+        const userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
+        var rating = parseInt((<HTMLSelectElement>document.getElementById("rating")).value);
+        var ratingType = 'sellerRating', numBuyerRatings = parseInt(userInfo.numBuyerRatings), 
+        numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseInt(userInfo.buyerRating),
+        sellerRating = parseInt(userInfo.sellerRating);
+
+        if(sessionStorage.getItem('buyerRating?')) {
+            ratingType = 'buyerRating';
+            // Calculate new user rating
+            var newTotalRating : number = rating + buyerRating * numBuyerRatings;
+            numBuyerRatings = numBuyerRatings + 1;
+            var newRating =  newTotalRating / numBuyerRatings;
+        }
+        else {
+            var newTotalRating : number = rating + sellerRating * numSellerRatings;
+            numSellerRatings = numSellerRatings + 1;
+            var newRating =  newTotalRating / numSellerRatings;
+        }
+        // Now we send the request to the server and update the database.
+        const newURL = myURL + "addNewRating/";
+        const resp = await postData(newURL, {
+            'ratingType': ratingType,
+            'userToBeRated': userInfo.username,
+            'newRating': newRating,
+            'numSellerRatings': numSellerRatings,
+            'numBuyerRatings': numBuyerRatings,
+            'oldBuyerRating': buyerRating,
+            'oldSellerRating': sellerRating
+        });
+        const respJSON = await resp.json();
+        if(respJSON['result'] != 'success') {
+            alert("There was en error. Please try again");
+
+            // Clear both buyerRating, sellerRating, userInfo for future use
+            sessionStorage.removeItem('sellerRating?');
+            sessionStorage.removeItem('buyerRating?');
+            sessionStorage.removeItem('rateUserInfo');
+            location.reload();
+        }
+        else {
+            alert("Rating has been updated");
+            window.open(myURL + "options/", "_self")
+            
+            // Clear both buyerRating, sellerRating, userInfo for future use
+            sessionStorage.removeItem('sellerRating?');
+            sessionStorage.removeItem('buyerRating?');
+            sessionStorage.removeItem('rateUserInfo');
+        }
+    })();
+}
 async function populateElements(userInfo): Promise<void> {
 
     // Dictionary for mapping uni codes to full names
@@ -39,76 +109,17 @@ async function populateElements(userInfo): Promise<void> {
         'amherstcol': 'Amherst College',
         'hampshire': 'Hampshire College'
     };
-    document.getElementById("username").innerHTML = userInfo["username"];
+    document.getElementById("username").innerHTML = userInfo.username;
     document.getElementById("userInstitute").innerHTML = uni_to_fullname[userInfo.institution];
-    document.getElementById("sellerRating").innerHTML = userInfo.sellerRating;
-    document.getElementById("buyerRating").innerHTML = userInfo.buyerRating;
+
+    // show only one decimals of the ratings
+    document.getElementById("sellerRating").innerHTML = userInfo.sellerRating.toFixed(1);
+    document.getElementById("buyerRating").innerHTML = userInfo.buyerRating.toFixed(1);
 }
 async function sellerRate() {
-    let rate = document.getElementById("addRating");
-    rate.addEventListener("click", async function () {
-        var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
-        var username = (<HTMLInputElement>document.getElementById("username")).value;
-        const newURL = myURL + "userRating";
-        const resp = await fetch(newURL, 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    "rating": rating,
-                    'rType': 'seller',
-                    'ratedUser': username                }
-            )
-        }); 
-        const responseJson = await resp.json();
-        if(responseJson['result'] != 'success')
-            alert("Error while logging in")
-        else {
-            alert("User Has Been Rated");
-
-            // Now load the next page --> Options to buy, sell, rate users, and view user profile
-            //const newURL = myURL + "static/selectAfterLogin.html";
-            const newURL = "./selectActionAfterLogin.html";
-            window.open(newURL, "_self");
-        }
-    });
+    sessionStorage.setItem('sellerRating?', '1');
 }
 
 async function buyerRate() {
-    let rate = document.getElementById("addRating");
-    rate.addEventListener("click", async function () {
-        var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
-        var username = (<HTMLInputElement>document.getElementById("username")).value;
-        const newURL = myURL + "userRating/";
-        const resp = await fetch(newURL, 
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    "rating": rating,
-                    "rType": "buyer",
-                    "ratedUser": username                }
-            )
-        }); 
-        const responseJson = await resp.json();
-
-        if(responseJson['result'] != 'success'){
-            alert("Error while logging in");
-            location.replace(myURL);
-        }
-        else {
-            alert("User Has Been Rated");
-
-            // Now load the next page --> Options to buy, sell, rate users, and view user profile
-            //const newURL = myURL + "static/selectAfterLogin.html";
-            const newURL = myURL + 'rate/';
-            window.open(newURL, "_self");
-        }
-    });
+    sessionStorage.setItem("buyerRating?", '1');
 }

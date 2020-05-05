@@ -97,7 +97,7 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('findUserToRate.html', { root: "./static" });
         });
-        this.router.post('/userRating/', this.rateUserHandler.bind(this));
+        this.router.post('/addNewRating/', this.rateUserHandler.bind(this));
         this.router.post('/accountInfo/', this.accountInfoHandler.bind(this));
         this.server.get('/accountInfo/', function (req, res) {
             res.type('.html');
@@ -398,10 +398,13 @@ var Server = /** @class */ (function () {
             var query;
             return __generator(this, function (_a) {
                 query = request.body.query;
-                $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, function (isbn, textStatus, jqXHR) {
-                    var r = JSON.parse(jqXHR.responseText);
-                    response.write(JSON.stringify({ 'amazon-price': r['amazon_price'] }));
+                $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, {}, function (data) {
+                    response.write(JSON.stringify({
+                        'status': 200,
+                        'amazon-price': data.amazon_price
+                    }));
                     response.end();
+                    console.log();
                 });
                 return [2 /*return*/];
             });
@@ -442,8 +445,6 @@ var Server = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         // Return the user info to the client
-                        console.log("GOT USER INFO");
-                        console.log(resp);
                         response.write(JSON.stringify({
                             "result": 'success',
                             "username": username,
@@ -462,17 +463,40 @@ var Server = /** @class */ (function () {
     //dummy handler for adding a rating
     Server.prototype.rateUserHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var rating, rType, ratedUser;
+            var ratingType, userToBeRated, newRating, numSellerRatings, numBuyerRatings, oldBuyerRating, oldSellerRating, query, newvalues, resultString;
             return __generator(this, function (_a) {
-                rating = request.body.rating;
-                rType = request.body.rType;
-                ratedUser = request.body.ratedUser;
-                response.write(JSON.stringify({
-                    status: 200,
-                    result: "success"
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        ratingType = request.body.ratingType;
+                        userToBeRated = request.body.userToBeRated;
+                        newRating = request.body.newRating;
+                        numSellerRatings = request.body.numSellerRatings;
+                        numBuyerRatings = request.body.numBuyerRatings;
+                        oldBuyerRating = request.body.oldBuyerRating;
+                        oldSellerRating = request.body.oldSellerRating;
+                        query = {
+                            'username': userToBeRated
+                        };
+                        newvalues = {};
+                        if (ratingType == 'buyerRating') {
+                            newvalues = {
+                                $set: { 'numBuyerRatings': numBuyerRatings, 'buyerRating': newRating }
+                            };
+                        }
+                        else {
+                            newvalues = {
+                                $set: { 'numSellerRatings': numSellerRatings, 'sellerRating': newRating }
+                            };
+                        }
+                        return [4 /*yield*/, this.db.updateSingular(query, newvalues, 'userInfo')];
+                    case 1:
+                        resultString = _a.sent();
+                        response.write(JSON.stringify({
+                            result: resultString
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };
