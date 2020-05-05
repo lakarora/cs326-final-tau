@@ -36,95 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var myURL = "http://localhost:8080/";
 window.onload = function () {
-    document.getElementById("signInButton").addEventListener("click", verifyLogin, false);
     document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);
+    document.getElementById("loadLogin").addEventListener("click", loadLogin, false);
 };
-function getHash(OTP) {
-    return __awaiter(this, void 0, void 0, function () {
-        var msg, hashBuffer, hashArray, hashHex;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    msg = new TextEncoder().encode(OTP);
-                    return [4 /*yield*/, crypto.subtle.digest('SHA-256', msg)];
-                case 1:
-                    hashBuffer = _a.sent();
-                    hashArray = Array.from(new Uint8Array(hashBuffer));
-                    hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-                    return [2 /*return*/, hashHex];
-            }
-        });
-    });
-}
-function postData(url, data) {
-    return __awaiter(this, void 0, void 0, function () {
-        var resp;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch(url, {
-                        method: 'POST',
-                        mode: 'cors',
-                        cache: 'no-cache',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        redirect: 'follow',
-                        body: JSON.stringify(data)
-                    })];
-                case 1:
-                    resp = _a.sent();
-                    return [2 /*return*/, resp];
-            }
-        });
-    });
-}
-function verifyLogin() {
+function loadLogin() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var rexp, userName, password, hashPwd, newURL, resp, responseJson, newURL_1;
+                var newURL;
                 return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            rexp = new RegExp('^[A-Za-z0-9]+$');
-                            userName = document.getElementById("loginUsername").value;
-                            if (userName.match(rexp) == null) {
-                                alert("Invalid username");
-                                return [2 /*return*/];
-                            }
-                            password = document.getElementById("loginPassword").value;
-                            if (password.length < 6) {
-                                alert("Invalid password");
-                                return [2 /*return*/];
-                            }
-                            return [4 /*yield*/, getHash(password)];
-                        case 1:
-                            hashPwd = _a.sent();
-                            newURL = myURL + "login/";
-                            return [4 /*yield*/, postData(newURL, {
-                                    "username": userName,
-                                    "password": hashPwd
-                                })];
-                        case 2:
-                            resp = _a.sent();
-                            return [4 /*yield*/, resp.json()];
-                        case 3:
-                            responseJson = _a.sent();
-                            if (responseJson['result'] != "success") {
-                                alert("Error while logging in");
-                                location.reload();
-                            }
-                            else {
-                                alert("Login successful");
-                                // Set cookie in browser for the logged in use and load the next page
-                                document.cookie = "username=" + userName;
-                                newURL_1 = myURL + "options/";
-                                window.open(newURL_1, "_self");
-                            }
-                            return [2 /*return*/];
-                    }
+                    newURL = myURL + "loadLogin/";
+                    window.open(newURL, "_self");
+                    return [2 /*return*/];
                 });
             }); })();
             return [2 /*return*/];

@@ -1,31 +1,24 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
-
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
+window.onload = function() {
+    (async () => {
+        putUser();
+    })();
+}
 
 async function putUser(): Promise<void> {
    (async () => {
-       var cookie = document.cookie;
-       if(cookie == ""){
+       var username = sessionStorage.getItem('username');
+       if(username == null){
            alert("Please Log In!");
            location.replace(myURL);
         }
-       var cookieObj = parseCookie(cookie);
-       if(cookieObj.username == null ){
-           alert("Please Log In!");
-           location.replace(myURL);
-       }
        else{
-        var username = cookieObj.username;
         var greeting = (<HTMLElement>document.getElementById("greetUser"));
         greeting.innerHTML = "Greetings " + username + "!";
+        // Set cookie here, code after this page uses cookie instead of sessionStorage
+        document.cookie = "username=" + username;
+        sessionStorage.clear()
        }
    })(); 
 }

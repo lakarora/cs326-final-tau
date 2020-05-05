@@ -34,11 +34,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
 window.onload = function () {
-    document.getElementById("verifyOTPButton").addEventListener("click", verifyOTP, false);
+    document.getElementById("loginButton").addEventListener("click", verifyLogin);
 };
+function getHash(OTP) {
+    return __awaiter(this, void 0, void 0, function () {
+        var msg, hashBuffer, hashArray, hashHex;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    msg = new TextEncoder().encode(OTP);
+                    return [4 /*yield*/, crypto.subtle.digest('SHA-256', msg)];
+                case 1:
+                    hashBuffer = _a.sent();
+                    hashArray = Array.from(new Uint8Array(hashBuffer));
+                    hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+                    return [2 /*return*/, hashHex];
+            }
+        });
+    });
+}
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -62,74 +78,50 @@ function postData(url, data) {
         });
     });
 }
-function getHash(OTP) {
-    return __awaiter(this, void 0, void 0, function () {
-        var msg, hashBuffer, hashArray, hashHex;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    msg = new TextEncoder().encode(OTP);
-                    return [4 /*yield*/, crypto.subtle.digest('SHA-256', msg)];
-                case 1:
-                    hashBuffer = _a.sent();
-                    hashArray = Array.from(new Uint8Array(hashBuffer));
-                    hashHex = hashArray.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
-                    return [2 /*return*/, hashHex];
-            }
-        });
-    });
-}
-function verifyOTP() {
+function verifyLogin() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var pwd, fname, email, uni, OTP, userOTP, username, userOTPHash, newURL, resp, respJSON, newURL_1;
+                var rexp, userName, password, hashPwd, newURL, responseJson, newURL_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            if (sessionStorage.length == 0) {
-                                alert("Visit Account Creation page before landing here!");
-                                location.replace(myURL + "createAccount/");
-                            }
-                            pwd = sessionStorage.getItem("password");
-                            fname = sessionStorage.getItem("fullname");
-                            email = sessionStorage.getItem("email");
-                            uni = sessionStorage.getItem("institution");
-                            OTP = sessionStorage.getItem("OTP");
-                            userOTP = document.getElementById("otp").value;
-                            username = sessionStorage.getItem("username");
-                            return [4 /*yield*/, getHash(userOTP)];
-                        case 1:
-                            userOTPHash = _a.sent();
-                            return [4 /*yield*/, getHash(userOTP)];
-                        case 2:
-                            if ((_a.sent()) != OTP) {
-                                alert("Invalid OTP. Please try again!");
+                            rexp = new RegExp('^[A-Za-z0-9]+$');
+                            userName = document.getElementById("loginUsername").value;
+                            if (userName.match(rexp) == null) {
+                                alert("Invalid username");
                                 return [2 /*return*/];
                             }
-                            newURL = myURL + "registerUser/";
+                            password = document.getElementById("loginPassword").value;
+                            if (password.length < 6) {
+                                alert("Invalid password");
+                                return [2 /*return*/];
+                            }
+                            return [4 /*yield*/, getHash(password)];
+                        case 1:
+                            hashPwd = _a.sent();
+                            newURL = myURL + "login/";
                             return [4 /*yield*/, postData(newURL, {
-                                    'fullname': fname,
-                                    'email': email,
-                                    'password': pwd,
-                                    'institution': uni,
-                                    'username': username
+                                    "username": userName,
+                                    "password": hashPwd
+                                }).then(function (val) {
+                                    return val.json();
+                                }, function (reason) {
+                                    console.log(reason);
+                                    return JSON.stringify({ 'result': 'failure' });
                                 })];
-                        case 3:
-                            resp = _a.sent();
-                            return [4 /*yield*/, resp.json()];
-                        case 4:
-                            respJSON = _a.sent();
-                            if (respJSON['result'] != 'success') {
-                                alert("An error occured. Please try again");
-                                sessionStorage.clear();
-                                window.open(myURL + 'createAccount/', "self");
+                        case 2:
+                            responseJson = _a.sent();
+                            if (responseJson['result'] != "success") {
+                                alert("Error while logging in");
+                                return [2 /*return*/];
                             }
                             else {
-                                alert("User registration successful. Please login with your new credentials!");
-                                sessionStorage.clear();
-                                newURL_1 = myURL + "loadLogin/";
+                                alert("Login successful");
+                                // Set username in session storage for verification on future pages
+                                sessionStorage.setItem('username', userName);
+                                newURL_1 = myURL + "options/";
                                 window.open(newURL_1, "_self");
                             }
                             return [2 /*return*/];

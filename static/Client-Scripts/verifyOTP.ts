@@ -68,7 +68,8 @@ async function verifyOTP() : Promise<void> {
         else {
             alert("User registration successful. Please login with your new credentials!");
             sessionStorage.clear();
-            window.open(myURL, "_self");
+            const newURL = myURL + "loadLogin/";
+            window.open(newURL, "_self");
         }
     })();
 }

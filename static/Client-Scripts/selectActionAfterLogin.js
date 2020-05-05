@@ -36,36 +36,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
+window.onload = function () {
+    var _this = this;
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            putUser();
+            return [2 /*return*/];
+        });
+    }); })();
 };
 function putUser() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var cookie, cookieObj, username, greeting;
+                var username, greeting;
                 return __generator(this, function (_a) {
-                    cookie = document.cookie;
-                    if (cookie == "") {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    cookieObj = parseCookie(cookie);
-                    if (cookieObj.username == null) {
+                    username = sessionStorage.getItem('username');
+                    if (username == null) {
                         alert("Please Log In!");
                         location.replace(myURL);
                     }
                     else {
-                        username = cookieObj.username;
                         greeting = document.getElementById("greetUser");
                         greeting.innerHTML = "Greetings " + username + "!";
+                        // Set cookie here, code after this page uses cookie instead of sessionStorage
+                        document.cookie = "username=" + username;
+                        sessionStorage.clear();
                     }
                     return [2 /*return*/];
                 });
