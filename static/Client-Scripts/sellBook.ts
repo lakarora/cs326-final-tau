@@ -15,7 +15,6 @@ async function postData(url : string, data: any) {
                                  body: JSON.stringify(data)
                              });
     return resp;
- 
 }
 
 window.onload = function() {
@@ -39,13 +38,13 @@ async function nextPrice(event) : Promise<void> {
     (async () => {
         event.preventDefault();
         var inputs = (<HTMLFormElement>document.getElementById("sellBookForm")).elements;
-        var title = inputs["title"].value;
-        var author = inputs["author"].value;
-        var isbn = inputs["isbn"].value;
-        var condition = inputs["condition"].value;
-        var inst = inputs["institution"].value;
-        var subject = inputs["courseSubject"].value;
-        var cNumber = inputs["courseNumber"].value;
+        var title = inputs["title"].value.toLowerCase();
+        var author = inputs["author"].value.toLowerCase();
+        var isbn = inputs["isbn"].value.toLowerCase();
+        var condition = inputs["condition"].value.toLowerCase();
+        var inst = inputs["institution"].value.toLowerCase();
+        var subject = inputs["courseSubject"].value.toLowerCase();
+        var cNumber = inputs["courseNumber"].value.toLowerCase();
 
         var bookData = {
             "title": title, 
@@ -100,7 +99,7 @@ async function postBook(): Promise<void> {
         var newURL = myURL + "postBook/";
         const resp = await postData(newURL, bookData);
         const respJson = await resp.json();
-        if(respJson.status == "success"){
+        if(respJson.result == "success"){
             alert("Book succesfully posted");
             location.replace(myURL + 'sell/');
         }

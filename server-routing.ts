@@ -4,6 +4,7 @@ let http = require('http');
 let url = require('url');
 let express = require('express');
 let path = require('path');
+var $ = require('jquery');
 let nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
@@ -333,26 +334,43 @@ export class Server {
 
     // dummy handler that gets Amazon price using the scraper
     private async amazonPriceHandler(request, response) : Promise<void> {
-        let query = request.body.query;
-        $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, {}, function(data) {
-            response.write(JSON.stringify({
-                'status': 200,
-                'amazon-price': data.amazon_price
-            }));
-            response.end();
-            console.log();
-        });
+        let query = request.body.title;
+        let url = 'https://stormy-tundra-04347.herokuapp.com/' + query;
+
+        // await fetch('https://stormy-tundra-04347.herokuapp.com/' + query, {}, function(data) {
+            // response.write(JSON.stringify({
+            //     'status': 200,
+            //     'amazon-price': data.price;
+            // }));
+        //     response.end();
+        //     console.log();
+        // });
+        // var data = await fetch('https://stormy-tundra-04347.herokuapp.com/' + query,
+        //     {
+        //         method: 'GET',
+        //         mode: 'cors',
+        //         cache: 'no-cache',
+        //         credentials: 'same-origin',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         redirect: 'follow'
+        // });
+        
         // send isbn and/or other data to the amazon scraper, get price
-        //var bookPrice = {'price': 27};
-        //response.write(JSON.stringify(bookPrice));
-        //response.end();
+        var bookPrice = {'price': 27};
+        response.write(JSON.stringify(bookPrice));
+        response.end();
     }
 
     // dummy handler that posts book and sends response
     private async addBookHandler(request, response) : Promise<void> {
         var bookData = request.body;
-        // send bookDat to the set of books, update user blah blah
-        response.write(JSON.stringify({status: "success"}));
+        // send bookData to the set of books, update user blah blah
+        const result = await this.db.putOne(bookData, 'bookPostings');
+        response.write(JSON.stringify({
+            'result': result
+        }));
         response.end();
     }
 

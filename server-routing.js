@@ -41,6 +41,7 @@ var http = require('http');
 var url = require('url');
 var express = require('express');
 var path = require('path');
+var $ = require('jquery');
 var nodemailer = require('nodemailer');
 var google = require("googleapis").google;
 var OAuth2 = google.auth.OAuth2;
@@ -395,14 +396,13 @@ var Server = /** @class */ (function () {
     // dummy handler that gets Amazon price using the scraper
     Server.prototype.amazonPriceHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var query;
+            var query, url, bookPrice;
             return __generator(this, function (_a) {
-                query = request.body.query;
-                $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, function (isbn, textStatus, jqXHR) {
-                    var r = JSON.parse(jqXHR.responseText);
-                    response.write(JSON.stringify({ 'amazon-price': r['amazon_price'] }));
-                    response.end();
-                });
+                query = request.body.title;
+                url = 'https://stormy-tundra-04347.herokuapp.com/' + query;
+                bookPrice = { 'price': 27 };
+                response.write(JSON.stringify(bookPrice));
+                response.end();
                 return [2 /*return*/];
             });
         });
@@ -410,13 +410,20 @@ var Server = /** @class */ (function () {
     // dummy handler that posts book and sends response
     Server.prototype.addBookHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var bookData;
+            var bookData, result;
             return __generator(this, function (_a) {
-                bookData = request.body;
-                // send bookDat to the set of books, update user blah blah
-                response.write(JSON.stringify({ status: "success" }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        bookData = request.body;
+                        return [4 /*yield*/, this.db.putOne(bookData, 'bookPostings')];
+                    case 1:
+                        result = _a.sent();
+                        response.write(JSON.stringify({
+                            'result': result
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };

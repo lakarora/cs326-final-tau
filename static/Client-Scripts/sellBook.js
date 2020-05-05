@@ -99,13 +99,13 @@ function nextPrice(event) {
                         case 0:
                             event.preventDefault();
                             inputs = document.getElementById("sellBookForm").elements;
-                            title = inputs["title"].value;
-                            author = inputs["author"].value;
-                            isbn = inputs["isbn"].value;
-                            condition = inputs["condition"].value;
-                            inst = inputs["institution"].value;
-                            subject = inputs["courseSubject"].value;
-                            cNumber = inputs["courseNumber"].value;
+                            title = inputs["title"].value.toLowerCase();
+                            author = inputs["author"].value.toLowerCase();
+                            isbn = inputs["isbn"].value.toLowerCase();
+                            condition = inputs["condition"].value.toLowerCase();
+                            inst = inputs["institution"].value.toLowerCase();
+                            subject = inputs["courseSubject"].value.toLowerCase();
+                            cNumber = inputs["courseNumber"].value.toLowerCase();
                             bookData = {
                                 "title": title,
                                 "author": author,
@@ -184,7 +184,7 @@ function postBook() {
                             return [4 /*yield*/, resp.json()];
                         case 2:
                             respJson = _a.sent();
-                            if (respJson.status == "success") {
+                            if (respJson.result == "success") {
                                 alert("Book succesfully posted");
                                 location.replace(myURL + 'sell/');
                             }
