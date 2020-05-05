@@ -35,7 +35,6 @@ window.onload=function(){
     let fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
     searchResults = JSON.parse(sessionStorage.getItem('searchResults'));
-    console.log(searchResults);
     displayBooks(searchResults);
 }
 

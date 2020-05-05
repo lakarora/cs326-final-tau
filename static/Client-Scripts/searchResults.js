@@ -73,19 +73,11 @@ window.onload = function () {
     var sp = document.getElementById("max-price-filter");
     sp.value = '600';
     sp.addEventListener("change", adjustMaxPrice);
-    var sr = document.getElementById("seller-rating-filter");
-    sr.value = '0';
-    sr.addEventListener("change", adjustSellerRating);
     var fr = document.getElementById("filter-apply");
     fr.addEventListener('click', filterResults);
     searchResults = JSON.parse(sessionStorage.getItem('searchResults'));
-    console.log(searchResults);
     displayBooks(searchResults);
 };
-function adjustSellerRating() {
-    var sellerRating = document.getElementById("seller-rating-filter").value;
-    document.getElementById("seller-rating-title").innerHTML = "Seller Rating: " + sellerRating;
-}
 function adjustMaxPrice() {
     var maxPrice = document.getElementById("max-price-filter").value;
     document.getElementById("max-price-title").innerHTML = "Max Price: $" + maxPrice;
@@ -108,25 +100,15 @@ function csort(a, b) {
     else
         return -1;
 }
-function rsort(a, b) {
-    if (a['seller-rating'] > b['seller-rating'])
-        return 1;
-    else
-        return -1;
-}
 function filterResults() {
     return __awaiter(this, void 0, void 0, function () {
-        var order, maxPrice, sellerRating, cond, maxPrice_1, sellerRating_1, toDisplay, i;
+        var order, maxPrice, cond, maxPrice_1, toDisplay, i;
         return __generator(this, function (_a) {
             order = document.getElementById("order").value;
             maxPrice = parseFloat(document.getElementById("max-price-filter").value);
-            sellerRating = parseFloat(document.getElementById("seller-rating-filter").value);
             cond = [];
             if (isNaN(maxPrice)) {
                 maxPrice_1 = 10000000000;
-            }
-            if (isNaN(sellerRating)) {
-                sellerRating_1 = '-1';
             }
             if (document.getElementById("customCheck1").checked) {
                 cond.push('poor');
@@ -153,7 +135,6 @@ function filterResults() {
             toDisplay = [];
             for (i = 0; i < searchResults.length; i++) {
                 if (cond.includes(searchResults[i]['condition'].toLowerCase()) &&
-                    //parseFloat(searchResults[i]['seller-rating']) > sellerRating &&
                     parseFloat(searchResults[i]['price']) < maxPrice) {
                     toDisplay.push(searchResults[i]);
                 }
@@ -166,9 +147,6 @@ function filterResults() {
             }
             else if (order == 'cond') {
                 toDisplay = toDisplay.sort(csort);
-            }
-            else if (order == 'rate') {
-                toDisplay = toDisplay.sort(rsort);
             }
             displayBooks(toDisplay);
             return [2 /*return*/];

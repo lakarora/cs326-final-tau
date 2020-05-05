@@ -138,7 +138,7 @@ export class Server {
     //    if(false) {
 
        // } else {
-        const res = await this.db.get(
+        const res = await this.db.getMany(
             { "title" : title}
            ,'bookPostings');
         if (res == null) {
@@ -149,7 +149,7 @@ export class Server {
         } else {
             response.write(JSON.stringify({
                 'result': "success",
-                'searchResults': [res]
+                'searchResults': res
             }));
         }
 

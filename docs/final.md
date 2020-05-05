@@ -1,4 +1,4 @@
-## Title
+## Title: Tau
 
 ## Application Name: Passage
 https://fathomless-sea-16239.herokuapp.com/
@@ -15,15 +15,52 @@ Passage is a web-based application that students in any of the Five Colleges can
 
 ## APIs
 
-* /messages/ - Dashboard for your message feeds, need to be logged in to access it
-* /findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
-* /userRating/ - Used to fetch data from the database about the searched users informaion
-* /accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
-* /checkNewAccount/ - Used to check if a created account alread exists
-* /MyPostings/ - Used to display the users current postings, need to be logged in to use
-* /setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
-* /postBook/ - Page to enter in book information to be posted, need to be logged in to use
-* /searchBook/ - Post request to retreive book data from the database
+* localhost:8080/messages/ - Dashboard for your message feeds, need to be logged in to access it
+* localhost:8080/findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
+* localhost:8080/userRating/ - Used to fetch data from the database about the searched users informaion
+* localhost:8080/accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
+* localhost:8080/checkNewAccount/ - Used to check if a created account alread exists
+
+
+* localhost:8080/MyPostings/ - Used to display the users current postings, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to retreive postings |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| postings | Array | Returns all of the users posts |
+* localhost:8080/setPrice/ - Page to set price of a new listing, displays amazon price, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| title      | (Required) The title of the book to get scraped on Amazon |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| price | number | Returns the price of the book on Amazon|
+* localhost:8080/postBook/ - Page to enter in book information to be posted, need to be logged in to use
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| body      | (Required) The book information to be added to the server |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the book was added to the database|
+
+* localhost:8080/searchBook/ - Post request to retreive book data from the database
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| query      | (Required) The search query that is to be used on the database to find books|
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| searchResults | Array | Returns array of books that matched search query |             
 
 ## Database
 There are two database collections used for Passage implemented in mongoDB. 
