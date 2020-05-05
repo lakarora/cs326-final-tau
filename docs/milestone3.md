@@ -38,8 +38,8 @@ There are two database collections used for Passage implemented in mongoDB.
 
 # Work Breakdown
 
-Lakshay Arora - Created the secrets file and the mongo database atlas luster with two collections for user information and book postings. Created the verification for user log in and OTP. Also added authentication functionality for gmail accounts. Added get functionality to the database.
+**Lakshay Arora** - Created the Mongo Atlas database cluster and initialized collections, and implemented part of the backend database functionality (get, update and put). Implemented Email verification using OTP. Also implemened server-database interaction for User Rating, Login and Sign Up processes.
 
-Nathan Grant - Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
+**Nathan Grant** - Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
 
-Nishade Ranade - Created database interactions for the search and rate user functionalitites. Also created a new page with server interactions for modifying postings. Updated the server interactions with the messages page for book postings.
+**Nishad Ranade** - Implemented part of the backend database functionality (getMany and delete), and server-database interaction for the Sell Book, Modify Postings and Account Information. Integrated the Twilio Chat API hosted as a separate app as the messaging feature.

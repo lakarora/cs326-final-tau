@@ -43,6 +43,8 @@ export class Database {
             return 'success';
         else
             return 'failure';
+    }
+    
     public async getMany(query, collectionName: string) : Promise<string> {
         let collection = this.db.collection(collectionName);
         console.log(query);
