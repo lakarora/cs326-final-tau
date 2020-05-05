@@ -70,7 +70,7 @@ async function verifyLogin() : Promise<void> {
         {
             alert("Login successful");
             // Set username in session storage for verification on future pages
-            sessionStorage.setItem('username', userName);
+            sessionStorage.setItem('currentUser', userName);
             // Now load the next page --> Options to buy, sell, rate users, and view user profile
             const newURL = myURL + "options/";
             window.open(newURL, "_self");

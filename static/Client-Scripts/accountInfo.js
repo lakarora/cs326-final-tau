@@ -36,15 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -73,23 +64,12 @@ function getInfo() {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var cookie, cookieObj, newURL, uname, resp, respJson, username, fullName, institution, bRating, sRating;
+                var newURL, uname, resp, respJson, username, fullName, institution, bRating, sRating;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            cookie = document.cookie;
-                            if (cookie == "") {
-                                alert("Please Log In!");
-                                location.replace(myURL);
-                            }
-                            cookieObj = parseCookie(cookie);
-                            if (!(cookieObj.username == null)) return [3 /*break*/, 1];
-                            alert("Please Log In!");
-                            location.replace(myURL);
-                            return [3 /*break*/, 4];
-                        case 1:
                             newURL = myURL + "accountInfo/";
-                            uname = cookieObj.username;
+                            uname = sessionStorage.getItem('currentUser');
                             return [4 /*yield*/, fetch(newURL, {
                                     method: 'POST',
                                     headers: {
@@ -97,10 +77,10 @@ function getInfo() {
                                     },
                                     body: JSON.stringify({ 'username': uname })
                                 })];
-                        case 2:
+                        case 1:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
-                        case 3:
+                        case 2:
                             respJson = _a.sent();
                             if (respJson.result != "success") {
                                 alert("Error finding user");
@@ -117,8 +97,7 @@ function getInfo() {
                             institution.innerHTML = respJson.institution;
                             bRating.innerHTML = "<b>" + respJson.bRating + "\/5</b>";
                             sRating.innerHTML = "<b>" + respJson.sRating + "\/5</b>";
-                            _a.label = 4;
-                        case 4: return [2 /*return*/];
+                            return [2 /*return*/];
                     }
                 });
             }); })();

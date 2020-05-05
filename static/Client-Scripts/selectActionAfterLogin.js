@@ -40,19 +40,19 @@ window.onload = function () {
     var _this = this;
     (function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            putUser();
+            validateUser();
             return [2 /*return*/];
         });
     }); })();
 };
-function putUser() {
+function validateUser() {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
                 var username, greeting;
                 return __generator(this, function (_a) {
-                    username = sessionStorage.getItem('username');
+                    username = sessionStorage.getItem('currentUser');
                     if (username == null) {
                         alert("Please Log In!");
                         location.replace(myURL);
@@ -60,9 +60,6 @@ function putUser() {
                     else {
                         greeting = document.getElementById("greetUser");
                         greeting.innerHTML = "Greetings " + username + "!";
-                        // Set cookie here, code after this page uses cookie instead of sessionStorage
-                        document.cookie = "username=" + username;
-                        sessionStorage.clear();
                     }
                     return [2 /*return*/];
                 });

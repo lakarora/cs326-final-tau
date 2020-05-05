@@ -1,14 +1,22 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-// let parseCookie = str =>
-//   str
-//     .split(';')
-//     .map(v => v.split('='))
-//     .reduce((acc, v) => {
-//       acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-//       return acc;
-//     }, {});
+window.onload = function() {
+    (async () => {
+        validateUser();
+    })
+    document.getElementById("findUserButton").addEventListener("click",findUser);
+}
+
+async function validateUser(): Promise<void> {
+    (async () => {
+        var username = sessionStorage.getItem('currentUser');
+        if(username == null){
+            alert("Please Log In!");
+            location.replace(myURL);
+         }
+    })(); 
+ }
 
 async function postData(url : string, data: any) {
     const resp = await fetch(url,
@@ -29,20 +37,22 @@ async function postData(url : string, data: any) {
 
 async function findUser(): Promise<void> {
     (async () => {
-        console.log("In find user");
         var userName = (<HTMLInputElement>document.getElementById("findUserInput")).value;
         var newURL = myURL + "findUser/";
-        console.log(newURL);
-        var reqBody = {"user": userName};
+        var reqBody = {"username": userName};
         const resp = await postData(newURL, reqBody);
-        if(resp.status == 404){
+        const respJSON = await resp.json();
+        if(respJSON.result != 'success'){
+            console.log(respJSON.result);
+            console.log("HI");
             alert("User not found");
-            location.reload();
+            return;
         }
         else{
-            const respJson = await resp.json();
-            sessionStorage.setItem("findUser", JSON.stringify(respJson)); 
-            location.replace(myURL + "rateUser/");
+            // We got the information from the server. Put it in session storage for next page.
+            // console.log(typeof(resp));
+            sessionStorage.setItem("rateUserInfo", JSON.stringify(respJSON)); 
+            window.open(myURL + "rateUser/", "_self");
         }
     })();
 }

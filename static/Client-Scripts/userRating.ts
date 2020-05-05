@@ -1,47 +1,55 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
-
 window.onload=function(){
-    const userInfo = JSON.parse(sessionStorage.getItem("findUser"));
-    var username = (<HTMLElement>document.getElementById("username"));
-    username.innerHTML = userInfo.username;
-    var userInst = (<HTMLElement>document.getElementById("userInstitute"));
-    userInst.innerHTML = userInfo.institute;
-    var sRating = userInfo.sRating;
-    var bRating = userInfo.bRating;
 
-    let sr = document.getElementById("giveSellerRating");
-    sr.addEventListener("click", sellerRate);
-    let br = document.getElementById("giveBuyerRating");
-    br.addEventListener("click", buyerRate);
+    // Check if user is logged in
+    (async () => {
+        validateUser();
+
+        // The information about the searched user is set in sessionStorage.
+        // Retrieve that and populate the corresponding elements
+        const userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
+        populateElements(userInfo);
+
+    })();
+
+
+    document.getElementById("giveSellerRating").addEventListener("click", sellerRate);
+    document.getElementById("giveBuyerRating").addEventListener("click", buyerRate);
 }
 
+async function validateUser(): Promise<void> {
+    (async () => {
+        var username = sessionStorage.getItem('currentUser');
+        if(username == null){
+            alert("Please Log In!");
+            location.replace(myURL);
+         }
+    })(); 
+ }
+async function populateElements(userInfo): Promise<void> {
+
+    // Dictionary for mapping uni codes to full names
+
+    const uni_to_fullname = {
+        'umass': 'University of Massachusetts Amherst',
+        'smith': 'Smith College',
+        'mtholyoke': 'Mount Holyoke College',
+        'amherstcol': 'Amherst College',
+        'hampshire': 'Hampshire College'
+    };
+    document.getElementById("username").innerHTML = userInfo["username"];
+    document.getElementById("userInstitute").innerHTML = uni_to_fullname[userInfo.institution];
+    document.getElementById("sellerRating").innerHTML = userInfo.sellerRating;
+    document.getElementById("buyerRating").innerHTML = userInfo.buyerRating;
+}
 async function sellerRate() {
     let rate = document.getElementById("addRating");
     rate.addEventListener("click", async function () {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
         const newURL = myURL + "userRating";
-        if(document.cookie == ""){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var cookieObj = parseCookie(document.cookie);
-        if(cookieObj.username == null ){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var currUser = cookieObj.username;
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -52,9 +60,7 @@ async function sellerRate() {
                 {
                     "rating": rating,
                     'rType': 'seller',
-                    'ratedUser': username,
-                    'rater': currUser
-                }
+                    'ratedUser': username                }
             )
         }); 
         const responseJson = await resp.json();
@@ -77,16 +83,6 @@ async function buyerRate() {
         var rating = (<HTMLInputElement>document.getElementById("sellerRating")).value;
         var username = (<HTMLInputElement>document.getElementById("username")).value;
         const newURL = myURL + "userRating/";
-        if(document.cookie == ""){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var cookieObj = parseCookie(document.cookie);
-        if(cookieObj.username == null ){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var currUser = cookieObj.username;
         const resp = await fetch(newURL, 
         {
             method: 'POST',
@@ -97,9 +93,7 @@ async function buyerRate() {
                 {
                     "rating": rating,
                     "rType": "buyer",
-                    "ratedUser": username,
-                    "rater": currUser
-                }
+                    "ratedUser": username                }
             )
         }); 
         const responseJson = await resp.json();

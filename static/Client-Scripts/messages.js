@@ -73,36 +73,15 @@ window.onload = function () {
     cb.addEventListener('click', selectConversation);
     loadConversations();
 };
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
 function loadConversations() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, cookie, cookieObj, newURL_1, uname, resp, responseJson, view, i, toInsert, toInsert, view_1;
+        var newURL, uname, resp, responseJson, view, i, toInsert, toInsert, view_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     newURL = myURL + "messages/";
-                    cookie = document.cookie;
-                    if (cookie == "") {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    cookieObj = parseCookie(cookie);
-                    if (!(cookieObj.username == null)) return [3 /*break*/, 1];
-                    alert("Please Log In!");
-                    location.replace(myURL);
-                    return [3 /*break*/, 4];
-                case 1:
-                    newURL_1 = myURL + "messages/";
-                    uname = cookieObj.username;
-                    return [4 /*yield*/, fetch(newURL_1, {
+                    uname = sessionStorage.getItem('currentUser');
+                    return [4 /*yield*/, fetch(newURL, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -111,10 +90,10 @@ function loadConversations() {
                                 'username': uname
                             })
                         })];
-                case 2:
+                case 1:
                     resp = _a.sent();
                     return [4 /*yield*/, resp.json()];
-                case 3:
+                case 2:
                     responseJson = _a.sent();
                     if (responseJson['result'] != 'success')
                         alert("Error while sorting");
@@ -125,14 +104,14 @@ function loadConversations() {
                         if (conversations.length > 0) {
                             for (i = 0; i < conversations.length; i++) {
                                 toInsert = "<a onclick='selectConversation(" + i + ")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
-                                        <div class='media'> \
-                                            <div class='media-body ml-4'> \
-                                                <div class='d-flex align-items-center justify-content-between mb-1'> \
-                                                    <h6 class='mb-0'>" + conversations[i]['username'] + "</h6><small class='small font-weight-bold'>" + conversations[i]['date'] + "</small> \
-                                                </div> \
+                                    <div class='media'> \
+                                        <div class='media-body ml-4'> \
+                                            <div class='d-flex align-items-center justify-content-between mb-1'> \
+                                                <h6 class='mb-0'>" + conversations[i]['username'] + "</h6><small class='small font-weight-bold'>" + conversations[i]['date'] + "</small> \
                                             </div> \
                                         </div> \
-                                    </a>";
+                                    </div> \
+                                </a>";
                                 view.insertAdjacentHTML('beforeend', toInsert);
                             }
                         }
@@ -142,8 +121,7 @@ function loadConversations() {
                             view_1.insertAdjacentHTML('beforeend', toInsert);
                         }
                     }
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });

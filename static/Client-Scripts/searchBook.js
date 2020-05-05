@@ -37,9 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
 window.onload = function () {
+    var _this = this;
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            validateUser();
+            return [2 /*return*/];
+        });
+    }); })();
     var sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
 };
+function validateUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username;
+                return __generator(this, function (_a) {
+                    username = sessionStorage.getItem('currentUser');
+                    if (username == null) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -65,51 +91,47 @@ function postData(url, data) {
 }
 function searchBook() {
     return __awaiter(this, void 0, void 0, function () {
-        var newURL, data, resp, responseJson;
+        var _this = this;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    newURL = myURL + "/search/";
-                    data = {};
-                    if (!document.getElementById("searchByBook").checked && !document.getElementById("searchByCourse").checked) {
-                        alert("You must select an option!");
-                        return [2 /*return*/];
-                    }
-                    else if (document.getElementById("searchByBook").checked) {
-                        data = {
-                            'type': 'byBook',
-                            'query': {
-                                'title': document.getElementById("title").value,
-                                'isbn': document.getElementById("isbn").value,
-                                'author': document.getElementById("author").value
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var newURL, data, resp, responseJson, newURL_1;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            newURL = myURL + "searchBook/";
+                            data = {};
+                            if (!(document.getElementById('title').value == '' || document.getElementById('title').value == null)) return [3 /*break*/, 1];
+                            alert("Search was empty!!!");
+                            return [3 /*break*/, 5];
+                        case 1:
+                            data = {
+                                'query': document.getElementById('title').value
+                            };
+                            return [4 /*yield*/, postData(newURL, data)];
+                        case 2:
+                            resp = _a.sent();
+                            if (!(resp.status == 200)) return [3 /*break*/, 4];
+                            return [4 /*yield*/, resp.json()];
+                        case 3:
+                            responseJson = _a.sent();
+                            sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
+                            newURL_1 = myURL + 'seachResults/';
+                            console.log(newURL_1);
+                            location.replace(myURL + 'searchResults/');
+                            return [3 /*break*/, 5];
+                        case 4:
+                            if (resp.status == 404) {
+                                alert("No book by that title was found");
                             }
-                        };
-                    }
-                    else {
-                        data = {
-                            'type': 'byCourse',
-                            'query': {
-                                'title': document.getElementById("dropdownMenuButton").value,
-                                'isbn': document.getElementById("courseSubject").value,
-                                'author': document.getElementById("courseNumber").value
+                            else {
+                                alert("Couldnt connect to the server");
                             }
-                        };
+                            _a.label = 5;
+                        case 5: return [2 /*return*/];
                     }
-                    return [4 /*yield*/, postData(newURL, data)];
-                case 1:
-                    resp = _a.sent();
-                    return [4 /*yield*/, resp.json()];
-                case 2:
-                    responseJson = _a.sent();
-                    if (responseJson['result'] != 'success') {
-                        alert('Couldnt connect to server');
-                    }
-                    else {
-                        sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
-                        window.open(myURL + '/seachResults.html', "_self");
-                    }
-                    return [2 /*return*/];
-            }
+                });
+            }); })();
+            return [2 /*return*/];
         });
     });
 }

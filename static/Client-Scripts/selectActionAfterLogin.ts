@@ -2,13 +2,13 @@
 const myURL = "http://localhost:8080/"
 window.onload = function() {
     (async () => {
-        putUser();
+        validateUser();
     })();
 }
 
-async function putUser(): Promise<void> {
+async function validateUser(): Promise<void> {
    (async () => {
-       var username = sessionStorage.getItem('username');
+       var username = sessionStorage.getItem('currentUser');
        if(username == null){
            alert("Please Log In!");
            location.replace(myURL);
@@ -16,9 +16,6 @@ async function putUser(): Promise<void> {
        else{
         var greeting = (<HTMLElement>document.getElementById("greetUser"));
         greeting.innerHTML = "Greetings " + username + "!";
-        // Set cookie here, code after this page uses cookie instead of sessionStorage
-        document.cookie = "username=" + username;
-        sessionStorage.clear()
        }
    })(); 
 }

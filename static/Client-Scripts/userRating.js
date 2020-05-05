@@ -36,28 +36,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
 window.onload = function () {
-    var userInfo = JSON.parse(sessionStorage.getItem("findUser"));
-    var username = document.getElementById("username");
-    username.innerHTML = userInfo.username;
-    var userInst = document.getElementById("userInstitute");
-    userInst.innerHTML = userInfo.institute;
-    var sRating = userInfo.sRating;
-    var bRating = userInfo.bRating;
-    var sr = document.getElementById("giveSellerRating");
-    sr.addEventListener("click", sellerRate);
-    var br = document.getElementById("giveBuyerRating");
-    br.addEventListener("click", buyerRate);
+    var _this = this;
+    // Check if user is logged in
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        var userInfo;
+        return __generator(this, function (_a) {
+            validateUser();
+            userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
+            populateElements(userInfo);
+            return [2 /*return*/];
+        });
+    }); })();
+    document.getElementById("giveSellerRating").addEventListener("click", sellerRate);
+    document.getElementById("giveBuyerRating").addEventListener("click", buyerRate);
 };
+function validateUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username;
+                return __generator(this, function (_a) {
+                    username = sessionStorage.getItem('currentUser');
+                    if (username == null) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
+function populateElements(userInfo) {
+    return __awaiter(this, void 0, void 0, function () {
+        var uni_to_fullname;
+        return __generator(this, function (_a) {
+            uni_to_fullname = {
+                'umass': 'University of Massachusetts Amherst',
+                'smith': 'Smith College',
+                'mtholyoke': 'Mount Holyoke College',
+                'amherstcol': 'Amherst College',
+                'hampshire': 'Hampshire College'
+            };
+            document.getElementById("username").innerHTML = userInfo["username"];
+            document.getElementById("userInstitute").innerHTML = uni_to_fullname[userInfo.institution];
+            document.getElementById("sellerRating").innerHTML = userInfo.sellerRating;
+            document.getElementById("buyerRating").innerHTML = userInfo.buyerRating;
+            return [2 /*return*/];
+        });
+    });
+}
 function sellerRate() {
     return __awaiter(this, void 0, void 0, function () {
         var rate;
@@ -65,23 +96,13 @@ function sellerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, cookieObj, currUser, resp, responseJson, newURL_1;
+                    var rating, username, newURL, resp, responseJson, newURL_1;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 rating = document.getElementById("sellerRating").value;
                                 username = document.getElementById("username").value;
                                 newURL = myURL + "userRating";
-                                if (document.cookie == "") {
-                                    alert("Please Log In!");
-                                    location.replace(myURL);
-                                }
-                                cookieObj = parseCookie(document.cookie);
-                                if (cookieObj.username == null) {
-                                    alert("Please Log In!");
-                                    location.replace(myURL);
-                                }
-                                currUser = cookieObj.username;
                                 return [4 /*yield*/, fetch(newURL, {
                                         method: 'POST',
                                         headers: {
@@ -90,8 +111,7 @@ function sellerRate() {
                                         body: JSON.stringify({
                                             "rating": rating,
                                             'rType': 'seller',
-                                            'ratedUser': username,
-                                            'rater': currUser
+                                            'ratedUser': username
                                         })
                                     })];
                             case 1:
@@ -122,23 +142,13 @@ function buyerRate() {
             rate = document.getElementById("addRating");
             rate.addEventListener("click", function () {
                 return __awaiter(this, void 0, void 0, function () {
-                    var rating, username, newURL, cookieObj, currUser, resp, responseJson, newURL_2;
+                    var rating, username, newURL, resp, responseJson, newURL_2;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
                                 rating = document.getElementById("sellerRating").value;
                                 username = document.getElementById("username").value;
                                 newURL = myURL + "userRating/";
-                                if (document.cookie == "") {
-                                    alert("Please Log In!");
-                                    location.replace(myURL);
-                                }
-                                cookieObj = parseCookie(document.cookie);
-                                if (cookieObj.username == null) {
-                                    alert("Please Log In!");
-                                    location.replace(myURL);
-                                }
-                                currUser = cookieObj.username;
                                 return [4 /*yield*/, fetch(newURL, {
                                         method: 'POST',
                                         headers: {
@@ -147,8 +157,7 @@ function buyerRate() {
                                         body: JSON.stringify({
                                             "rating": rating,
                                             "rType": "buyer",
-                                            "ratedUser": username,
-                                            "rater": currUser
+                                            "ratedUser": username
                                         })
                                     })];
                             case 1:

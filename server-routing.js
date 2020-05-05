@@ -423,19 +423,39 @@ var Server = /** @class */ (function () {
     //dummy handler for findUser request 
     Server.prototype.findUserHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user;
+            var username, resp;
             return __generator(this, function (_a) {
-                user = request.body.user;
-                // query database to extract the ratings and info for "user"
-                response.write(JSON.stringify({
-                    "status": 200,
-                    "username": user,
-                    "institute": "UMass Amherst",
-                    "sRating": 4.5,
-                    "bRating": 5
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        username = request.body.username;
+                        return [4 /*yield*/, this.db.get({
+                                'username': username
+                            }, 'userInfo')];
+                    case 1:
+                        resp = _a.sent();
+                        // User does not exist
+                        if (resp == null) {
+                            response.write(JSON.stringify({
+                                'result': 'failure'
+                            }));
+                            response.end();
+                            return [2 /*return*/];
+                        }
+                        // Return the user info to the client
+                        console.log("GOT USER INFO");
+                        console.log(resp);
+                        response.write(JSON.stringify({
+                            "result": 'success',
+                            "username": username,
+                            "institution": resp.institution,
+                            "sellerRating": resp.sellerRating,
+                            "buyerRating": resp.buyerRating,
+                            "numBuyerRatings": resp.numBuyerRatings,
+                            "numSellerRatings": resp.numSellerRatings
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };

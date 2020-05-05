@@ -36,14 +36,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-// let parseCookie = str =>
-//   str
-//     .split(';')
-//     .map(v => v.split('='))
-//     .reduce((acc, v) => {
-//       acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-//       return acc;
-//     }, {});
+window.onload = function () {
+    var _this = this;
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            validateUser();
+            return [2 /*return*/];
+        });
+    }); });
+    document.getElementById("findUserButton").addEventListener("click", findUser);
+};
+function validateUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username;
+                return __generator(this, function (_a) {
+                    username = sessionStorage.getItem('currentUser');
+                    if (username == null) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -73,29 +94,32 @@ function findUser() {
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
-                var userName, newURL, reqBody, resp, respJson;
+                var userName, newURL, reqBody, resp, respJSON;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            console.log("In find user");
                             userName = document.getElementById("findUserInput").value;
                             newURL = myURL + "findUser/";
-                            console.log(newURL);
-                            reqBody = { "user": userName };
+                            reqBody = { "username": userName };
                             return [4 /*yield*/, postData(newURL, reqBody)];
                         case 1:
                             resp = _a.sent();
-                            if (!(resp.status == 404)) return [3 /*break*/, 2];
-                            alert("User not found");
-                            location.reload();
-                            return [3 /*break*/, 4];
-                        case 2: return [4 /*yield*/, resp.json()];
-                        case 3:
-                            respJson = _a.sent();
-                            sessionStorage.setItem("findUser", JSON.stringify(respJson));
-                            location.replace(myURL + "rateUser/");
-                            _a.label = 4;
-                        case 4: return [2 /*return*/];
+                            return [4 /*yield*/, resp.json()];
+                        case 2:
+                            respJSON = _a.sent();
+                            if (respJSON.result != 'success') {
+                                console.log(respJSON.result);
+                                console.log("HI");
+                                alert("User not found");
+                                return [2 /*return*/];
+                            }
+                            else {
+                                // We got the information from the server. Put it in session storage for next page.
+                                // console.log(typeof(resp));
+                                sessionStorage.setItem("rateUserInfo", JSON.stringify(respJSON));
+                                window.open(myURL + "rateUser/", "_self");
+                            }
+                            return [2 /*return*/];
                     }
                 });
             }); })();

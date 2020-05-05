@@ -120,7 +120,7 @@ function verifyLogin() {
                             else {
                                 alert("Login successful");
                                 // Set username in session storage for verification on future pages
-                                sessionStorage.setItem('username', userName);
+                                sessionStorage.setItem('currentUser', userName);
                                 newURL_1 = myURL + "options/";
                                 window.open(newURL_1, "_self");
                             }

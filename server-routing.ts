@@ -356,14 +356,33 @@ export class Server {
 
     //dummy handler for findUser request 
     private async findUserHandler(request, response) : Promise<void> {
-        var user = request.body.user;
+        var username = request.body.username;
         // query database to extract the ratings and info for "user"
+        const resp = await this.db.get({
+            'username': username
+        }, 'userInfo');
+
+        // User does not exist
+        if (resp == null)
+        {
+            response.write(JSON.stringify({
+                'result': 'failure'
+            }));
+            response.end();
+            return;
+        }
+        // Return the user info to the client
+        console.log("GOT USER INFO");
+        console.log(resp);
         response.write(JSON.stringify({
-            "status": 200,
-            "username": user,
-            "institute": "UMass Amherst",
-            "sRating": 4.5,
-            "bRating": 5 }));
+            "result": 'success',
+            "username": username,
+            "institution": resp.institution,
+            "sellerRating": resp.sellerRating,
+            "buyerRating": resp.buyerRating,
+            "numBuyerRatings": resp.numBuyerRatings,
+            "numSellerRatings": resp.numSellerRatings
+        }));
         response.end();
     }
 

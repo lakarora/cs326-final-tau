@@ -19,16 +19,20 @@ async function postData(url : string, data: any) {
  
 }
 
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
+async function validateUser(): Promise<void> {
+    (async () => {
+        var username = sessionStorage.getItem('currentUser');
+        if(username == null){
+            alert("Please Log In!");
+            location.replace(myURL);
+         }
+    })(); 
+ }
 
 window.onload=function(){
+    (async () => {
+        validateUser();
+    })();
     let sp= document.getElementById("max-price-filter");
     (<HTMLInputElement>sp).value = '600';
     sp.addEventListener("change", adjustMaxPrice);
@@ -123,16 +127,6 @@ async function filterResults() {
 
 async function messageUser(num): Promise<void> {
     (async () => {
-        var cookie = document.cookie;
-        if(cookie == ""){
-            alert("Please Log In!");
-            location.replace(myURL);
-        }
-        var cookieObj = parseCookie(cookie);
-        if( cookieObj.username == null){
-            alert("Please Log In!");
-            location.replace(myURL);
-        } else {
             let newURL = myURL + "searchBook/";
             let bookData = searchResults[num];
             let message = prompt("What would you like to say?", "Hello, Im interested in your "+bookData['title']+ " posting.");
@@ -155,7 +149,6 @@ async function messageUser(num): Promise<void> {
                     }
                 }
             }
-        }
     })();
 }
 

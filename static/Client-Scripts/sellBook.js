@@ -36,15 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
-var parseCookie = function (str) {
-    return str
-        .split(';')
-        .map(function (v) { return v.split('='); })
-        .reduce(function (acc, v) {
-        acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-        return acc;
-    }, {});
-};
 function postData(url, data) {
     return __awaiter(this, void 0, void 0, function () {
         var resp;
@@ -69,8 +60,34 @@ function postData(url, data) {
     });
 }
 window.onload = function () {
+    var _this = this;
+    (function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            validateUser();
+            return [2 /*return*/];
+        });
+    }); })();
     document.getElementById("sellBookForm").addEventListener("submit", nextPrice, false);
 };
+function validateUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            (function () { return __awaiter(_this, void 0, void 0, function () {
+                var username;
+                return __generator(this, function (_a) {
+                    username = sessionStorage.getItem('currentUser');
+                    if (username == null) {
+                        alert("Please Log In!");
+                        location.replace(myURL);
+                    }
+                    return [2 /*return*/];
+                });
+            }); })();
+            return [2 /*return*/];
+        });
+    });
+}
 function nextPrice(event) {
     return __awaiter(this, void 0, void 0, function () {
         var _this = this;
@@ -147,17 +164,12 @@ function postBook() {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            if (parseCookie(document.cookie).username == null) {
-                                alert("Please log in");
-                                location.replace(myURL);
-                                return [2 /*return*/];
-                            }
                             if (sessionStorage.getItem("sellBookData") == null) {
                                 alert("Please Enter Book Information");
                                 location.replace(myURL + 'sell/');
                                 return [2 /*return*/];
                             }
-                            username = parseCookie(document.cookie).username;
+                            username = sessionStorage.getItem('currentUser');
                             bookData = JSON.parse(sessionStorage.getItem("sellBookData"));
                             price = document.getElementById("price").value;
                             if (price == "") {

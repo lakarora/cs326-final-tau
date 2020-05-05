@@ -40,72 +40,51 @@ window.onload = function(){
     loadConversations();
 }
 
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
-
 async function loadConversations() {
     const newURL = myURL + "messages/";
-    var cookie = document.cookie;
-    if(cookie == ""){
-        alert("Please Log In!");
-        location.replace(myURL);
-    }
-    var cookieObj = parseCookie(cookie);
-    if( cookieObj.username == null){
-        alert("Please Log In!");
-        location.replace(myURL);
-    } else {
-        const newURL = myURL + "messages/";
-        let uname = cookieObj.username;
-        
-        const resp = await fetch(newURL, 
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        'username': uname
-                    }
-                )
-            });
-        const responseJson = await resp.json(); 
+    let uname = sessionStorage.getItem('currentUser');    
+    const resp = await fetch(newURL, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    'username': uname
+                }
+            )
+        });
+    const responseJson = await resp.json(); 
 
-        if(responseJson['result'] != 'success')
-            alert("Error while sorting");
-        else {
-            conversations = responseJson['conversations'];
-            let view = document.getElementById('users-box');
-            view.innerHTML ="";
-            if (conversations.length > 0) {
-                for (let i = 0;i < conversations.length; i++) {
-                    let toInsert = "<a onclick='selectConversation("+i+")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
-                                        <div class='media'> \
-                                            <div class='media-body ml-4'> \
-                                                <div class='d-flex align-items-center justify-content-between mb-1'> \
-                                                    <h6 class='mb-0'>"+conversations[i]['username']+"</h6><small class='small font-weight-bold'>"+conversations[i]['date']+"</small> \
-                                                </div> \
+    if(responseJson['result'] != 'success')
+        alert("Error while sorting");
+    else {
+        conversations = responseJson['conversations'];
+        let view = document.getElementById('users-box');
+        view.innerHTML ="";
+        if (conversations.length > 0) {
+            for (let i = 0;i < conversations.length; i++) {
+                let toInsert = "<a onclick='selectConversation("+i+")' id='conversation' class='list-group-item list-group-item-action list-group-item-light rounded-0'> \
+                                    <div class='media'> \
+                                        <div class='media-body ml-4'> \
+                                            <div class='d-flex align-items-center justify-content-between mb-1'> \
+                                                <h6 class='mb-0'>"+conversations[i]['username']+"</h6><small class='small font-weight-bold'>"+conversations[i]['date']+"</small> \
                                             </div> \
                                         </div> \
-                                    </a>";
-                    
-                    
-                    view.insertAdjacentHTML('beforeend', toInsert);
-                }
-            } else {
-                let toInsert = "<p>No Messages</p>";
-                let view = document.getElementById('messages-box');
+                                    </div> \
+                                </a>";
+                
+                
                 view.insertAdjacentHTML('beforeend', toInsert);
-            }   
-        }
+            }
+        } else {
+            let toInsert = "<p>No Messages</p>";
+            let view = document.getElementById('messages-box');
+            view.insertAdjacentHTML('beforeend', toInsert);
+        }   
     }
+    
 }
 
 function selectConversation(num) {

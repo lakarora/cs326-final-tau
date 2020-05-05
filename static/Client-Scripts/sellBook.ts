@@ -1,15 +1,6 @@
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 
-let parseCookie = str =>
-  str
-    .split(';')
-    .map(v => v.split('='))
-    .reduce((acc, v) => {
-      acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
-      return acc;
-    }, {});
-
 async function postData(url : string, data: any) {
     const resp = await fetch(url,
                              {
@@ -28,8 +19,21 @@ async function postData(url : string, data: any) {
 }
 
 window.onload = function() {
+    (async () => {
+        validateUser();
+    })();
     document.getElementById("sellBookForm").addEventListener("submit", nextPrice, false);
 }
+
+async function validateUser(): Promise<void> {
+    (async () => {
+        var username = sessionStorage.getItem('currentUser');
+        if(username == null){
+            alert("Please Log In!");
+            location.replace(myURL);
+         }
+    })(); 
+ }
 
 async function nextPrice(event) : Promise<void> {
     (async () => {
@@ -79,17 +83,13 @@ async function putPrice(): Promise<void> {
 
 async function postBook(): Promise<void> {
     (async () => {
-        if(parseCookie(document.cookie).username == null){
-            alert("Please log in");
-            location.replace(myURL);
-            return;
-        }
+
         if(sessionStorage.getItem("sellBookData") == null){
            alert("Please Enter Book Information");
            location.replace(myURL + 'sell/');
            return;
         } 
-        var username = parseCookie(document.cookie).username;
+        var username = sessionStorage.getItem('currentUser');
         var bookData = JSON.parse(sessionStorage.getItem("sellBookData"));
         var price = (<HTMLInputElement>document.getElementById("price")).value;
         if( price == ""){
