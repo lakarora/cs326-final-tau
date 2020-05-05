@@ -12,16 +12,101 @@ Passage is a web-based application that students in any of the Five Colleges can
 * Nathan Grant - [N8Grant](https://github.com/N8Grant)
 
 ## User Interface
+ HTML        | Description          |
+| ------------- |:-------------:|
+| accountInfo.html | Displays your account information |
+| createAccount.html | Form with input to create a new account |
+| findUserToRate.html | Search bar for username to rate another user |
+| index.html | Home page where you can log in |
+| messages.html | Messages page where you contact other users |
+| myPostings.html | Page for all of your current postings |
+| searchBook.html | Page for inputting title of book to search |
+| searchResults.html | Page for displaying relevent books |
+| sellBook.html | Enter in book informaiton to sell |
+| setPrice.html | Compare price with amazon and enter in price |
+| userRating.html | Dislplays user information |
+| verifyOTP.html | Input the otp which was sent through email |
+
+Home Page:
+![image](./resources/final/home.png)
+
+Login:
+![image](./resources/final/login.png)
+
+Create Account:
+![image](./resources/final/create-account.png)
+
+OTP:
+![image](./resources/final/otp.png)
+
+User Options:
+![image](./resources/final/user-options.png)
+
+User Profile:
+![image](./resources/final/user-profile.png)
+
+Search Book:
+![image](./resources/final/search-book.png)
+
+Search Results:
+![image](./resources/final/search-results.png)
 
 ## APIs
 
-* localhost:8080/messages/ - Dashboard for your message feeds, need to be logged in to access it
 * localhost:8080/findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to rate |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| username | String    |  Username of person |
+| institution   | String | College name of person |
+| sellerRating    | number | Seller rating of person |
+| buyerRating    | number | Buyer rating of person|
+| numBuyerRatings   | number | Number of buyer ratings of person |
+| numSellerRatings   | number | Number of seller ratings of person|
+
 * localhost:8080/userRating/ - Used to fetch data from the database about the searched users informaion
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| email     | (Required) Username of person to create account |
+| username     | (Required) Username of person to create account |
+| fullName     | (Required) Username of person to create account |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the creation was successful |
+
 * localhost:8080/accountInfo/ - Displays your accounts information such as username, instution, seller rating, and buyer rating
+
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| username     | (Required) Username of person to retreive account info |
+
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the query was successful|
+| username | String    |  Username of person |
+| fullName    | String | Full name of person |
+| institution   | String | College name of person |
+| sRating    | number | Seller rating of person |
+| bRating    | number | Buyer rating of person|
 * localhost:8080/checkNewAccount/ - Used to check if a created account alread exists
 
+| Parameter        | Description          |
+| ------------- |:-------------:|
+| email     | (Required) Username of person to create account |
+| username     | (Required) Username of person to create account |
+| fullName     | (Required) Username of person to create account |
 
+| Key        | Value         | Description |
+| ------------- |:-------------:|----------|
+| result | String | Returns wether or not the creation was successful |
+| OTP | String | Returns a OTP that the user has to enter to authenticate themselves|
 * localhost:8080/MyPostings/ - Used to display the users current postings, need to be logged in to use
 
 | Parameter        | Description          |

@@ -141,7 +141,7 @@ export class Server {
         const res = await this.db.getMany(
             { "title" : title}
            ,'bookPostings');
-        if (res == null) {
+        if (res == null || res.length == 0) {
             response.write(JSON.stringify({
                 'result': "nobooks",
 

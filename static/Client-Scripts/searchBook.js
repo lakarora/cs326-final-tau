@@ -37,13 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 var myURL = "http://localhost:8080/";
 window.onload = function () {
-    var _this = this;
-    (function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            validateUser();
-            return [2 /*return*/];
-        });
-    }); });
     var sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
 };
@@ -67,25 +60,6 @@ function postData(url, data) {
                     resp = _a.sent();
                     return [2 /*return*/, resp];
             }
-        });
-    });
-}
-function validateUser() {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        return __generator(this, function (_a) {
-            (function () { return __awaiter(_this, void 0, void 0, function () {
-                var username;
-                return __generator(this, function (_a) {
-                    username = sessionStorage.getItem('currentUser');
-                    if (username == null) {
-                        alert("Please Log In!");
-                        location.replace(myURL);
-                    }
-                    return [2 /*return*/];
-                });
-            }); })();
-            return [2 /*return*/];
         });
     });
 }
