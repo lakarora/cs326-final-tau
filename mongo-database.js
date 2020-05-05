@@ -91,6 +91,25 @@ var Database = /** @class */ (function () {
             });
         });
     };
+    Database.prototype.updateSingular = function (query, newValues, collectionName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var collection, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        collection = this.db.collection(collectionName);
+                        return [4 /*yield*/, collection.updateOne(query, newValues)];
+                    case 1:
+                        result = _a.sent();
+                        if (result.modifiedCount == 1)
+                            return [2 /*return*/, 'success'];
+                        else
+                            return [2 /*return*/, 'failure'];
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Database;
 }());
 exports.Database = Database;
