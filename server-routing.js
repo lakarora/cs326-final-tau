@@ -53,7 +53,7 @@ var Server = /** @class */ (function () {
         this.db = db;
         this.router.use(function (request, response, next) {
             response.header('Content-Type', 'application/json');
-            response.header('Access-Control-Allow-Origin', '*');
+            response.header('Access-Control-Allow-Origin', "*");
             response.header('Access-Control-Allow-Headers', '*');
             next();
         });
@@ -62,6 +62,17 @@ var Server = /** @class */ (function () {
         // Handle POST data as JSON
         this.server.use(express.json());
         this.server.use('/', this.router);
+        // SEARCH
+        this.server.post('/searchBook/', this.searchBookHandler.bind(this));
+        this.server.get('/search/', function (req, res) {
+            res.type('.html');
+            res.sendFile('searchBook.html', { root: "./static" });
+        });
+        this.server.get('/searchResults/', function (req, res) {
+            res.type('.html');
+            res.sendFile('searchResults.html', { root: "./static" });
+        });
+        this.router.post('/postMessage/', this.postMessageHandler.bind(this));
         this.router.post('/login/', this.loginHandler.bind(this));
         this.router.post('/registerUser/', this.registerUser.bind(this));
         this.server.get('/options/', function (req, res) {
@@ -77,11 +88,6 @@ var Server = /** @class */ (function () {
             res.type('.html');
             res.sendFile('messages.html', { root: "./static" });
         });
-        this.server.post('/search/', this.searchBookHandler.bind(this));
-        this.server.get('/search/', function (req, res) {
-            res.type('.html');
-            res.sendFile('searchBook.html', { root: "./static" });
-        });
         this.server.get('/sell/', function (req, res) {
             res.type('.html');
             res.sendFile('sellBook.html', { root: "./static" });
@@ -96,6 +102,10 @@ var Server = /** @class */ (function () {
         this.server.get('/accountInfo/', function (req, res) {
             res.type('.html');
             res.sendFile('accountInfo.html', { root: "./static" });
+        });
+        this.server.get('/loadLogin/', function (req, res) {
+            res.type('.html');
+            res.sendFile('login.html', { root: "./static" });
         });
         this.router.post('/checkNewAccount/', this.checkNewAccount.bind(this));
         this.router.get('/verifyAccount/', function (req, res) {
@@ -121,6 +131,65 @@ var Server = /** @class */ (function () {
     }
     Server.prototype.getServer = function () {
         return this.server;
+    };
+    Server.prototype.postMessageHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user, message;
+            return __generator(this, function (_a) {
+                user = request.body.user;
+                message = request.body.message;
+                /*
+                    put data in server
+                */
+                response.write(JSON.stringify({ 'result': 'success' }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
+    };
+    Server.prototype.searchBookHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var title;
+            return __generator(this, function (_a) {
+                title = request.body.query;
+                /*
+                if (book is found) {
+                    response.write(JSON.stringify(result));
+                } else {
+                    response.write(JSON.stringify({'result' : 'notfound'}));
+                    response.end();
+                }
+        
+                */
+                //    if(false) {
+                // } else {
+                response.write(JSON.stringify({
+                    'result': "success",
+                    'searchResults': [{
+                            'picture': '../resources/no-image-listing.png',
+                            'title': title,
+                            'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
+                            'condition': 'New',
+                            'account-link': '#',
+                            'account-name': 'Minutemen2021',
+                            'seller-rating': '4.6',
+                            'price': '100',
+                            'amazonPrice': '140'
+                        }]
+                }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
+    };
+    Server.prototype.searchResultsHandler = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                response.write(JSON.stringify({ "result": "success" }));
+                response.end();
+                return [2 /*return*/];
+            });
+        });
     };
     Server.prototype.messagesHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
@@ -208,64 +277,32 @@ var Server = /** @class */ (function () {
             });
         });
     };
-    Server.prototype.searchBookHandler = function (request, response) {
-        return __awaiter(this, void 0, void 0, function () {
-            var searchType;
-            return __generator(this, function (_a) {
-                searchType = request.body.type;
-                if (searchType == 'byBook') {
-                    response.write(JSON.stringify({
-                        'result': "success",
-                        'searchResults': [{
-                                'picture': 'resources/no-image-listing.png',
-                                'title': 'Book1',
-                                'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                                'condition': 'New',
-                                'account-link': '#',
-                                'account-name': 'Minutemen2021',
-                                'seller-rating': '4.6',
-                                'price': '100',
-                                'amazonPrice': '140'
-                            }]
-                    }));
-                    response.end();
-                }
-                else {
-                    response.write(JSON.stringify({
-                        'result': "success",
-                        'searchResults': [{
-                                'picture': 'resources/no-image-listing.png',
-                                'title': 'Book1',
-                                'description': 'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                                'condition': 'New',
-                                'account-link': '#',
-                                'account-name': 'Minutemen2021',
-                                'seller-rating': '4.6',
-                                'price': '100',
-                                'amazonPrice': '140'
-                            }]
-                    }));
-                    response.end();
-                }
-                return [2 /*return*/];
-            });
-        });
-    };
     Server.prototype.loginHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var username, password, returnString;
+            var username, password, res, returnString;
             return __generator(this, function (_a) {
-                username = request.body.username;
-                password = request.body.password;
-                returnString = 'failure';
-                // if(res == null) {
-                //     returnString = 'failure';
-                // }
-                response.write(JSON.stringify({
-                    "result": "success"
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        username = request.body.username;
+                        password = request.body.password;
+                        return [4 /*yield*/, this.db.get({
+                                $and: [
+                                    { "username": username },
+                                    { "password": password }
+                                ]
+                            }, 'userInfo')];
+                    case 1:
+                        res = _a.sent();
+                        returnString = 'success';
+                        if (res == null) {
+                            returnString = 'failure';
+                        }
+                        response.write(JSON.stringify({
+                            "result": returnString
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -358,12 +395,14 @@ var Server = /** @class */ (function () {
     // dummy handler that gets Amazon price using the scraper
     Server.prototype.amazonPriceHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var isbn, bookPrice;
+            var query;
             return __generator(this, function (_a) {
-                isbn = request.body.isbn;
-                bookPrice = { 'price': 27 };
-                response.write(JSON.stringify(bookPrice));
-                response.end();
+                query = request.body.query;
+                $.getJSON('https://stormy-tundra-04347.herokuapp.com/' + query, function (isbn, textStatus, jqXHR) {
+                    var r = JSON.parse(jqXHR.responseText);
+                    response.write(JSON.stringify({ 'amazon-price': r['amazon_price'] }));
+                    response.end();
+                });
                 return [2 /*return*/];
             });
         });

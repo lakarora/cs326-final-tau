@@ -20,7 +20,7 @@ export class Server {
         this.db = db;
         this.router.use((request, response, next) => {
             response.header('Content-Type','application/json');
-            response.header('Access-Control-Allow-Origin', '*');
+            response.header('Access-Control-Allow-Origin', "*");
             response.header('Access-Control-Allow-Headers', '*');
         next();
         });
@@ -77,6 +77,10 @@ export class Server {
         this.server.get('/accountInfo/', function(req, res){
             res.type('.html');
             res.sendFile('accountInfo.html', { root: "./static"});
+        });
+        this.server.get('/loadLogin/', function(req, res){
+            res.type('.html');
+            res.sendFile('login.html', { root: "./static"});
         });
         this.router.post('/checkNewAccount/', this.checkNewAccount.bind(this));
         this.router.get('/verifyAccount/', function(req, res) {
@@ -227,24 +231,24 @@ export class Server {
     }
 
     private async loginHandler(request, response) : Promise<void> {
-
         var username = request.body.username;
         var password = request.body.password;
-
         // Now we find a document in userInfo collection that matches the above two.
-        // const res = await this.db.get({
-        //     $and: [
-        //            { "username" : username },
-        //            { "password": password}
-        //          ]
-        //   }, 'userInfo');
+
+        const res = await this.db.get({
+            $and: [
+                   { "username" : username},
+                   { "password": password}
+                 ]
+          }, 'userInfo');
         var returnString = 'success';
-        // if(res == null) {
-        //     returnString = 'failure';
-        // }
+        if(res == null) {
+            returnString = 'failure';
+        }
         response.write(JSON.stringify({
-                "result": "success" }));
+                "result": returnString }));
         response.end();
+        return;
     }
 
     // dummy handler for the Account Info page

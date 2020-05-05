@@ -18,8 +18,7 @@ export class Database {
 
 
     public async get(query, collectionName: string) : Promise<any> {
-        let db1 =  this.client.db("PassageDB");
-        let collection = db1.collection(collectionName);
+        let collection = this.db.collection(collectionName);
         let result = await collection.findOne(query);
         return result;
     }
