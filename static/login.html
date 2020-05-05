@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style type="text/css">
+            body{
+                background-image: url('../resources/accountInfoBg.jpg');
+            }
+
+            #loginDiv {
+                text-align: center;
+                color: white;
+            }
+            .loginElements {
+                padding: 10px 10px; 
+                line-height: 10px;
+            }
+        </style>
+        <script type="text/javascript" src="../Client-Scripts/login.js"></script>
+    </head>
+    <body>
+        <div id="loginDiv">
+            <br><br><br><br><br><br>
+            <input type="text" placeholder="Enter username..." id="loginUsername" size="25" height="100" class="loginElements" required>
+            <br><br>
+            <input type="password" placeholder="Enter password..." size="25" id="loginPassword" height="100" class="loginElements" required>
+            <br><br>
+            <button type="button" class="btn btn-primary btn-lg" id="loginButton">Login!</button>
+        </div>
+    </body>
+</html>
