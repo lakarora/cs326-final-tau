@@ -2,23 +2,10 @@
 const myURL = "http://localhost:8080/"
 
 window.onload=function(){
-    (async () => {
-        validateUser();
-    })();
     let sb = document.getElementById("searchBtn");
     sb.addEventListener("click", searchBook);
 }
 
-async function validateUser(): Promise<void> {
-    (async () => {
-        var username = sessionStorage.getItem('currentUser');
-        if(username == null){
-            alert("Please Log In!");
-            location.replace(myURL);
-         }
-    })(); 
- }
- 
 async function postData(url : string, data: any) {
     const resp = await fetch(url,
                              {
@@ -48,7 +35,7 @@ async function searchBook(): Promise<void> {
             }
             var resp = await postData(newURL, data);
             
-            //console.log(JSON.stringify(responseJson));
+            console.log(JSON.stringify(resp));
             if (resp.status == 200) {
                 const responseJson = await resp.json(); 
                 sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));

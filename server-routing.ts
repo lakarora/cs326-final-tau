@@ -138,21 +138,15 @@ export class Server {
     //    if(false) {
 
        // } else {
-            response.write(JSON.stringify({
-                'result': "success",
-                'searchResults': [{
-                    'picture':'../resources/no-image-listing.png',
-                    'title': title,
-                    'description':'Used this book last semester for BIO 289. Some highlighting on the inside. Other than that the books integrity is great. Message me if youd like to meet up and trade!',
-                    'condition': 'New',
-                    'account-link': '#',
-                    'account-name': 'Minutemen2021',
-                    'seller-rating': '4.6',
-                    'price': '100',
-                    'amazonPrice': '140'
-                }]
-            }));
-            response.end();
+        const res = await this.db.get(
+            { "title" : title}
+           ,'bookPostings');
+        
+        response.write(JSON.stringify({
+            'result': "success",
+            'searchResults': [res]
+        }));
+        response.end();
      //   }
     }
 
