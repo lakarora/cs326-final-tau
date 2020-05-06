@@ -70,6 +70,7 @@ function getInfo() {
                         case 0:
                             newURL = myURL + "accountInfo/";
                             uname = sessionStorage.getItem('currentUser');
+                            console.log("here");
                             return [4 /*yield*/, fetch(newURL, {
                                     method: 'POST',
                                     headers: {
@@ -82,6 +83,7 @@ function getInfo() {
                             return [4 /*yield*/, resp.json()];
                         case 2:
                             respJson = _a.sent();
+                            console.log(respJson);
                             if (respJson.result != "success") {
                                 alert("Error finding user");
                                 location.replace(myURL);

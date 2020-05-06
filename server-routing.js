@@ -310,19 +310,33 @@ var Server = /** @class */ (function () {
     // dummy handler for the Account Info page
     Server.prototype.accountInfoHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var username;
+            var username, info;
             return __generator(this, function (_a) {
-                username = request.body.username;
-                response.write(JSON.stringify({
-                    "result": "success",
-                    "username": username,
-                    "fullName": "user 1",
-                    "institution": "UMass Amherst",
-                    "sRating": 4.5,
-                    "bRating": 3.5
-                }));
-                response.end();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        username = request.body.username;
+                        return [4 /*yield*/, this.db.get({ "username": username }, 'userInfo')];
+                    case 1:
+                        info = _a.sent();
+                        console.log(info);
+                        if (info == null) {
+                            response.write(JSON.stringify({
+                                "result": "failure"
+                            }));
+                            response.end();
+                            return [2 /*return*/];
+                        }
+                        response.write(JSON.stringify({
+                            "result": "success",
+                            "username": username,
+                            "fullName": info.name,
+                            "institution": info.institution,
+                            "sRating": info.sellerRating,
+                            "bRating": info.buyerRating
+                        }));
+                        response.end();
+                        return [2 /*return*/];
+                }
             });
         });
     };
