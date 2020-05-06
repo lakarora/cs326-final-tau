@@ -253,13 +253,22 @@ export class Server {
     // dummy handler for the Account Info page
     private async accountInfoHandler(request, response) : Promise<void> {
         var username = request.body.username;
+        var info = await this.db.get({"username": username}, 'userInfo');
+        console.log(info);
+        if( info == null){
+            response.write(JSON.stringify({
+                "result": "failure",
+            }));
+            response.end();
+            return;
+        }
         response.write(JSON.stringify({
             "result": "success",
             "username": username,
-            "fullName": "user 1",
-            "institution": "UMass Amherst",
-            "sRating": 4.5,
-            "bRating": 3.5 }));
+            "fullName": info.name,
+            "institution": info.institution,
+            "sRating": info.sellerRating,
+            "bRating": info.buyerRating }));
         response.end();
     }
 

@@ -22,6 +22,7 @@ async function getInfo(): Promise<void> {
     (async () => {
         const newURL = myURL + "accountInfo/";
         let uname = sessionStorage.getItem('currentUser');
+        console.log("here");
         const resp = await fetch(newURL, 
             {
                 method: 'POST',
@@ -31,6 +32,7 @@ async function getInfo(): Promise<void> {
                 body: JSON.stringify({'username': uname})
             }); 
         const respJson = await resp.json();
+        console.log(respJson);
         if(respJson.result != "success"){
             alert("Error finding user");
             location.replace(myURL);
