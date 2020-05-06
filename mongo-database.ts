@@ -1,12 +1,17 @@
-import {secrets} from './../cs326-final-tau/secrets';
-
 export class Database {
     private MongoClient = require('mongodb').MongoClient;
-    private uri = secrets.mongoUri;
+    private uri;
     private client;
     private db;
 
     constructor() {
+        if(!process.env.MONGOURI) {
+            let secrets = require('./../cs326-final-tau/secrets.json');
+            this.uri = secrets.mongoUri;
+        }
+        else {
+            this.uri = process.env.MONGOURI;
+        }
         this.client = new this.MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true});
         // Open up a connection to the client
         (async () => {

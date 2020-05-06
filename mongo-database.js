@@ -36,12 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var secrets_1 = require("./../cs326-final-tau/secrets");
 var Database = /** @class */ (function () {
     function Database() {
         var _this = this;
         this.MongoClient = require('mongodb').MongoClient;
-        this.uri = secrets_1.secrets.mongoUri;
+        if (!process.env.MONGOURI) {
+            var secrets = require('./../cs326-final-tau/secrets.json');
+            this.uri = secrets.mongoUri;
+        }
+        else {
+            this.uri = process.env.MONGOURI;
+        }
         this.client = new this.MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         // Open up a connection to the client
         (function () { return __awaiter(_this, void 0, void 0, function () {

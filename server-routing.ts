@@ -1,9 +1,4 @@
-import { throws } from "assert";
-import {secrets} from './../cs326-final-tau/secrets';
-let http = require('http');
-let url = require('url');
 let express = require('express');
-let path = require('path');
 var $ = require('jquery');
 let ObjectID = require('mongodb').ObjectID;
 let nodemailer = require('nodemailer');
@@ -294,15 +289,25 @@ export class Server {
 
         //If it does not, send a 6-digit OTP to this email and return the OTP and success to the client
         var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-
+        let clientId, clientSecret, refreshToken;
+        if(!process.env.CLIENTID) {
+            let secrets = require('./../cs326-final-tau/secrets.json');
+            clientId = secrets.clientId;
+            clientSecret = secrets.clientSecret;
+            refreshToken = secrets.refreshToken;
+        } else {
+            clientId = process.env.CLIENTID;
+            clientSecret = process.env.CLIENTSECRET;
+            refreshToken = process.env.REFRESHTOKEN;
+        }
         // Send this OTP to the user for verification via email. 
         const oauth2Client = new OAuth2(
-            secrets.clientId,
-            secrets.clientSecret,
+            clientId,
+            clientSecret,
             "https://developers.google.com/oauthplayground"
        );
        oauth2Client.setCredentials({
-           refresh_token: secrets.refreshToken
+           refresh_token: refreshToken
        });
        const accessToken = oauth2Client.getAccessToken();
        var transporter = nodemailer.createTransport({
@@ -310,9 +315,9 @@ export class Server {
             auth: {
                     type: "OAuth2",
                     user:'lakshayarora3107@gmail.com',
-                    clientId: secrets.clientId,
-                    clientSecret: secrets.clientSecret,
-                    refreshToken: secrets.refreshToken,
+                    clientId: clientId,
+                    clientSecret: clientSecret,
+                    refreshToken: refreshToken,
                     accessToken: accessToken
                 }
         });
@@ -474,7 +479,6 @@ export class Server {
         var delList = request.body.delList.map(x => ObjectID(x));
         var query = {_id: {$in : delList }};
         var result = await this.db.delete(query, "bookPostings");
-        console.log(result);
         response.write(JSON.stringify({
             "status": 200,
             "result": result,

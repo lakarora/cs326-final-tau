@@ -36,11 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var secrets_1 = require("./../cs326-final-tau/secrets");
-var http = require('http');
-var url = require('url');
 var express = require('express');
-var path = require('path');
 var $ = require('jquery');
 var ObjectID = require('mongodb').ObjectID;
 var nodemailer = require('nodemailer');
@@ -343,7 +339,7 @@ var Server = /** @class */ (function () {
     // dummy handler for checking if account exists
     Server.prototype.checkNewAccount = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var email, username, fullName, result, OTP, oauth2Client, accessToken, transporter, mailOptions;
+            var email, username, fullName, result, OTP, clientId, clientSecret, refreshToken, secrets, oauth2Client, accessToken, transporter, mailOptions;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -366,9 +362,20 @@ var Server = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-                        oauth2Client = new OAuth2(secrets_1.secrets.clientId, secrets_1.secrets.clientSecret, "https://developers.google.com/oauthplayground");
+                        if (!process.env.CLIENTID) {
+                            secrets = require('./../cs326-final-tau/secrets.json');
+                            clientId = secrets.clientId;
+                            clientSecret = secrets.clientSecret;
+                            refreshToken = secrets.refreshToken;
+                        }
+                        else {
+                            clientId = process.env.CLIENTID;
+                            clientSecret = process.env.CLIENTSECRET;
+                            refreshToken = process.env.REFRESHTOKEN;
+                        }
+                        oauth2Client = new OAuth2(clientId, clientSecret, "https://developers.google.com/oauthplayground");
                         oauth2Client.setCredentials({
-                            refresh_token: secrets_1.secrets.refreshToken
+                            refresh_token: refreshToken
                         });
                         accessToken = oauth2Client.getAccessToken();
                         transporter = nodemailer.createTransport({
@@ -376,9 +383,9 @@ var Server = /** @class */ (function () {
                             auth: {
                                 type: "OAuth2",
                                 user: 'lakshayarora3107@gmail.com',
-                                clientId: secrets_1.secrets.clientId,
-                                clientSecret: secrets_1.secrets.clientSecret,
-                                refreshToken: secrets_1.secrets.refreshToken,
+                                clientId: clientId,
+                                clientSecret: clientSecret,
+                                refreshToken: refreshToken,
                                 accessToken: accessToken
                             }
                         });
@@ -567,7 +574,6 @@ var Server = /** @class */ (function () {
                         return [4 /*yield*/, this.db["delete"](query, "bookPostings")];
                     case 1:
                         result = _a.sent();
-                        console.log(result);
                         response.write(JSON.stringify({
                             "status": 200,
                             "result": result
