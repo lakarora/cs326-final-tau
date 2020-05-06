@@ -106,7 +106,7 @@ function rateUser(userInfo) {
                         case 0:
                             userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
                             rating = parseInt(document.getElementById("rating").value);
-                            ratingType = 'sellerRating', numBuyerRatings = parseInt(userInfo.numBuyerRatings), numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseInt(userInfo.buyerRating), sellerRating = parseInt(userInfo.sellerRating);
+                            ratingType = 'sellerRating', numBuyerRatings = parseInt(userInfo.numBuyerRatings), numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseFloat(userInfo.buyerRating), sellerRating = parseFloat(userInfo.sellerRating);
                             if (sessionStorage.getItem('buyerRating?')) {
                                 ratingType = 'buyerRating';
                                 newTotalRating = rating + buyerRating * numBuyerRatings;

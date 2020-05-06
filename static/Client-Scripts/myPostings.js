@@ -45,7 +45,6 @@ window.onload = function () {
             return [2 /*return*/];
         });
     }); })();
-    console.log("IN ONLOAD");
     document.getElementById("delete").addEventListener("click", confirmDelete);
 };
 function validateUser() {

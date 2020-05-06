@@ -113,7 +113,7 @@ function nextPrice(event) {
                                 "condition": condition
                             };
                             if (inst != "N/A") {
-                                bookData["college"] = inst;
+                                bookData["insitute"] = inst;
                                 bookData["courseSubject"] = subject;
                                 bookData["courseNumber"] = cNumber;
                             }
