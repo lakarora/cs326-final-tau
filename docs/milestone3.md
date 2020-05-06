@@ -32,6 +32,8 @@ Our MongoDB database named 'PassageDB' has two collections namely 'userInfo and 
         institution: "umass"     // University that the book was used at
     }
 
+# Heroku Link
+The Milestone 3 implementation is hosted at https://fathomless-sea-16239.herokuapp.com/
 
 
 # Work Breakdown
