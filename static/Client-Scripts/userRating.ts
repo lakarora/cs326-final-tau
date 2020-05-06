@@ -51,8 +51,8 @@ async function rateUser(userInfo): Promise<void> {
         const userInfo = JSON.parse(sessionStorage.getItem('rateUserInfo'));
         var rating = parseInt((<HTMLSelectElement>document.getElementById("rating")).value);
         var ratingType = 'sellerRating', numBuyerRatings = parseInt(userInfo.numBuyerRatings), 
-        numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseInt(userInfo.buyerRating),
-        sellerRating = parseInt(userInfo.sellerRating);
+        numSellerRatings = parseInt(userInfo.numSellerRatings), buyerRating = parseFloat(userInfo.buyerRating),
+        sellerRating = parseFloat(userInfo.sellerRating);
 
         if(sessionStorage.getItem('buyerRating?')) {
             ratingType = 'buyerRating';

@@ -61,8 +61,16 @@ function postData(url, data) {
 }
 function getInfo() {
     return __awaiter(this, void 0, void 0, function () {
+        var uni_to_fullname;
         var _this = this;
         return __generator(this, function (_a) {
+            uni_to_fullname = {
+                'umass': 'University of Massachusetts Amherst',
+                'smith': 'Smith College',
+                'mtholyoke': 'Mount Holyoke College',
+                'amherstcol': 'Amherst College',
+                'hampshire': 'Hampshire College'
+            };
             (function () { return __awaiter(_this, void 0, void 0, function () {
                 var newURL, uname, resp, respJson, username, fullName, institution, bRating, sRating;
                 return __generator(this, function (_a) {
@@ -96,9 +104,9 @@ function getInfo() {
                             sRating = document.getElementById("sRating");
                             username.innerHTML = respJson.username;
                             fullName.innerHTML = respJson.fullName;
-                            institution.innerHTML = respJson.institution;
-                            bRating.innerHTML = "<b>" + respJson.bRating + "\/5</b>";
-                            sRating.innerHTML = "<b>" + respJson.sRating + "\/5</b>";
+                            institution.innerHTML = uni_to_fullname[respJson.institution];
+                            bRating.innerHTML = "<b>" + respJson.bRating.toFixed(1) + "\/5</b>";
+                            sRating.innerHTML = "<b>" + respJson.sRating.toFixed(1) + "\/5</b>";
                             return [2 /*return*/];
                     }
                 });

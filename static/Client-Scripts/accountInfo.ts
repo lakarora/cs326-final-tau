@@ -19,6 +19,14 @@ async function postData(url : string, data: any) {
 }
 
 async function getInfo(): Promise<void> {
+    const uni_to_fullname = {
+        'umass': 'University of Massachusetts Amherst',
+        'smith': 'Smith College',
+        'mtholyoke': 'Mount Holyoke College',
+        'amherstcol': 'Amherst College',
+        'hampshire': 'Hampshire College'
+    };
+
     (async () => {
         const newURL = myURL + "accountInfo/";
         let uname = sessionStorage.getItem('currentUser');
@@ -45,9 +53,9 @@ async function getInfo(): Promise<void> {
         var sRating = (<HTMLElement>document.getElementById("sRating"));
         username.innerHTML = respJson.username;
         fullName.innerHTML = respJson.fullName;
-        institution.innerHTML = respJson.institution;
-        bRating.innerHTML = "<b>" + respJson.bRating + "\/5</b>";
-        sRating.innerHTML = "<b>" + respJson.sRating + "\/5</b>";
+        institution.innerHTML = uni_to_fullname[respJson.institution];
+        bRating.innerHTML = "<b>" + respJson.bRating.toFixed(1) + "\/5</b>";
+        sRating.innerHTML = "<b>" + respJson.sRating.toFixed(1) + "\/5</b>";
     })();
 }
 

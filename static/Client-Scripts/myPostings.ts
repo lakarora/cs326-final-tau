@@ -6,7 +6,6 @@ window.onload = function() {
         validateUser();
         renderList();
     })();
-    console.log("IN ONLOAD");
     document.getElementById("delete").addEventListener("click", confirmDelete);
 }
 
