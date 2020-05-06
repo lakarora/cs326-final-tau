@@ -1,4 +1,6 @@
-const myURL = "http://localhost:8080/";
+// const myURL = "http://localhost:8080/";
+const myURL = "https://protected-island-78699.herokuapp.com/";
+
 window.onload = function () {
     document.getElementById("createAccount").addEventListener("click", loadCreateAccount, false);
     document.getElementById("loadLogin").addEventListener("click", loadLogin, false);

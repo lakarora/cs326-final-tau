@@ -1,5 +1,5 @@
-// const myURL = "https://fathomless-sea-16239.herokuapp.com/";
-const myURL = "http://localhost:8080/"
+const myURL = "https://protected-island-78699.herokuapp.com/";
+// const myURL = "http://localhost:8080/"
 
 async function postData(url : string, data: any) {
     const resp = await fetch(url,

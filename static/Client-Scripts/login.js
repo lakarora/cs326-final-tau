@@ -34,7 +34,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var myURL = "http://localhost:8080/";
+// const myURL = "http://localhost:8080/";
+var myURL = "https://protected-island-78699.herokuapp.com/";
 window.onload = function () {
     document.getElementById("loginButton").addEventListener("click", verifyLogin);
 };
