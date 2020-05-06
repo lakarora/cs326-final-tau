@@ -166,4 +166,3 @@ function displayBooks(r){
         view.insertAdjacentHTML('beforeend', toInsert);
     }
 }
-
