@@ -33,7 +33,7 @@ Our MongoDB database named 'PassageDB' has two collections namely 'userInfo and 
     }
 
 # Heroku Link
-The Milestone 3 implementation is hosted at https://fathomless-sea-16239.herokuapp.com/
+The Milestone 3 implementation is hosted at https://protected-island-78699.herokuapp.com/
 
 
 # Work Breakdown
