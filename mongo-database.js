@@ -41,7 +41,7 @@ var Database = /** @class */ (function () {
         var _this = this;
         this.MongoClient = require('mongodb').MongoClient;
         if (!process.env.MONGOURI) {
-            var secrets = require('./../cs326-final-tau/secrets.json');
+            var secrets = require('./secrets.json');
             this.uri = secrets.mongoUri;
         }
         else {

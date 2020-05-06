@@ -363,7 +363,7 @@ var Server = /** @class */ (function () {
                         }
                         OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
                         if (!process.env.CLIENTID) {
-                            secrets = require('./../cs326-final-tau/secrets.json');
+                            secrets = require('./secrets.json');
                             clientId = secrets.clientId;
                             clientSecret = secrets.clientSecret;
                             refreshToken = secrets.refreshToken;

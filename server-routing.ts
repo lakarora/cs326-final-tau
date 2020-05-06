@@ -291,7 +291,7 @@ export class Server {
         var OTP = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
         let clientId, clientSecret, refreshToken;
         if(!process.env.CLIENTID) {
-            let secrets = require('./../cs326-final-tau/secrets.json');
+            let secrets = require('./secrets.json');
             clientId = secrets.clientId;
             clientSecret = secrets.clientSecret;
             refreshToken = secrets.refreshToken;

@@ -6,7 +6,7 @@ export class Database {
 
     constructor() {
         if(!process.env.MONGOURI) {
-            let secrets = require('./../cs326-final-tau/secrets.json');
+            let secrets = require('./secrets.json');
             this.uri = secrets.mongoUri;
         }
         else {
