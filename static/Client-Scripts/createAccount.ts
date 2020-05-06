@@ -1,4 +1,3 @@
-import { userInfo } from "os";
 // const myURL = "https://fathomless-sea-16239.herokuapp.com/";
 const myURL = "http://localhost:8080/"
 

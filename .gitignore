@@ -5,3 +5,4 @@ node_modules/*
 secrets.ts
 secrets.js
 twilioKeys.ts
+secrets.json

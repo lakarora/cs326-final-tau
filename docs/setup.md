@@ -29,7 +29,7 @@ Prerequisites: Node.js must be installed on your system.
 % npm install --save-dev @types/node
 ```
 ### Configure secrets.ts file
-You also need a secrets.ts file in the root directory of the project which will have the credentials for sending emails, and Twilio chat API keys for messaging, and the connection uri to your MongoDB database. To be able to send emails for OTP verification, you need to use Google API console to configure a refresh token, clientId, clientSecret for your gmail account and include these along with your password. To generate the Twilio chat API keys, you need to create an account on Twilio and create a new chat API project and include the keys in the secrets.ts file. The structure of the secrets. ts file is as follows: -
+You also need a secrets.json file in the root directory of the project which will have the credentials for sending emails, and Twilio chat API keys for messaging, and the connection uri to your MongoDB database. To be able to send emails for OTP verification, you need to use Google API console to configure a refresh token, clientId, clientSecret for your gmail account and include these along with your password. To generate the Twilio chat API keys, you need to create an account on Twilio and create a new chat API project and include the keys in the secrets.ts file. The structure of the secrets. ts file is as follows: -
 export const secrets = {
     emailPassword: 'Your email',
     clientId: xxx,
@@ -41,7 +41,7 @@ export const secrets = {
     TWILIO_API_SECRET: xxx,
     TWILIO_CHAT_SERVICE_SID: xxx
 }
-Compile the secrets.ts file by executing the following command 'tsc secrets.ts'. 
+
 ### Modify localhost and run
 Uncomment the myURL line that sets the host to 'localhost:8080' at the top of each .ts file in static/Client-scripts directory and comment out the heroku URL. Run this command (for MAC OS or Linux users) in the Client-scripts directory for compiling all the .ts files: 'for i in *.ts; do tsc $i; done'. Once this is done you can then start up the server and access it through the browser as follows: -
 ```
