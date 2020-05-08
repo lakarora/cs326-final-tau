@@ -370,7 +370,9 @@ export class Server {
         // });
         
         // send isbn and/or other data to the amazon scraper, get price
-        var bookPrice = {'price': 27};
+        var listPrices = [27, 12, 9, 31, 16];
+        var p = listPrices[Math.floor(Math.random() * 5)];
+        var bookPrice = {'price': p};
         response.write(JSON.stringify(bookPrice));
         response.end();
     }

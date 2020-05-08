@@ -1,7 +1,7 @@
 ## Title: Tau
 
 ## Application Name: Passage
-https://fathomless-sea-16239.herokuapp.com/
+ https://protected-island-78699.herokuapp.com/
 ## Semester: Spring 2020
 
 ## Overview
@@ -51,6 +51,8 @@ Search Book:
 Search Results:
 ![image](./resources/final/search-results.png)
 
+Messaging App:
+![image](./resources/final/chatSc.png)
 ## APIs
 
 * localhost:8080/findUser/ - Used to route and get data from database to then display to the user ratings page, need to be logged in
@@ -207,8 +209,8 @@ Users are authenticated when they first create an account. Passage will send the
 ## Division of Labor
 * Lakshay Arora - Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. Set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs. Deployed the project on Heroku. Created the secrets file and the mongo database atlas luster with two collections for user information and book postings. Created the verification for user log in and OTP. Also added authentication functionality for gmail accounts. Added get functionality to the database.
 
-* Nishad Ranade - Created the account information page, page to post a book to the website, and the book search page. Added folders for website resources for better organization. Fixed positioning of elements on the search results page. Started with the Options page, and then implemented the My Profile with a dummy request-response handler, which grabs your own information from the database. Also did the Sell Book page, where a user can input book details, make a request to the server to get the Amazon Used Price for the book through a scraper, decide the price of the posted book based on that, and then post the book for sale.Created database interactions for the search and rate user functionalitites. Also created a new page with server interactions for modifying postings. Updated the server interactions with the messages page for book postings.
+* Nishad Ranade- Wrote the front-end for the Account Information page, the Options page, the Sell Book (posting a book to the website), as well as parts of the Search Book and other pages. Implemented multiple dummy request-response handlers for Milestone-2, and followed up in Milestone-3 by implementing part of the database, specifically a "getMany" (aka find() in Mongo) query, as well as a delete query that can be used to delete multiple book postings at once. Implemented the server-side code for Options, Sell Book, Account Info and My Postings with the necessary database queries. Used the Twilio Chat Rest API to create the independently hosted chat application, where users can create separate channels and send messages to each other.
 
 * Nathan Grant - Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options. Did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page. Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
 ## Conclusion
-Given the online setting, it was a bit more challenging putting together a large project like this. Overall we all learned a great deal about the fundamentals of creating and deploying a fully funcioning website. One difficulty was when we all had to work on the server routing file at once but there was no one good way to do it. We decided that it would be best if we each kept in communication when we were pulling and pushing to the repository so that none of our code was getting overwritten. We all learned valuable skills at each part of the development phase. We wish that we had learned about database interactions earlier because they were a vary large part of the project and it was a quick transition.
+Given the online setting, it was a bit more challenging putting together a large project like this. Overall we all learned a great deal about the fundamentals of creating and deploying a fully funcioning website. One difficulty was when we all had to work on the server routing file at once, but we made sure we were working on separate functions, and managed to merge without big issues. We all learned valuable skills at each part of the development phase. We would have liked better guidance on GitHub collaboration and deployment, and would have preferred if we had started the project a few weeks earlier in the schedule. 

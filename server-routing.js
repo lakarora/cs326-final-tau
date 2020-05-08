@@ -417,11 +417,13 @@ var Server = /** @class */ (function () {
     // dummy handler that gets Amazon price using the scraper
     Server.prototype.amazonPriceHandler = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var query, url, bookPrice;
+            var query, url, listPrices, p, bookPrice;
             return __generator(this, function (_a) {
                 query = request.body.title;
                 url = 'https://stormy-tundra-04347.herokuapp.com/' + query;
-                bookPrice = { 'price': 27 };
+                listPrices = [27, 12, 9, 31, 16];
+                p = listPrices[Math.floor(Math.random() * 5)];
+                bookPrice = { 'price': p };
                 response.write(JSON.stringify(bookPrice));
                 response.end();
                 return [2 /*return*/];
