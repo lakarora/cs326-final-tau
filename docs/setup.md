@@ -1,7 +1,7 @@
 # Project Setup
 You can access Passage in one of two ways
 
- 1. **Go through [Heroku]( https://fathomless-sea-16239.herokuapp.com/)**
+ 1. **Go through [Heroku]( https://protected-island-78699.herokuapp.com/)**
  This is the recommended way as you do not need to set up authentication keys and configure a secrets file with your own credentials.
  2. **Build it from source**
 

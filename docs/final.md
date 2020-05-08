@@ -36,14 +36,17 @@ Login:
 Create Account:
 ![image](./resources/final/create-account.png)
 
-OTP:
-![image](./resources/final/otp.png)
+OTP sent via email:
+![image](./resources/final/otp-email.png)
 
 User Options:
 ![image](./resources/final/user-options.png)
 
 User Profile:
 ![image](./resources/final/user-profile.png)
+
+Rate Other Users:
+![image](./resources/final/rate-users.png)
 
 Search Book:
 ![image](./resources/final/search-book.png)
@@ -204,13 +207,13 @@ There are two database collections used for Passage implemented in mongoDB.
 * /searchBook/ - Post request to retreive book data from the database
 * /searchResults/ - Displays all of the books from the search query
 ## Authentication/Authorization
-Users are authenticated when they first create an account. Passage will send them an OTP which they must type in correctly in order for the account to successfuly be added to the database. Afterwards the user is prompted to log in. Most of the website is only accessable while the user is logged into a verified account. In order to check whether the person is logged in, we store the username in browser cookies and check on almost every page if they are null. If so we route the user back to the home page.
+Users are required to register with their school emails and upon creation of a new account, an OTP is sent to their email for verification. Users login with their credentials and cookies are setup and access the rest of the website. If they are not logged in, the website redirects them to the home page using cookie checks. 
 
 ## Division of Labor
-* Lakshay Arora - Created popups for rating other users and account verification using OTP. Also created pages for creating a new account, a page to search users, a page to rate and view other users, and a page for displaying options after a successful login. Set up the base server and modules, and did the Login as well and Sign Up APIs, with email address verification done with an OTP. Also set up a dummy request-response model that will check availability for username, email address, and will ensure that the OTP entered for verification matches the one sent to the email address. Also set up browser cookies to ensure that a user is logged before accessing any of the other APIs. Deployed the project on Heroku. Created the secrets file and the mongo database atlas luster with two collections for user information and book postings. Created the verification for user log in and OTP. Also added authentication functionality for gmail accounts. Added get functionality to the database.
+* Lakshay Arora - Developed the front-end for new account creation page, account verification using OTP, page for displaying options after a successful login, search users for rating them and rating other users via a popup. Implemented several dummy request-response handlers for Milestone-2 to test the client side code. Set up browser cookies to ensure that a user is logged in before accessing any of the other APIs. Set up the Mongo DB Atlas cluster with two collections for user information and book postings. Set up environment variables on Heroku and modified the code for checking the existence of a secrets.json file or the variables. Implemented the back-end code for login and signup functionality with account verification using OTP (email sent using nodemailer, google apis, and xoauth2). Also added the server-side implementation for rating other users. Databse operations implemented: get, put and update. 
 
 * Nishad Ranade- Wrote the front-end for the Account Information page, the Options page, the Sell Book (posting a book to the website), as well as parts of the Search Book and other pages. Implemented multiple dummy request-response handlers for Milestone-2, and followed up in Milestone-3 by implementing part of the database, specifically a "getMany" (aka find() in Mongo) query, as well as a delete query that can be used to delete multiple book postings at once. Implemented the server-side code for Options, Sell Book, Account Info and My Postings with the necessary database queries. Used the Twilio Chat Rest API to create the independently hosted chat application, where users can create separate channels and send messages to each other.
 
 * Nathan Grant - Created the home page aka. index.html and searchResults.html for displaying relavent books. Also created the messages.html for users to communicate and included a menu list for navigating all of the different user options. Did the search book page and set it up with a request-response model where the server takes the search query and returns (currently fake) search results. He also did the Rate User page in which the rating is passed to the server and a confirmation is returned. After accepting you are returned to the Options page. Made Flask app for scraping Amazon prices and hosted it on Heroku. Also implemented the jQuery to request the server for prices. Implemented database interaction for searching books.
 ## Conclusion
-Given the online setting, it was a bit more challenging putting together a large project like this. Overall we all learned a great deal about the fundamentals of creating and deploying a fully funcioning website. One difficulty was when we all had to work on the server routing file at once, but we made sure we were working on separate functions, and managed to merge without big issues. We all learned valuable skills at each part of the development phase. We would have liked better guidance on GitHub collaboration and deployment, and would have preferred if we had started the project a few weeks earlier in the schedule. 
+Given the online setting, it was a bit more challenging putting together a large project like this. Overall we all learned a great deal about the fundamentals of creating and deploying a fully functioning website. One difficulty was when we all had to work on the server routing file at once, but we made sure we were working on separate functions, and managed to merge without big issues. We all learned valuable skills at each part of the development phase. We would have liked better guidance on GitHub collaboration and deployment, and would have preferred if we had started the project a few weeks earlier in the schedule. 
