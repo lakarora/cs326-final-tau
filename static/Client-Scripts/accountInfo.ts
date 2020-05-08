@@ -75,11 +75,11 @@ async function myPosts() : Promise<void> {
             location.replace(newURL);
         }
     })();
+}
 
 async function goToMessages() : Promise<void> {
     (async () => {
         const messageUrl = "https://tranquil-wildwood-23570.herokuapp.com/";
         window.open(messageUrl, '_blank')
     })();
-}
 }

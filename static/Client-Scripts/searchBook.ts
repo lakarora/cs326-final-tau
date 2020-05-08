@@ -34,12 +34,10 @@ async function searchBook(): Promise<void> {
             }
             var resp = await postData(newURL, data);
             const responseJson = await resp.json(); 
-            console.log(JSON.stringify(resp));
             if (responseJson['result'] == 'success') {
 
                 sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
                 let newURL = myURL+'seachResults/';
-                console.log(newURL);
                 location.replace(myURL + 'searchResults/');
                 //window.open(newURL, "_self");
             } else if (responseJson['result'] == 'nobooks') {

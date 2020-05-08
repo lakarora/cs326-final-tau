@@ -87,11 +87,9 @@ function searchBook() {
                             return [4 /*yield*/, resp.json()];
                         case 3:
                             responseJson = _a.sent();
-                            console.log(JSON.stringify(resp));
                             if (responseJson['result'] == 'success') {
                                 sessionStorage.setItem("searchResults", JSON.stringify(responseJson['searchResults']));
                                 newURL_1 = myURL + 'seachResults/';
-                                console.log(newURL_1);
                                 location.replace(myURL + 'searchResults/');
                                 //window.open(newURL, "_self");
                             }
