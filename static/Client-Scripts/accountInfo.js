@@ -117,6 +117,22 @@ function getInfo() {
 }
 function myPosts() {
     return __awaiter(this, void 0, void 0, function () {
+        function goToMessages() {
+            return __awaiter(this, void 0, void 0, function () {
+                var _this = this;
+                return __generator(this, function (_a) {
+                    (function () { return __awaiter(_this, void 0, void 0, function () {
+                        var messageUrl;
+                        return __generator(this, function (_a) {
+                            messageUrl = "https://tranquil-wildwood-23570.herokuapp.com/";
+                            window.open(messageUrl, '_blank');
+                            return [2 /*return*/];
+                        });
+                    }); })();
+                    return [2 /*return*/];
+                });
+            });
+        }
         var _this = this;
         return __generator(this, function (_a) {
             (function () { return __awaiter(_this, void 0, void 0, function () {
